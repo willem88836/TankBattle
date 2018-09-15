@@ -5,18 +5,29 @@ using UnityEngine;
 namespace Framework
 {
 	[Serializable]
-	public struct Pool
+	public class Pool
 	{
 		public List<Type> Competitors;
-		public int[] Score;
+		public List<int> Score;
 
+		public Pool()
+		{
+			Competitors = new List<Type>();
+			Score = new List<int>();
+		}
 
 		public Pool(List<Type> competitors)
 		{
 			Competitors = competitors;
-			Score = new int[competitors.Count];
+			Score = new List<int>(competitors.Count);
 		}
 
+
+		public void Add(Type competitor)
+		{
+			Competitors.Add(competitor);
+			Score.Add(0);
+		}
 
 		public bool IsTied()
 		{

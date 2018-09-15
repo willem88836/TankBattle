@@ -13,13 +13,19 @@ namespace Framework
 
 
 		[Header("CompetitionManager Settings")]
-		public string TankBehaviourPath = "Assets/AIscripts/";
+		public string TankBehaviourPath = "AIscripts/";
 		public Spawner Spawner;
 
 
 		public virtual void Start()
 		{
 			Initialize();
+		}
+
+		private void Update()
+		{
+			if (Input.GetKeyDown(KeyCode.Space))
+				Next();
 		}
 
 		public abstract void Initialize();
@@ -33,12 +39,13 @@ namespace Framework
 		/// </summary>
 		protected Type[] LoadBehaviours()
 		{
-			Object[] assets = (AssetDatabase.LoadAllAssetsAtPath(TankBehaviourPath));
+			Object[] assets = Resources.LoadAll(TankBehaviourPath);
 			Type[] competitors = new Type[assets.Length];
 			for(int i = 0; i < assets.Length; i++)
 			{
 				competitors[i] = assets[i].GetType();
 			}
+
 			Debug.LogFormat("{0} competitor behaviours loaded!", competitors.Length);
 			return competitors;
 		}

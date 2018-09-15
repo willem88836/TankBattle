@@ -34,7 +34,7 @@ namespace Framework
 
 		public override void Next()
 		{
-			Pool pool = Pools[round - 1];
+			Pool pool = Pools[round];
 
 			if (match >= MatchCount && !pool.IsTied())
 			{
@@ -115,7 +115,7 @@ namespace Framework
 						break;
 
 					Type current = competitors[k];
-					pool.Competitors.Add(current);
+					pool.Add(current);
 				}
 				Pools.Add(pool);
 			}
