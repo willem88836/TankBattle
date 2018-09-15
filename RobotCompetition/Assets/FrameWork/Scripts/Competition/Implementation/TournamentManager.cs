@@ -24,6 +24,9 @@ namespace Framework
 
 		public override void Initialize()
 		{
+			round = 0;
+			match = 0;
+
 			Pools = new List<Pool>();
 			Type[] competitors = LoadBehaviours();
 
@@ -36,16 +39,14 @@ namespace Framework
 		{
 			Pool pool = Pools[round];
 
-			Debug.Log((match >= MatchCount) + " " + (!pool.IsTied()));
 			if (match >= MatchCount && !pool.IsTied())
 			{
 				round++;
 				match = 0;
 
-				if (round > roundRange.Y)
+				if (round >= roundRange.Y)
 				{
 					OnStageFinish();
-					return;
 				}
 			}
 
@@ -77,18 +78,16 @@ namespace Framework
 
 		private void OnStageFinish()
 		{
-			Debug.Log("stage finished");
 			// Adds the winners of the previous pools to new ones.
 			Type[] winners = new Type[roundRange.Y - roundRange.X];
 			for (int i = roundRange.X; i < roundRange.Y; i++)
 			{
 				Type winner = Pools[i].FetchWinner();
-				winners[roundRange.Y - i] = winner;
+				winners[roundRange.Y - i - 1] = winner;
 			}
-			Debug.Log(winners.Length);	
 			if (winners.Length == 1)
 			{
-				OnGameFinish(winners[0]);
+				OnGameFinish.SafeInvoke(winners[0]);
 			}
 			else
 			{
@@ -106,7 +105,6 @@ namespace Framework
 			for (int i = 0; i < poolCount; i++)
 			{
 				Pool pool = new Pool();
-				Debug.Log(Pools.Count + " pool contains:");
 				for (int j = 0; j < PoolSize; j++)
 				{
 					int k = j + i * poolCount;
@@ -116,7 +114,6 @@ namespace Framework
 
 					Type current = competitors[k];
 					pool.Add(current);
-					Debug.Log("Tank: " + current.ToString());
 				}
 				Pools.Add(pool);
 			}

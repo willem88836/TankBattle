@@ -10,6 +10,8 @@ namespace Framework
 		private void Start()
 		{
 			manager.Initialize();
+
+			manager.OnGameFinish += (Type t) => { manager.Initialize(); };
 		}
 
 		private void Update()
