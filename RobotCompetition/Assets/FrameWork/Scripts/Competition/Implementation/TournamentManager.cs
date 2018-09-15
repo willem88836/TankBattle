@@ -18,8 +18,8 @@ namespace Framework
 
 
 		private Int2 roundRange;
-		private int round = 0;
-		private int match = 0;
+		public int round { get; private set; }
+		public int match { get; private set;}
 
 
 		public override void Initialize()
@@ -70,7 +70,7 @@ namespace Framework
 
 		public override void OnMatchFinish(Type winner)
 		{
-			Pool pool = Pools[round - 1];
+			Pool pool = Pools[round];
 			int i = pool.Competitors.LastIndexOf(winner);
 			pool.Score[i]++;
 		}
