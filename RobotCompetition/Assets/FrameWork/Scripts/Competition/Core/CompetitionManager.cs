@@ -17,17 +17,6 @@ namespace Framework
 		public Spawner Spawner;
 
 
-		public virtual void Start()
-		{
-			Initialize();
-		}
-
-		private void Update()
-		{
-			if (Input.GetKeyDown(KeyCode.Space))
-				Next();
-		}
-
 		public abstract void Initialize();
 
 		public abstract void Next();
