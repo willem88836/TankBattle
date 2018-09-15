@@ -7,11 +7,11 @@ namespace Framework
 	[Serializable]
 	public struct Pool
 	{
-		public List<MonoBehaviour> Competitors;
+		public List<Type> Competitors;
 		public int[] Score;
 
 
-		public Pool(List<MonoBehaviour> competitors)
+		public Pool(List<Type> competitors)
 		{
 			Competitors = competitors;
 			Score = new int[competitors.Count];
@@ -20,7 +20,7 @@ namespace Framework
 
 		public bool IsTied()
 		{
-			MonoBehaviour winner = FetchWinner();
+			Type winner = FetchWinner();
 			int index = Competitors.IndexOf(winner);
 
 			for (int i = 0; i < Competitors.Count; i++)
@@ -37,7 +37,7 @@ namespace Framework
 			return false;
 		}
 
-		public MonoBehaviour FetchWinner()
+		public Type FetchWinner()
 		{
 			int score = 0;
 			int index = 0;

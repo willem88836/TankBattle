@@ -4,6 +4,12 @@ using UnityEngine;
 
 namespace Framework
 {
+	/// <summary>
+	///		Note to self: 
+	///			Match = match
+	///			Round = multiple matches
+	///			Stage = multiple rounds
+	/// </summary>
 	public sealed class TournamentManager : CompetitionManager
 	{
 		[Header("Tournament Settings")]
@@ -13,52 +19,69 @@ namespace Framework
 
 		private Int2 roundRange;
 		private int round = 0;
+		private int match = 0;
 
 
 		public override void Initialize()
 		{
 			Pools = new List<Pool>();
-			MonoBehaviour[] competitors = LoadBehaviours();
+			Type[] competitors = LoadBehaviours();
 
 			EnrollCompetitors(competitors);
 
 			roundRange = new Int2(0, Pools.Count);
 		}
 
-		public override void OnPoolFinish(MonoBehaviour winner)
+		public override void Next()
 		{
 			Pool pool = Pools[round - 1];
-			// todo: continue here and determine whether a next round should be played .
+
+			if (match >= MatchCount && !pool.IsTied())
+			{
+				round++;
+				match = 0;
+
+				if (round > roundRange.Y)
+				{
+					OnStageFinish();
+					return;
+				}
+			}
+			else
+			{
+				match++;
+			}
+
+			StartNewRound();
+		}
+
+		private void StartNewRound()
+		{
+			Pool pool = Pools[round];
+
+			Spawner.Clear();
+
+			for (int i = 0; i < pool.Competitors.Count; i++)
+			{
+				Type tankBehaviour = pool.Competitors[i];
+				Spawner.Spawn(tankBehaviour);
+			}
+		}
+
+		public override void OnMatchFinish(Type winner)
+		{
+			Pool pool = Pools[round - 1];
 			int i = pool.Competitors.LastIndexOf(winner);
 			pool.Score[i]++;
 		}
 
-		public override void Next()
-		{
-			Pool currentPool = Pools[round];
-
-			for (int i = 0; i < currentPool.Competitors.Count; i++)
-			{
-				MonoBehaviour tankBehaviour = currentPool.Competitors[i];
-				Spawner.Spawn(tankBehaviour);
-			}
-
-			round++;
-
-			if (round >= roundRange.Y)
-			{
-				OnRoundFinish();
-			}
-		}
-		
-
-		private void OnRoundFinish()
+		private void OnStageFinish()
 		{
 			// Adds the winners of the previous pools to new ones.
-			MonoBehaviour[] winners = new MonoBehaviour[roundRange.Y - roundRange.X];
+			Type[] winners = new Type[roundRange.Y - roundRange.X];
 			for (int i = roundRange.X; i < roundRange.Y; i++)
 			{
-				MonoBehaviour winner = Pools[i].FetchWinner();
+				Type winner = Pools[i].FetchWinner();
 				winners[roundRange.Y - i] = winner;
 			}
 
@@ -72,9 +95,12 @@ namespace Framework
 				roundRange.X = roundRange.Y;
 				roundRange.Y = Pools.Count;
 			}
+
+			// todo: a new match should be initialized.
 		}
 
-		private void EnrollCompetitors(MonoBehaviour[] competitors)
+
+		private void EnrollCompetitors(Type[] competitors)
 		{
 			int poolCount = Mathf.CeilToInt(competitors.Length / PoolSize);
 
@@ -88,7 +114,7 @@ namespace Framework
 					if (k >= competitors.Length)
 						break;
 
-					MonoBehaviour current = competitors[k];
+					Type current = competitors[k];
 					pool.Competitors.Add(current);
 				}
 				Pools.Add(pool);

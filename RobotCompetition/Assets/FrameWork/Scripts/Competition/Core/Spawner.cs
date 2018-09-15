@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Framework
@@ -12,8 +13,20 @@ namespace Framework
 
 		private int currentSpawn = 0;
 
+		private List<GameObject> spawnedObjects = new List<GameObject>();
 
-		public void Spawn(MonoBehaviour behaviour, int count)
+		public void Clear()
+		{
+			foreach (GameObject obj in spawnedObjects)
+			{
+				if (obj != null)
+					Destroy(obj);
+			}
+
+			spawnedObjects.Clear();
+		}
+
+		public void Spawn(Type behaviour, int count)
 		{
 			for (int i = 0; i < count; i++)
 			{
@@ -21,7 +34,7 @@ namespace Framework
 			}
 		}
 
-		public void Spawn(MonoBehaviour behaviour)
+		public void Spawn(Type behaviour)
 		{
 			Transform spawnPoint = SpawnLocations[currentSpawn];
 			GameObject spawnedObject = Instantiate(
@@ -30,7 +43,9 @@ namespace Framework
 				spawnPoint.rotation,
 				Parent);
 
-			spawnedObject.AddComponent(behaviour.GetType());
+			spawnedObject.AddComponent(behaviour);
+
+			spawnedObjects.Add(spawnedObject);
 
 			currentSpawn++;
 			currentSpawn %= SpawnLocations.Length;

@@ -24,8 +24,8 @@ namespace Framework
 	    // Use this for initialization
 	    void Start ()
         {
-            Debug.Log(CompetitionManager.winner);
-            FindRobots();
+			Debug.Log(CompetitionManagerVI.winner);
+			FindRobots();
             
             foreach(System.Type bot in tankListAI)
             {
@@ -33,7 +33,7 @@ namespace Framework
                 newTank.AddComponent(bot);
                 newTank.name = bot.Name;
                 newTank.GetComponent<RobotMotor>().invinsible = true;
-                if (bot == CompetitionManager.winner)
+                if (bot == CompetitionManagerVI.winner)
                 {
                     newTank.transform.localScale = new Vector3(winnerScale, winnerScale, winnerScale);
                     newTank.transform.position = new Vector3(0, 0, 0);

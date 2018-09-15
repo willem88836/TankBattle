@@ -42,7 +42,7 @@ RenderSettings:
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
-  serializedVersion: 9
+  serializedVersion: 11
   m_GIWorkflowMode: 1
   m_GISettings:
     serializedVersion: 2
@@ -54,7 +54,7 @@ LightmapSettings:
     m_EnableBakedLightmaps: 1
     m_EnableRealtimeLightmaps: 1
   m_LightmapEditorSettings:
-    serializedVersion: 8
+    serializedVersion: 9
     m_Resolution: 2
     m_BakeResolution: 40
     m_TextureWidth: 1024
@@ -71,7 +71,7 @@ LightmapSettings:
     m_FinalGatherFiltering: 1
     m_FinalGatherRayCount: 256
     m_ReflectionCompression: 2
-    m_MixedBakeMode: 3
+    m_MixedBakeMode: 2
     m_BakeBackend: 0
     m_PVRSampling: 1
     m_PVRDirectSampleCount: 32
@@ -87,7 +87,7 @@ LightmapSettings:
     m_PVRFilteringAtrousNormalSigma: 1
     m_PVRFilteringAtrousPositionSigma: 1
   m_LightingDataAsset: {fileID: 0}
-  m_ShadowMaskMode: 2
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -128,35 +128,18 @@ GameObject:
 --- !u!114 &75142540
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 114155766469286824, guid: 32d80e3b04eae3f449862d33e093fec8,
-    type: 2}
+  m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 75142539}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bae3ebcd9bf20d945933df2e309956b5, type: 3}
+  m_Script: {fileID: 11500000, guid: cffa40375ee4d434a8b12aaddf40b272, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  testIndex: -1
-  baseRobot: {fileID: 1015122089073302, guid: a1c56d90b116d3644a5ba5b05eaa16b6, type: 2}
-  playerUILeft: {fileID: 1382344861238050, guid: 5c1c8f9c32e754245b1edf10e7efb554,
-    type: 2}
-  playerUIRight: {fileID: 1690120412886018, guid: 5193e5a53dde85a4a92ea89238e8f221,
-    type: 2}
-  poolUI: {fileID: 1570628694924446, guid: 468882cdf7539ef488e34b3c022810a0, type: 2}
-  poolSubUI: {fileID: 1221492558859982, guid: f5ea49000184bba4eb4ad656db79fec9, type: 2}
-  StatObject: {fileID: 1408167668627904, guid: 5b961a8d255260d4b9b9c229f0d956bf, type: 2}
-  chartHeight: 950
-  poolObjDynOffsetX: 320
-  poolObjWidth: 280
-  poolObjHeight: 40
-  poolObjStatOffSetX: 300
-  poolObjStatOffSetY: 100
-  tankUIOffSet: 115
-  statOffSetY: 45
-  statSize: 35
-  statMaxSize: 200
-  tankSpawnRange: 8
+  TankBehaviourPath: Assets/AIscripts/
+  Spawner: {fileID: 761757873}
+  PoolSize: 3
+  MatchCount: 5
 --- !u!4 &75142541
 Transform:
   m_ObjectHideFlags: 0
@@ -289,7 +272,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 75142540}
+      - m_Target: {fileID: 0}
         m_MethodName: set_AutoRun
         m_Mode: 6
         m_Arguments:
@@ -875,7 +858,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 75142540}
+      - m_Target: {fileID: 0}
         m_MethodName: ApplyNewSettings
         m_Mode: 1
         m_Arguments:
@@ -886,7 +869,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 75142540}
+      - m_Target: {fileID: 0}
         m_MethodName: Reboot
         m_Mode: 1
         m_Arguments:
@@ -897,7 +880,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 75142540}
+      - m_Target: {fileID: 0}
         m_MethodName: ToChart
         m_Mode: 1
         m_Arguments:
@@ -1397,7 +1380,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 75142540}
+      - m_Target: {fileID: 0}
         m_MethodName: NextBattle
         m_Mode: 1
         m_Arguments:
@@ -1419,7 +1402,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 75142540}
+      - m_Target: {fileID: 0}
         m_MethodName: StopAllCoroutines
         m_Mode: 1
         m_Arguments:
@@ -1715,6 +1698,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 761757872}
+  - component: {fileID: 761757873}
   m_Layer: 0
   m_Name: SpawnPoints
   m_TagString: Untagged
@@ -1740,6 +1724,24 @@ Transform:
   m_Father: {fileID: 75142541}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &761757873
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 761757871}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a3cbcc7079c91048bf30741a124845a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BaseObject: {fileID: 1015122089073302, guid: a1c56d90b116d3644a5ba5b05eaa16b6, type: 2}
+  Parent: {fileID: 75142541}
+  SpawnLocations:
+  - {fileID: 1133638825}
+  - {fileID: 502763326}
+  - {fileID: 1408993960}
+  - {fileID: 159186050}
 --- !u!1 &847248057
 GameObject:
   m_ObjectHideFlags: 0
@@ -1971,7 +1973,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 75142540}
+      - m_Target: {fileID: 0}
         m_MethodName: ToChart
         m_Mode: 1
         m_Arguments:
@@ -1993,7 +1995,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 75142540}
+      - m_Target: {fileID: 0}
         m_MethodName: StopAllCoroutines
         m_Mode: 1
         m_Arguments:
@@ -2197,7 +2199,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 75142540}
+      - m_Target: {fileID: 0}
         m_MethodName: NextBattle
         m_Mode: 1
         m_Arguments:
@@ -2219,7 +2221,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 75142540}
+      - m_Target: {fileID: 0}
         m_MethodName: StopAllCoroutines
         m_Mode: 1
         m_Arguments:
@@ -2948,7 +2950,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1864073058
 RectTransform:
   m_ObjectHideFlags: 0
