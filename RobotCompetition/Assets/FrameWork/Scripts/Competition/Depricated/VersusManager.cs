@@ -10,7 +10,8 @@ using Random = UnityEngine.Random;
 
 namespace Framework
 {
-    public class VersusManager : MonoBehaviour
+	[System.Obsolete]
+	public class VersusManager : MonoBehaviour
     {
 
         //Class to store a spawnpoints position and angle in a single variable

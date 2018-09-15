@@ -6,7 +6,8 @@ using Framework;
 
 namespace Framework
 {
-    public class MenuManager : MonoBehaviour
+	[System.Obsolete]
+	public class MenuManager : MonoBehaviour
     {
 
         private void Awake()

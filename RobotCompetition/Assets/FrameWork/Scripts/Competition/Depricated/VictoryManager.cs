@@ -8,7 +8,8 @@ using UnityEngine.UI;
 
 namespace Framework
 {
-    public class VictoryManager : MonoBehaviour
+	[System.Obsolete]
+	public class VictoryManager : MonoBehaviour
     {
         [SerializeField]
         private float spawnField;

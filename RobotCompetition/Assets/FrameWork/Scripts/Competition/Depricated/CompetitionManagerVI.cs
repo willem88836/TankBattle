@@ -19,7 +19,8 @@ using Random = UnityEngine.Random;
 
 namespace Framework
 {
-    public class CompetitionManager : MonoBehaviour
+	[System.Obsolete]
+    public class CompetitionManagerVI : MonoBehaviour
     {
 
         public static System.Type winner;
