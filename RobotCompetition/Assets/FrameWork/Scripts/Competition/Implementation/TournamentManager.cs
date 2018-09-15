@@ -36,6 +36,7 @@ namespace Framework
 		{
 			Pool pool = Pools[round];
 
+			Debug.Log((match >= MatchCount) + " " + (!pool.IsTied()));
 			if (match >= MatchCount && !pool.IsTied())
 			{
 				round++;
@@ -47,18 +48,15 @@ namespace Framework
 					return;
 				}
 			}
-			else
-			{
-				match++;
-			}
 
 			StartNewRound();
+			match++;
 		}
 
 		private void StartNewRound()
 		{
 			Pool pool = Pools[round];
-
+				
 			Spawner.Clear();
 
 			for (int i = 0; i < pool.Competitors.Count; i++)
@@ -73,10 +71,13 @@ namespace Framework
 			Pool pool = Pools[round];
 			int i = pool.Competitors.LastIndexOf(winner);
 			pool.Score[i]++;
+			Spawner.Clear();
+			Debug.LogFormat("Matches finished: {0} won!", winner.ToString());
 		}
 
 		private void OnStageFinish()
 		{
+			Debug.Log("stage finished");
 			// Adds the winners of the previous pools to new ones.
 			Type[] winners = new Type[roundRange.Y - roundRange.X];
 			for (int i = roundRange.X; i < roundRange.Y; i++)
@@ -84,7 +85,7 @@ namespace Framework
 				Type winner = Pools[i].FetchWinner();
 				winners[roundRange.Y - i] = winner;
 			}
-
+			Debug.Log(winners.Length);	
 			if (winners.Length == 1)
 			{
 				OnGameFinish(winners[0]);
@@ -95,8 +96,6 @@ namespace Framework
 				roundRange.X = roundRange.Y;
 				roundRange.Y = Pools.Count;
 			}
-
-			// todo: a new match should be initialized.
 		}
 
 
@@ -107,6 +106,7 @@ namespace Framework
 			for (int i = 0; i < poolCount; i++)
 			{
 				Pool pool = new Pool();
+				Debug.Log(Pools.Count + " pool contains:");
 				for (int j = 0; j < PoolSize; j++)
 				{
 					int k = j + i * poolCount;
@@ -116,6 +116,7 @@ namespace Framework
 
 					Type current = competitors[k];
 					pool.Add(current);
+					Debug.Log("Tank: " + current.ToString());
 				}
 				Pools.Add(pool);
 			}
