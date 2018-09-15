@@ -46,6 +46,8 @@ namespace Framework
 			// TODO: Update this line when Justin is finished with the new Tank Behaviours.
 			spawnedObject.AddComponent(behaviour);
 
+			spawnedObject.name = BaseObject.name + "_" + behaviour.ToString();
+
 			spawnedObjects.Add(spawnedObject);
 
 			currentSpawn++;

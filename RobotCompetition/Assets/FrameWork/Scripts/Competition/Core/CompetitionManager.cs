@@ -28,11 +28,12 @@ namespace Framework
 		/// </summary>
 		protected Type[] LoadBehaviours()
 		{
-			Object[] assets = Resources.LoadAll(TankBehaviourPath);
+			MonoScript[] assets = Resources.LoadAll<MonoScript>(TankBehaviourPath);
+
 			Type[] competitors = new Type[assets.Length];
 			for(int i = 0; i < assets.Length; i++)
 			{
-				competitors[i] = assets[i].GetType();
+				competitors[i] = assets[i].GetClass();
 			}
 
 			Debug.LogFormat("{0} competitor behaviours loaded!", competitors.Length);
