@@ -63,8 +63,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a56c20ca98aca646973b2374db1a77b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Rect: {fileID: 0}
-  BaseTextField: {fileID: 0}
+  BaseTextField: {fileID: 114833882290082562, guid: 5d8ef4f8db82b5947bfd16fb89719188,
+    type: 2}
   BaseText: '{0} : {1}'
   expandValue: 17.5
 --- !u!114 &114825042603177070
@@ -115,6 +115,6 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -204.6, y: 90.9}
-  m_SizeDelta: {x: 249.66, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}

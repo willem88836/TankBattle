@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace Framework
 {
 	public abstract class CompetitionManager : MonoBehaviour
 	{
+		public int CompetitorCount { get; private set; }
+
 		[NonSerialized] public List<Pool> Pools;
 		public Action<Type> OnGameFinish;
 
@@ -36,6 +37,7 @@ namespace Framework
 				competitors[i] = assets[i].GetClass();
 			}
 
+			CompetitorCount = competitors.Length;
 			Debug.LogFormat("{0} competitor behaviours loaded!", competitors.Length);
 			return competitors;
 		}

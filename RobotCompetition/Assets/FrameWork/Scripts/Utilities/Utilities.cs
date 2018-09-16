@@ -51,4 +51,39 @@ public static class Utilities
 	}
 
 	#endregion
+
+
+	#region Foreach
+
+	/// <summary>
+	///		Iterates through all children.
+	/// </summary>
+	public static void Foreach(this Transform transform, Action<Transform> action)
+	{
+		var count = transform.childCount;
+		for (var i = 0; i < count; i++)
+		{
+			var child = transform.GetChild(i);
+
+			action(child);
+			Foreach(child, action);
+		}
+	}
+
+	/// <summary>
+	///		Iterates through all children in reversed order.
+	/// </summary>
+	public static void ReversedForeach(this Transform transform, Action<Transform> action)
+	{
+		var count = transform.childCount;
+		for (var i = count - 1; i >= 0; i--)
+		{
+			var child = transform.GetChild(i);
+
+			ReversedForeach(child, action);
+			action(child);
+		}
+	}
+
+	#endregion
 }

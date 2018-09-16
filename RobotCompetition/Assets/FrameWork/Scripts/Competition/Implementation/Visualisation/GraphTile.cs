@@ -4,7 +4,6 @@ using UnityEngine.UI;
 
 public class GraphTile : MonoBehaviour
 {
-	public RectTransform Rect;
 	public Text BaseTextField;
 	public string BaseText;
 	public float expandValue = 17.5f;
@@ -13,8 +12,14 @@ public class GraphTile : MonoBehaviour
 		= new Dictionary<string, GameObject>();
 
 
+	private RectTransform Rect;
+
+
 	public void Add(string name, int score)
 	{
+		if (Rect == null)
+			Rect = GetComponent<RectTransform>();
+
 		if (!Competitors.ContainsKey(name))
 		{
 			Text field = Instantiate(BaseTextField, transform);
