@@ -1,9 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace Framework
 {
+	/// <summary>
+	///		Generates a set of tiles, used to display 
+	///		the current Tournament data.
+	/// </summary>
 	public class GeneratedTournamentGraph : TournamentGraph
 	{
 		public Transform Parent;
@@ -13,12 +16,18 @@ namespace Framework
 
 		private List<GameObject> stages = new List<GameObject>();
 
-
-		private void Clear()
+		/// <summary>
+		///		Destroys all current Graph objects. 
+		/// </summary>
+		public void Clear()
 		{
 			Parent.ReversedForeach((Transform child) => { Destroy(child.gameObject); });
 		}
 
+		/// <summary>
+		///		Generates and fills a new Tournament Graph
+		///		based on the current Tournament data.
+		/// </summary>
 		public override void Generate()
 		{
 			Tiles.Clear();

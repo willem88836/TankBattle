@@ -3,6 +3,9 @@ using UnityEngine;
 
 namespace Framework
 {
+	/// <summary>
+	///		Debugging stuff.
+	/// </summary>
 	public class CompetitionDebugger : MonoBehaviour
 	{
 		public CompetitionManager manager;
@@ -18,7 +21,7 @@ namespace Framework
 		private void Update()
 		{
 			if (Input.GetKeyDown(KeyCode.S))
-				manager.Next();
+				manager.OnNewMatchStart();
 
 			if (Input.GetKeyDown(KeyCode.F))
 			{

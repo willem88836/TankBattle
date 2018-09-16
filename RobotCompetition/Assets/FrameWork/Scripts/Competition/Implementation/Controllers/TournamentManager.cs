@@ -5,6 +5,9 @@ using UnityEngine;
 namespace Framework
 {
 	/// <summary>
+	///		Contains all behaviour to set up and update a 
+	///		tournament setting.
+	/// 
 	///		Note to self: 
 	///			Match = match
 	///			Round = multiple matches
@@ -22,6 +25,9 @@ namespace Framework
 		public int match { get; private set;}
 
 
+		/// <summary>
+		///		Creates a new Tournament.
+		/// </summary>
 		public override void Initialize()
 		{
 			round = 0;
@@ -35,7 +41,8 @@ namespace Framework
 			roundRange = new Int2(0, Pools.Count);
 		}
 
-		public override void Next()
+		/// <inheritdoc />
+		public override void OnNewMatchStart()
 		{
 			Pool pool = Pools[round];
 
@@ -54,6 +61,9 @@ namespace Framework
 			match++;
 		}
 
+		/// <summary>
+		///		Is called once a new round is started. 
+		/// </summary>
 		private void StartNewRound()
 		{
 			Pool pool = Pools[round];
@@ -67,6 +77,7 @@ namespace Framework
 			}
 		}
 
+		/// <inheritdoc />
 		public override void OnMatchFinish(Type winner)
 		{
 			Pool pool = Pools[round];
@@ -76,6 +87,9 @@ namespace Framework
 			Debug.LogFormat("Matches finished: {0} won!", winner.ToString());
 		}
 
+		/// <summary>
+		///		Is called once a stage is finished.
+		/// </summary>
 		private void OnStageFinish()
 		{
 			// Adds the winners of the previous pools to new ones.
@@ -98,6 +112,10 @@ namespace Framework
 		}
 
 
+		/// <summary>
+		///		Enrolls the provided Types to one or more
+		///		new Pools.
+		/// </summary>
 		private void EnrollCompetitors(Type[] competitors)
 		{
 			int poolCount = Mathf.CeilToInt(competitors.Length / PoolSize);

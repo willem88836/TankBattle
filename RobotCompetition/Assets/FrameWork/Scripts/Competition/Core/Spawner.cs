@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace Framework
 {
+	/// <summary>
+	///		Spawns and despawns objects with a desired behaviour.
+	/// </summary>
 	[Serializable]
 	public class Spawner : MonoBehaviour
 	{
@@ -15,6 +18,9 @@ namespace Framework
 
 		private List<GameObject> spawnedObjects = new List<GameObject>();
 
+		/// <summary>
+		///		Destroys all spawned objects.
+		/// </summary>
 		public void Clear()
 		{
 			foreach (GameObject obj in spawnedObjects)
@@ -26,6 +32,10 @@ namespace Framework
 			spawnedObjects.Clear();
 		}
 
+		/// <summary>
+		///		Spawns multiple objects with the provided behaviour
+		///		at multiple spawn locations.
+		/// </summary>
 		public void Spawn(Type behaviour, int count)
 		{
 			for (int i = 0; i < count; i++)
@@ -34,6 +44,10 @@ namespace Framework
 			}
 		}
 
+		/// <summary>
+		///		Spawns one object with the provided behaviour
+		///		at one of the set spawnlocations.
+		/// </summary>
 		public void Spawn(Type behaviour)
 		{
 			Transform spawnPoint = SpawnLocations[currentSpawn];

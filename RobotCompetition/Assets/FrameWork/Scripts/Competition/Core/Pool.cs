@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace Framework
 {
+	/// <summary>
+	///		Contains all information used inside one competitor pool.
+	/// </summary>
 	[Serializable]
 	public class Pool
 	{
@@ -22,13 +25,29 @@ namespace Framework
 			Score = new List<int>(competitors.Count);
 		}
 
-
+		/// <summary>
+		///		Adds a competitor to the pool.
+		/// </summary>
 		public void Add(Type competitor)
 		{
 			Competitors.Add(competitor);
 			Score.Add(0);
 		}
 
+		/// <summary>
+		///		Removes a competitor from the pool.
+		/// </summary>
+		public void Remove(Type competitor)
+		{
+			int index = Competitors.IndexOf(competitor);
+			Competitors.RemoveAt(index);
+			Score.RemoveAt(index);
+		}
+
+		/// <summary>
+		///		Returns true if there are two or more
+		///		competitors with the same highest score.
+		/// </summary>
 		public bool IsTied()
 		{
 			Type winner = FetchWinner();
@@ -48,6 +67,9 @@ namespace Framework
 			return false;
 		}
 
+		/// <summary>
+		///		Returns the winner's Type.
+		/// </summary>
 		public Type FetchWinner()
 		{
 			int score = 0;

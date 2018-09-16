@@ -5,6 +5,9 @@ using UnityEngine;
 
 namespace Framework
 {
+	/// <summary>
+	///		Base class for various competition controllers. 
+	/// </summary>
 	public abstract class CompetitionManager : MonoBehaviour
 	{
 		public int CompetitorCount { get; private set; }
@@ -20,8 +23,15 @@ namespace Framework
 
 		public abstract void Initialize();
 
-		public abstract void Next();
+		/// <summary>
+		///		Is called when a new match is supposed to start. 
+		/// </summary>
+		public abstract void OnNewMatchStart();
 
+		/// <summary>
+		///		Is called after a single match has been finished.
+		///		The winner (Type) is passed through.
+		/// </summary>
 		public abstract void OnMatchFinish(Type winner);
 
 		/// <summary>

@@ -3,6 +3,10 @@ using UnityEngine;
 
 namespace Framework
 {
+	/// <summary>
+	///		Displays the current tournament data using 
+	///		the manually set GraphTiles.
+	/// </summary>
 	public class TournamentGraph : MonoBehaviour
 	{
 		public TournamentManager Manager;
