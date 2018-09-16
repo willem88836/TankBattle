@@ -6,6 +6,7 @@ namespace Framework
 	public class CompetitionDebugger : MonoBehaviour
 	{
 		public CompetitionManager manager;
+		public TournamentGraph graph;
 
 		private void Start()
 		{
@@ -25,6 +26,11 @@ namespace Framework
 				manager.OnMatchFinish(pool.Competitors[UnityEngine.Random.Range(0, pool.Competitors.Count)]);
 			}
 
+
+			if (Input.GetKeyDown(KeyCode.G))
+			{
+				graph.Generate();
+			}
 		}
 	}
 }
