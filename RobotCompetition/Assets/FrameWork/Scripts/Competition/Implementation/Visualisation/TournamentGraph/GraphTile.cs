@@ -9,7 +9,7 @@ namespace Framework
 	/// </summary>
 	public class GraphTile : MonoBehaviour
 	{
-		public Text BaseTextField;
+		public GameObject BaseTextField;
 		public string BaseText;
 		public float expandValue = 17.5f;
 
@@ -30,8 +30,8 @@ namespace Framework
 
 			if (!Competitors.ContainsKey(name))
 			{
-				Text field = Instantiate(BaseTextField, transform);
-				field.text = string.Format(BaseText, name, score);
+				GameObject field = Instantiate(BaseTextField, transform);
+				field.GetComponent<GraphText>().TextField.text = string.Format(BaseText, name, score);
 				Competitors.Add(name, field.gameObject);
 
 				Rect.sizeDelta += new Vector2(0, expandValue);

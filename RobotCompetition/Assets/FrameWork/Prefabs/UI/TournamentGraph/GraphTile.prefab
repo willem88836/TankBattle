@@ -60,10 +60,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1900220478637482}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a56c20ca98aca646973b2374db1a77b, type: 3}
+  m_Script: {fileID: 11500000, guid: 7dededd69f2348742970d4c4b526c4fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BaseTextField: {fileID: 114833882290082562, guid: 5d8ef4f8db82b5947bfd16fb89719188,
+  BaseTextField: {fileID: 1504579870706288, guid: 5d8ef4f8db82b5947bfd16fb89719188,
     type: 2}
   BaseText: '{0} : {1}'
   expandValue: 17.5
@@ -79,7 +79,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_Color: {r: 0.58823526, g: 0.58823526, b: 0.58823526, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -113,8 +113,8 @@ RectTransform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: -10, y: -10}
   m_Pivot: {x: 0.5, y: 0.5}
