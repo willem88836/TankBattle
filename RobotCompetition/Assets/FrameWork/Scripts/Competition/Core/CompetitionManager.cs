@@ -14,6 +14,7 @@ namespace Framework.Competition
 
 		[NonSerialized] public List<Pool> Pools;
 		public Action<Type> OnGameFinish;
+		public Action OnIntermission;
 
 
 		[Header("CompetitionManager Settings")]

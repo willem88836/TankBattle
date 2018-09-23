@@ -84,6 +84,8 @@ namespace Framework.Competition
 			int i = pool.Competitors.LastIndexOf(winner);
 			pool.Score[i]++;
 			Spawner.Clear();
+			OnIntermission.SafeInvoke();
+
 			Debug.LogFormat("Matches finished: {0} won!", winner.ToString());
 		}
 

@@ -8,7 +8,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5766b381710bb9a4096cda954c3e8399, type: 3}
+  m_Script: {fileID: 11500000, guid: 2ee06e2a02906404bb64581965663626, type: 3}
   m_Name: DungeonSetup_001
   m_EditorClassIdentifier: 
   _value:
