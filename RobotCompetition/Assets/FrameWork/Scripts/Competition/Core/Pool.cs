@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Framework
+namespace Framework.Competition
 {
 	/// <summary>
 	///		Contains all information used inside one competitor pool.

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Framework
+namespace Framework.Competition
 {
 	/// <summary>
 	///		Contains all behaviour to set up and update a 
@@ -21,8 +21,8 @@ namespace Framework
 
 
 		private Int2 roundRange;
-		public int round { get; private set; }
-		public int match { get; private set;}
+		public int Round { get; private set; }
+		public int Match { get; private set;}
 
 
 		/// <summary>
@@ -30,8 +30,8 @@ namespace Framework
 		/// </summary>
 		public override void Initialize()
 		{
-			round = 0;
-			match = 0;
+			Round = 0;
+			Match = 0;
 
 			Pools = new List<Pool>();
 			Type[] competitors = LoadBehaviours();
@@ -44,21 +44,21 @@ namespace Framework
 		/// <inheritdoc />
 		public override void OnNewMatchStart()
 		{
-			Pool pool = Pools[round];
+			Pool pool = Pools[Round];
 
-			if (match >= MatchCount && !pool.IsTied())
+			if (Match >= MatchCount && !pool.IsTied())
 			{
-				round++;
-				match = 0;
+				Round++;
+				Match = 0;
 
-				if (round >= roundRange.Y)
+				if (Round >= roundRange.Y)
 				{
 					OnStageFinish();
 				}
 			}
 
 			StartNewRound();
-			match++;
+			Match++;
 		}
 
 		/// <summary>
@@ -66,7 +66,7 @@ namespace Framework
 		/// </summary>
 		private void StartNewRound()
 		{
-			Pool pool = Pools[round];
+			Pool pool = Pools[Round];
 				
 			Spawner.Clear();
 
@@ -80,7 +80,7 @@ namespace Framework
 		/// <inheritdoc />
 		public override void OnMatchFinish(Type winner)
 		{
-			Pool pool = Pools[round];
+			Pool pool = Pools[Round];
 			int i = pool.Competitors.LastIndexOf(winner);
 			pool.Score[i]++;
 			Spawner.Clear();

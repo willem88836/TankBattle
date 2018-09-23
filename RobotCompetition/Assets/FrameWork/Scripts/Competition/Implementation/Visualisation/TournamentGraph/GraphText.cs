@@ -1,7 +1,11 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class GraphText : MonoBehaviour
+namespace Framework.Competition
 {
-	public Text TextField;
+
+	public class GraphText : MonoBehaviour
+	{
+		public Text TextField;
+	}
 }

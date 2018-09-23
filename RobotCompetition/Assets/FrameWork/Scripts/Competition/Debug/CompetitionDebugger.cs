@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Framework
+namespace Framework.Competition
 {
 	/// <summary>
 	///		Debugging stuff.
@@ -25,7 +25,7 @@ namespace Framework
 
 			if (Input.GetKeyDown(KeyCode.F))
 			{
-				Pool pool = manager.Pools[((TournamentManager)manager).round];
+				Pool pool = manager.Pools[((TournamentManager)manager).Round];
 				manager.OnMatchFinish(pool.Competitors[UnityEngine.Random.Range(0, pool.Competitors.Count)]);
 			}
 

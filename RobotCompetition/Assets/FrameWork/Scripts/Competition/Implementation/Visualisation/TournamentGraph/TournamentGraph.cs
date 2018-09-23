@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace Framework
+namespace Framework.Competition
 {
 	/// <summary>
 	///		Displays the current tournament data using 

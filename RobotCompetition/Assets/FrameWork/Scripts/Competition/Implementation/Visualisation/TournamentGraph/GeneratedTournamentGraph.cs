@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace Framework
+namespace Framework.Competition
 {
 	/// <summary>
 	///		Generates a set of tiles, used to display 
