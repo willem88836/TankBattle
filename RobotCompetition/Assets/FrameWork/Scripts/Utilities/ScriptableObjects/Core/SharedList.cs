@@ -2,8 +2,5 @@
 
 namespace Framework.ScriptableObjects.Variables
 {
-	public abstract class SharedList<T>  : ValueReference<List<T>>
-	{
-		public List<T> Items;
-	}
+	public abstract class SharedList<T>  : ValueReference<List<T>> { }
 }
