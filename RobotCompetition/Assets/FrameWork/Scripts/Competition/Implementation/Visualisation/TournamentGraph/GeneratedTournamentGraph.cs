@@ -43,8 +43,6 @@ namespace Framework.Competition
 				if (competitorCount < 1)
 					competitorCount = 1;
 
-				Debug.Log(stageCount + "  " +	competitorCount);
-				
 				GameObject stageObject = Instantiate(StageObject, Parent);
 				stageObject.name = "StageObject_" + stageCount;
 				stages.Add(StageObject);

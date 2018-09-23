@@ -81,7 +81,7 @@ namespace Framework.Competition
 		public override void OnMatchFinish(Type winner)
 		{
 			Pool pool = Pools[Round];
-			int i = pool.Competitors.LastIndexOf(winner);
+			int i = pool.Competitors.IndexOf(winner);
 			pool.Score[i]++;
 			Spawner.Clear();
 			OnIntermission.SafeInvoke();

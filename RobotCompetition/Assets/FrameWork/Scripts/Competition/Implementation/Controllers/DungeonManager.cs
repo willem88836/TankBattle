@@ -23,6 +23,8 @@ namespace Framework.Competition
 
 		public override void OnMatchFinish(Type winner)
 		{
+			Spawner.Clear();
+
 			if (winner != challenger)
 			{
 				Type currentBoss = Bosses[round].GetType();
@@ -50,6 +52,8 @@ namespace Framework.Competition
 
 			Type currentBoss = Bosses[round].GetClass();
 			Spawner.Spawn(challenger, currentBoss);
+
+			Debug.LogFormat("Boss Battle started with {0} and {1}", challenger.ToString(), currentBoss.ToString());
 		}
 	}
 }

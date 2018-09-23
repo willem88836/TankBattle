@@ -8,32 +8,41 @@ namespace Framework.Competition
 	/// </summary>
 	public class CompetitionDebugger : MonoBehaviour
 	{
-		public CompetitionManager manager;
+		public TournamentManager tournamentManager;
+		public DungeonManager dungeonManager;
 		public TournamentGraph graph;
 
 		private void Start()
 		{
-			manager.Initialize();
+			tournamentManager.Initialize();
 
-			manager.OnGameFinish += (Type t) => { manager.Initialize(); };
+
+			tournamentManager.OnGameFinish += (Type t) =>
+			{
+				Debug.Log("Game Finished! Competition won by: " + t.ToString());
+				tournamentManager.Initialize();
+			};
+
+
+			dungeonManager.OnGameFinish += (Type t) =>
+			{
+				Debug.Log("Game Finished! Competition won by: " + t.ToString());
+				dungeonManager.Initialize();
+			};
 		}
 
-		private void Update()
+
+
+		public void ForceRandomTournamentWinner()
 		{
-			if (Input.GetKeyDown(KeyCode.S))
-				manager.OnNewMatchStart();
+			Pool pool = tournamentManager.Pools[tournamentManager.Round];
+			tournamentManager.OnMatchFinish(pool.Competitors[UnityEngine.Random.Range(0, pool.Competitors.Count)]);
+		}
 
-			if (Input.GetKeyDown(KeyCode.F))
-			{
-				Pool pool = manager.Pools[((TournamentManager)manager).Round];
-				manager.OnMatchFinish(pool.Competitors[UnityEngine.Random.Range(0, pool.Competitors.Count)]);
-			}
-
-
-			if (Input.GetKeyDown(KeyCode.G))
-			{
-				graph.Generate();
-			}
+		public void ForceRandomDungeonWinner()
+		{
+			dungeonManager.OnMatchFinish(dungeonManager.ChallengerBehaviour.GetClass());
 		}
 	}
+
 }
