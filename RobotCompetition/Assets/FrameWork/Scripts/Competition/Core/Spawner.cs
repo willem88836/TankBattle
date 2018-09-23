@@ -32,6 +32,16 @@ namespace Framework
 			spawnedObjects.Clear();
 		}
 
+
+		public void Spawn(params Type[] behaviour)
+		{
+			for (int i = 0; i < behaviour.Length; i++)
+			{
+				Type current = behaviour[i];
+				Spawn(current);
+			}
+		}
+
 		/// <summary>
 		///		Spawns multiple objects with the provided behaviour
 		///		at multiple spawn locations.
