@@ -291,7 +291,7 @@ GameObject:
   - component: {fileID: 182729561}
   - component: {fileID: 182729560}
   m_Layer: 5
-  m_Name: Text
+  m_Name: VS
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -361,7 +361,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: VS
+  m_Text: VS.
 --- !u!222 &182729562
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3026,14 +3026,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a9ad283df40cb944bf9f45b5331ef76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseTank: {fileID: 1015122089073302, guid: a1c56d90b116d3644a5ba5b05eaa16b6, type: 2}
-  buttonPrefab: {fileID: 1704857149838500, guid: 6fab8e01f73de6d4d8bd9ebfb6945050,
+  _baseTank: {fileID: 1015122089073302, guid: a1c56d90b116d3644a5ba5b05eaa16b6, type: 2}
+  _behaviourButtonPrefab: {fileID: 1704857149838500, guid: 6fab8e01f73de6d4d8bd9ebfb6945050,
     type: 2}
-  sensorCamera: {fileID: 457195776}
-  selectedColor: {r: 0, g: 0, b: 0, a: 0}
-  leftAIContainer: {fileID: 1488013424}
-  rightAIContainer: {fileID: 1373193959}
-  victoryText: {fileID: 1793009445}
+  _sensorCamera: {fileID: 457195776}
+  _victoryText: {fileID: 1793009445}
+  _selectedBehaviourColor: {r: 1, g: 0.47586206, b: 0, a: 1}
+  _unselectedBehaviourColor: {r: 1, g: 1, b: 1, a: 1}
+  _leftBehaviourParent: {fileID: 1488013424}
+  _rightBehaviourParent: {fileID: 1373193959}
 --- !u!1 &1373193958
 GameObject:
   m_ObjectHideFlags: 0
@@ -3047,7 +3048,7 @@ GameObject:
   - component: {fileID: 1373193961}
   - component: {fileID: 1373193960}
   m_Layer: 5
-  m_Name: Buttons
+  m_Name: Buttonparent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3499,7 +3500,7 @@ GameObject:
   - component: {fileID: 1488013426}
   - component: {fileID: 1488013425}
   m_Layer: 5
-  m_Name: Buttons
+  m_Name: Buttonparent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4538,7 +4539,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 0, b: 0, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []

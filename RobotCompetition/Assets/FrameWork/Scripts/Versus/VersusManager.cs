@@ -26,35 +26,26 @@ namespace Framework
             }
         }
 
-        [SerializeField]
-        private GameObject baseTank;
+        [SerializeField] private GameObject _baseTank;
+        [SerializeField] private GameObject _behaviourButtonPrefab;
+        [SerializeField] private GameObject _sensorCamera;
+		[SerializeField] private Text _victoryText;
 
-        [SerializeField]
-        private GameObject buttonPrefab;
+		[SerializeField] private Color _selectedBehaviourColor;
+		[SerializeField] private Color _unselectedBehaviourColor;
 
-        [SerializeField]
-        private GameObject sensorCamera;
-
-        [SerializeField]
-        private Color selectedColor;
-
-        [SerializeField]
-        private Transform leftAIContainer;
-
-        [SerializeField]
-        private Transform rightAIContainer;
-
-        [SerializeField]
-        private Text victoryText;
+		[SerializeField] private Transform _leftBehaviourParent;
+        [SerializeField] private Transform _rightBehaviourParent;
 
         //List of scripts that are derived from RobotControl
         private System.Type[] tankListAI;
+
         //List of spawnpoints
         private SpawnPoint[] spawnPoints;
         private System.Type[] selectedAI = new System.Type[2];
 
-        private List<Image> leftButtons = new List<Image>();
-        private List<Image> rightButtons = new List<Image>();
+        private List<Button> leftButtons = new List<Button>();
+        private List<Button> rightButtons = new List<Button>();
 
         private GameObject matchFalse;
         private GameObject matchTrue;
@@ -69,11 +60,11 @@ namespace Framework
             matchTrue = transform.GetChild(1).GetChild(1).gameObject;
 
             showSensors = false;
-            sensorCamera.SetActive(false);
+            _sensorCamera.SetActive(false);
             matchFalse.SetActive(true);
             matchTrue.SetActive(false);
 
-            FindRobots();
+            FindBehaviours();
             FindSpawnLocations();
             FillContainers();
         }
@@ -105,7 +96,7 @@ namespace Framework
             matchTrue.SetActive(false);
             matchFalse.SetActive(true);
             string[] endMessages = new string[4] { " is victorious!", " pwned!", " destroyed the other!", " is the best!" };
-            victoryText.text = tanks[index].name + endMessages[Random.Range(0, endMessages.Length)];
+            _victoryText.text = tanks[index].name + endMessages[Random.Range(0, endMessages.Length)];
 
             for (int i = 0; i < tanks.Count; i++)
             {
@@ -123,7 +114,7 @@ namespace Framework
             for (int i = 0; i < selectedAI.Length; i++)
             {
                 // spawn tank
-                GameObject newTank = Instantiate(baseTank);
+                GameObject newTank = Instantiate(_baseTank);
                 newTank.transform.position = spawnPoints[i].position;
                 newTank.transform.eulerAngles = new Vector3(0f, spawnPoints[i].angle, 0f);
                 if (selectedAI[i] != null)
@@ -144,7 +135,7 @@ namespace Framework
             matchInProgress = false;
             matchTrue.SetActive(false);
             matchFalse.SetActive(true);
-            victoryText.text = "Manually stopped!";
+            _victoryText.text = "Manually stopped, no outcome!";
 
             for (int i = 0; i < tanks.Count; i++)
             {
@@ -157,7 +148,7 @@ namespace Framework
         }
 
         //Find all AI scripts
-        private void FindRobots()
+        private void FindBehaviours()
         {
             tankListAI = FindDerivedTypes(typeof(RobotControl)).ToArray();
             string debugMessage = "Found " + tankListAI.Length + " AI scripts: ";
@@ -191,53 +182,66 @@ namespace Framework
         {
             for (int i = 0; i < tankListAI.Length; i++)
             {
-                GameObject newButton = Instantiate(buttonPrefab, leftAIContainer);
-                newButton.transform.GetChild(0).GetComponent<Text>().text = tankListAI[i].Name;
-                newButton.name = tankListAI[i].Name;
+                GameObject newButtonObject = Instantiate(_behaviourButtonPrefab, _leftBehaviourParent);
+                newButtonObject.transform.GetChild(0).GetComponent<Text>().text = tankListAI[i].Name;
+                newButtonObject.name = tankListAI[i].Name;
                 System.Type sendType = tankListAI[i];
-                Image newImage = newButton.GetComponent<Image>();
-                leftButtons.Add(newImage);
-                newButton.GetComponent<Button>().onClick.AddListener(delegate { LeftButtonPress(sendType, newImage); });
+
+                Button newButton = newButtonObject.GetComponent<Button>();
+                leftButtons.Add(newButton);
+                newButton.onClick.AddListener(delegate { LeftButtonPress(sendType, newButton); });
             }
 
             for (int i = 0; i < tankListAI.Length; i++)
             {
-                GameObject newButton = Instantiate(buttonPrefab, rightAIContainer);
-                newButton.transform.GetChild(0).GetComponent<Text>().text = tankListAI[i].Name;
-                newButton.name = tankListAI[i].Name;
+                GameObject newButtonObject = Instantiate(_behaviourButtonPrefab, _rightBehaviourParent);
+                newButtonObject.transform.GetChild(0).GetComponent<Text>().text = tankListAI[i].Name;
+                newButtonObject.name = tankListAI[i].Name;
                 System.Type sendType = tankListAI[i];
-                Image newImage = newButton.GetComponent<Image>();
-                rightButtons.Add(newImage);
-                newButton.GetComponent<Button>().onClick.AddListener(delegate { RightButtonPress(sendType, newImage); });
+
+                Button newButton = newButtonObject.GetComponent<Button>();
+                rightButtons.Add(newButton);
+                newButtonObject.GetComponent<Button>().onClick.AddListener(delegate { RightButtonPress(sendType, newButton); });
             }
+
+			// Already select the first behaviours
+			if (leftButtons[0].onClick != null)
+				leftButtons[0].onClick.Invoke();
+
+			if (rightButtons[0].onClick != null)
+				rightButtons[0].onClick.Invoke();
         }
 
         //A button in the left container was pressed
-        public void LeftButtonPress(System.Type AI, Image button)
+        public void LeftButtonPress(System.Type AI, Button button)
         {
             selectedAI[0] = AI;
             for (int i = 0; i < leftButtons.Count; i++)
             {
-                leftButtons[i].color = Color.white;
+                leftButtons[i].GetComponent<Image>().color = _unselectedBehaviourColor;
             }
-            button.color = selectedColor;
-        }
+            button.GetComponent<Image>().color = _selectedBehaviourColor;
+
+			Debug.Log("Selected Left: " + AI.ToString());
+		}
 
         //A button in the right container was pressed
-        public void RightButtonPress(System.Type AI, Image button)
+        public void RightButtonPress(System.Type AI, Button button)
         {
             selectedAI[1] = AI;
             for (int i = 0; i < rightButtons.Count; i++)
             {
-                rightButtons[i].color = Color.white;
+                rightButtons[i].GetComponent<Image>().color = _unselectedBehaviourColor;
             }
-            button.color = selectedColor;
-        }
+            button.GetComponent<Image>().color = _selectedBehaviourColor;
+
+			Debug.Log("Selected Right: " + AI.ToString());
+		}
 
         public void ToggleSensors()
         {
             showSensors = !showSensors;
-            sensorCamera.SetActive(showSensors);
+            _sensorCamera.SetActive(showSensors);
         }
     }
 }
