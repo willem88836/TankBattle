@@ -4,7 +4,7 @@ using UnityEngine;
 using Framework;
 
 [RequireComponent(typeof(RobotData))]
-[RequireComponent(typeof(RobotMotor))]
+[RequireComponent(typeof(TankMotor))]
 public class RobotControl : MonoBehaviour
 {
 
@@ -18,7 +18,7 @@ public class RobotControl : MonoBehaviour
         */
 
     //References to required components
-    private RobotMotor motor;
+    private TankMotor motor;
     private RobotData data;
     private Renderer[] colorParts = new Renderer[4];
 
@@ -26,7 +26,7 @@ public class RobotControl : MonoBehaviour
     protected virtual void Start()
     {
         //Reference components
-        motor = GetComponent<RobotMotor>();
+        motor = GetComponent<TankMotor>();
         data = GetComponent<RobotData>();
 
         //Reference colorable parts
@@ -122,9 +122,9 @@ public class RobotControl : MonoBehaviour
     }
 
     //Retreive the data of all the robot's AccesData in the sensor and returns it as an array
-    protected AccessData[] FindTanks()
+    protected TankData[] FindTanks()
     {
-        return motor.FindTanks();
+        return motor.ReadSensor();
     }
 
     //Retreive your own robot's data

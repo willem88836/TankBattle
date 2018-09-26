@@ -22,7 +22,7 @@ public class ExampleAI4 : RobotControl {
     //Called every frame
     void Update () {
         //Get all the data from the sensor
-        AccessData[] sensorData = FindTanks();
+        TankData[] sensorData = FindTanks();
 
         //Check how many tanks there are in the sensor
         if (sensorData.Length <= 0)
@@ -46,7 +46,7 @@ public class ExampleAI4 : RobotControl {
             //Shoot in the sensor direction
             Shoot(0);
             //Rotate the robot so that it always is at a 90 degree angle compared to an enemies gunrotation
-            RotateRobot(sensorData[0].GunRotation + 90f);
+            RotateRobot(sensorData[0].GunAngle + 90f);
         }
 
         //Move the robot with the current movePower

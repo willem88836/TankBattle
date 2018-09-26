@@ -52,7 +52,7 @@ namespace Framework
             if (col.tag == "Tank")
             {
                 //If the object is a tank do damage
-                col.transform.GetComponent<RobotMotor>().DamageRobot(damage);
+                col.transform.GetComponent<TankMotor>().DamageRobot(damage);
                 col.gameObject.SendMessage("OnBulletCollision");
             }
             //Destroy this object when it collided with something

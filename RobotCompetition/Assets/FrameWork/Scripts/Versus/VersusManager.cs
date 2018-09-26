@@ -13,19 +13,6 @@ namespace Framework
     public class VersusManager : MonoBehaviour
     {
 
-        //Class to store a spawnpoints position and angle in a single variable
-        public class SpawnPoint
-        {
-            public Vector3 position;
-            public float angle;
-
-            public SpawnPoint(Vector3 newPos, float newAngle)
-            {
-                position = newPos;
-                angle = newAngle;
-            }
-        }
-
         [SerializeField] private GameObject _baseTank;
         [SerializeField] private GameObject _behaviourButtonPrefab;
         [SerializeField] private GameObject _sensorCamera;

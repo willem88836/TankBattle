@@ -50,7 +50,7 @@ public class ExampleAI3 : RobotControl {
     void Scan()
     {
         // scan in circles. If a tank leaves the scanner, turn the scanner in the other direction
-        AccessData[] otherTanks = FindTanks();
+        TankData[] otherTanks = FindTanks();
 
         // if a tank is seen, shoot
         if (otherTanks.Length > 0)

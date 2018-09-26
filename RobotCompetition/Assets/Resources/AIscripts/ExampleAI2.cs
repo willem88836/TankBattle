@@ -38,7 +38,7 @@ public class ExampleAI2 : RobotControl
     void ShootAtEnemy()
     {
         // get an array with data from tanks that are scanned
-        AccessData[] otherTanks = FindTanks();
+        TankData[] otherTanks = FindTanks();
 
         // if at least one tank has been scanned, shoot
         if (otherTanks.Length > 0)

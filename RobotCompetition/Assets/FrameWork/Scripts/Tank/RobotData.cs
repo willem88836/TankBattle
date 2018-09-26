@@ -6,7 +6,7 @@ using Framework;
 
 namespace Framework
 {
-    [RequireComponent(typeof(RobotMotor))]
+    [RequireComponent(typeof(TankMotor))]
     public class RobotData : MonoBehaviour
     {
 

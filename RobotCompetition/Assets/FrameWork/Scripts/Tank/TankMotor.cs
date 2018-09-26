@@ -9,28 +9,27 @@ namespace Framework
 {
     [RequireComponent(typeof(Rigidbody))]
     [RequireComponent(typeof(RobotData))]
-    public class RobotMotor : MonoBehaviour
+    public class TankMotor : MonoBehaviour
     {
 
-        //Reference to all spawnable bullet prefabs
-        [SerializeField]
-        private GameObject[] bulletPrefabs = new GameObject[0];
+		[Header("TankParts")]
+		[SerializeField] Transform _gunTransform;
+		[SerializeField] Transform _sensorTransform;
+
+		//Reference to all spawnable bullet prefabs
+		[SerializeField] private GameObject[] _bulletPrefabs = new GameObject[0];
 
         //Reference to the shoot sound
-        [SerializeField]
-        private AudioClip shootSound;
+        [SerializeField] private AudioClip _shootSound;
 
         //Reference to the hit sound
-        [SerializeField]
-        private AudioClip hitSound;
+        [SerializeField] private AudioClip _damagedSound;
 
         //Reference to required components and objects
-        private Rigidbody rigid;
-        private RobotData data;
-        private AudioSource audioControl;
-        private Transform gun;
-        private Transform sensor;
-        private List<RobotData> sensorTanks = new List<RobotData>();
+        private Rigidbody _rigid;
+        private TankData _data;
+        private AudioSource _audioControl;
+		private List<TankMotor> _tanksInSensor;
 
         public bool invinsible = false;
 
@@ -45,7 +44,6 @@ namespace Framework
 
         private float maxHealth = 100f;
         private float currentHealth = 0f;
-        public float GetCurrentHealth { get { return currentHealth; } }
         private float gunCooldown = 0f;
         private float gunCoolTime = 0.5f;
 
@@ -64,15 +62,19 @@ namespace Framework
 
         public UnityEvent onDestroy = new UnityEvent();
 
-        //Assign all components needed
-        void Start()
-        {
-            rigid = GetComponent<Rigidbody>();
-            data = GetComponent<RobotData>();
-            audioControl = GetComponent<AudioSource>();
-            gun = transform.GetChild(0);
-            sensor = transform.GetChild(1);
+		//Assign all components needed
+		void Awake()
+		{
+			_rigid = GetComponent<Rigidbody>();
+			_audioControl = GetComponent<AudioSource>();
 
+			_data = new TankData();
+			_tanksInSensor = new List<TankMotor>();
+		}
+
+		//Assign all components needed
+		void Start()
+        {
             prevPos = transform.position;
             currentHealth = maxHealth;
 
@@ -91,15 +93,17 @@ namespace Framework
         //Apply all the changes and update the robot data
         void Update()
         {
-            sensorTanks.RemoveAll(RobotData => RobotData == null);
+			if (isDestroyed)
+				return;
+
+            _tanksInSensor.RemoveAll(RobotData => RobotData == null);
 
             if (gunCooldown > 0f)
-            {
-                gunCooldown = Mathf.Clamp(gunCooldown - Time.deltaTime, 0, gunCoolTime);
-            }
+				gunCooldown -= Time.deltaTime;
 
-            if (!isDestroyed)
-                ApplyInput();
+            ApplyInput();
+
+			_data.Update(this);
 
             ReduceRedSlider();
         }
@@ -107,38 +111,36 @@ namespace Framework
         //Calculate true velocity
         private void FixedUpdate()
         {
-            Vector3 calcVel = ((transform.position - prevPos) / Time.fixedDeltaTime);
+            Vector3 calcVel = (transform.position - prevPos) / Time.fixedDeltaTime;
             prevPos = transform.position;
-            calcSpeed = transform.InverseTransformDirection(calcVel).z;
+			calcSpeed = calcVel.magnitude;
+            //calcSpeed = transform.InverseTransformDirection(calcVel).z;
         }
 
         //Apply changes to the robot based on the input
         private void ApplyInput()
         {
             //prevent child rotation on the object
-            Quaternion prevGunRot = gun.rotation;
-            Quaternion preSensorRot = sensor.rotation;
+            Quaternion prevGunRot = _gunTransform.rotation;
+            Quaternion preSensorRot = _sensorTransform.rotation;
             transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(0f, targetRotation, 0f), Time.deltaTime * rotationSpeed);
-            gun.rotation = prevGunRot;
-            sensor.rotation = preSensorRot;
+            _gunTransform.rotation = prevGunRot;
+            _sensorTransform.rotation = preSensorRot;
 
-            rigid.velocity = transform.forward * moveSpeed;
-            gun.rotation = Quaternion.RotateTowards(gun.rotation, Quaternion.Euler(0f, targetGunRotation, 0f), Time.deltaTime * rotationSpeed);
-            sensor.rotation = Quaternion.RotateTowards(sensor.rotation, Quaternion.Euler(0f, targetSensorRotation, 0f), Time.deltaTime * rotationSpeed);
-
-            data.UpdateData(currentHealth, transform.position, calcSpeed, transform.eulerAngles.y, gun.eulerAngles.y, sensor.eulerAngles.y);
+            _rigid.velocity = transform.forward * moveSpeed;
+            _gunTransform.rotation = Quaternion.RotateTowards(_gunTransform.rotation, Quaternion.Euler(0f, targetGunRotation, 0f), Time.deltaTime * rotationSpeed);
+            _sensorTransform.rotation = Quaternion.RotateTowards(_sensorTransform.rotation, Quaternion.Euler(0f, targetSensorRotation, 0f), Time.deltaTime * rotationSpeed);
         }
 
         //Damage this robot, called when hit by a bullet
         public void DamageRobot(float amount)
         {
             currentHealth -= amount;
-            audioControl.PlayOneShot(hitSound);
-            //Debug.Log(name + " health: " + currentHealth);
+            _audioControl.PlayOneShot(_damagedSound);
+
             if (currentHealth <= 0f && !invinsible)
-            {
                 DestroyRobot();
-            }
+
             if (hasHealthUI)
             {
                 redSliderDelay = 0.8f;
@@ -189,39 +191,43 @@ namespace Framework
         //Set the movement speed
         public void MoveRobot(float movePower)
         {
-            //set min to -0.5f to make it move slower when backing up
-            moveSpeed = maxMoveSpeed * Mathf.Clamp(movePower, -1f, 1f);
+			//set min to -0.5f to make it move slower when backing up
+			movePower = Mathf.Clamp(movePower, -1.0f, 1.0f);
+
+			//TODO: Do this calculation in movement part?
+            moveSpeed = maxMoveSpeed * movePower;
         }
 
         //Set the target robot rotation
-        public void RotateRobot(float degree)
+        public void RotateRobot(float targetAngle)
         {
-            targetRotation = degree;
+            targetRotation = targetAngle;
         }
 
         //Set the target gun rotation
-        public void RotateGun(float degree)
+        public void RotateGun(float targetAngle)
         {
-            targetGunRotation = degree;
+            targetGunRotation = targetAngle;
         }
 
         //Set the target sensor rotation
-        public void RotateSensor(float degree)
+        public void RotateSensor(float targetAngle)
         {
-            targetSensorRotation = degree;
+            targetSensorRotation = targetAngle;
         }
 
         //Retreives all data from tanks in the sensor, returns an AccesData array
-        public AccessData[] FindTanks()
+        public TankData[] ReadSensor()
         {
-            sensorTanks.RemoveAll(RobotData => RobotData == null);
-            AccessData[] tempData = new AccessData[sensorTanks.Count];
-            Vector3 pos = transform.position;
-            for (int i = 0; i < tempData.Length; i++)
-            {
-                tempData[i] = sensorTanks[i].GetData(pos);
-            }
-            return tempData;
+            _tanksInSensor.RemoveAll(Tank => Tank == null);
+
+			TankData[] sensorData = new TankData[_tanksInSensor.Count];
+			for (int i = 0; i < _tanksInSensor.Count; i++)
+			{
+				sensorData[i] = _tanksInSensor[i].GetTankData();
+			}
+
+            return sensorData;
         }
 
         //Shoot a bulletType if the gun is not on cooldown
@@ -230,10 +236,16 @@ namespace Framework
             if (gunCooldown <= 0f)
             {
                 gunCooldown = gunCoolTime;
-                GameObject newBullet = Instantiate(bulletPrefabs[bulletType], gun.position + new Vector3(0, 1.5f, 0), gun.rotation);
+
+				//TODO: Make actual bulletpoint in hierarchy?
+                GameObject newBullet = Instantiate(_bulletPrefabs[bulletType], _gunTransform.position + new Vector3(0, 1.5f, 0), _gunTransform.rotation);
+
                 newBullet.GetComponent<BulletBehaviour>().SetShooter(transform);
+
+				// TODO: Do we want this physics based?
                 newBullet.GetComponent<Rigidbody>().velocity = newBullet.transform.forward * 7f;
-                audioControl.PlayOneShot(shootSound);
+
+                _audioControl.PlayOneShot(_shootSound);
             }
         }
 
@@ -241,32 +253,28 @@ namespace Framework
         private void OnTriggerEnter(Collider col)
         {
             if (col.isTrigger)
-            {
                 return;
-            }
-            if (col.tag == "Tank" && col.transform != transform)
-            {
-                if (!sensorTanks.Contains(col.GetComponent<RobotData>()))
-                {
-                    sensorTanks.Add(col.GetComponent<RobotData>());
-                }
-            }
+
+			TankMotor motor = col.GetComponent<TankMotor>();
+
+			if (motor != null && !_tanksInSensor.Contains(motor))
+			{
+				_tanksInSensor.Add(motor);
+			}
         }
 
         private void OnTriggerExit(Collider col)
         {
-            if (col.isTrigger)
-            {
-                return;
-            }
-            if (col.tag == "Tank" && col.transform != transform)
-            {
-                if (sensorTanks.Contains(col.GetComponent<RobotData>()))
-                {
-                    sensorTanks.Remove(col.GetComponent<RobotData>());
-                }
-            }
-        }
+			if (col.isTrigger)
+				return;
+
+			TankMotor motor = col.GetComponent<TankMotor>();
+
+			if (motor != null && _tanksInSensor.Contains(motor))
+			{
+				_tanksInSensor.Remove(motor);
+			}
+		}
 
         //Function for collisions, sends messages to RobotControl and all derived classes
         private void OnCollisionEnter(Collision col)
@@ -280,6 +288,41 @@ namespace Framework
                 gameObject.SendMessage("OnTankCollision");
             }
         }
+
+		public TankData GetTankData()
+		{
+			return _data;
+		}
+
+		public float GetHealth()
+		{
+			return currentHealth;
+		}
+
+		public Vector3 GetPosition()
+		{
+			return transform.position;
+		}
+
+		public float GetCalculatedMoveSpeed()
+		{
+			return calcSpeed;
+		}
+
+		public float GetTankAngle()
+		{
+			return transform.eulerAngles.y;
+		}
+
+		public float GetGunAngle()
+		{
+			return _gunTransform.eulerAngles.y;
+		}
+
+		public float GetSensorAngle()
+		{
+			return _sensorTransform.eulerAngles.y;
+		}
 
         private void OnDestroy()
         {
