@@ -8,7 +8,6 @@ using Framework;
 namespace Framework
 {
     [RequireComponent(typeof(Rigidbody))]
-    [RequireComponent(typeof(RobotData))]
     public class TankMotor : MonoBehaviour
     {
 
@@ -16,104 +15,85 @@ namespace Framework
 		[SerializeField] Transform _gunTransform;
 		[SerializeField] Transform _sensorTransform;
 
-		//Reference to all spawnable bullet prefabs
-		[SerializeField] private GameObject[] _bulletPrefabs = new GameObject[0];
+		[Header("Bullets")]
+		[SerializeField] GameObject[] _bulletPrefabs = new GameObject[0];
+		[SerializeField] Vector3 _bulletSpawnOffset = Vector3.zero;
 
-        //Reference to the shoot sound
-        [SerializeField] private AudioClip _shootSound;
+        [Header("Sounds")]
+        [SerializeField] AudioClip _shootSound;
+        [SerializeField] AudioClip _damagedSound;
 
-        //Reference to the hit sound
-        [SerializeField] private AudioClip _damagedSound;
+		[Header("Visuals")]
+		[SerializeField] GameObject _destroyedVisual;
+		[SerializeField] GameObject _tankVisual;
+		[SerializeField] MeshRenderer _bodyCanvas;
+		[SerializeField] MeshRenderer _turretCanvas;
+		
+		[Header("Values")]
+		[SerializeField] float _moveSpeed = 3.0f;
+		[SerializeField] float _rotationSpeed = 45f;
+		[SerializeField] float _startHealth = 100.0f;
+		[SerializeField] float _gunCooldown = 0.5f;
 
-        //Reference to required components and objects
-        private Rigidbody _rigid;
-        private TankData _data;
-        private AudioSource _audioControl;
-		private List<TankMotor> _tanksInSensor;
+        Rigidbody _rigid;
+        TankData _accessData;
+        AudioSource _audioControl;
 
-        public bool invinsible = false;
+		List<TankMotor> _tanksInSensor;
 
-        //Collection of variables
-        public bool hasHealthUI; // this is needed to prevent a lot of errors connected to the UI
-        public Transform playerUI;
-        private Text playerNameText;
-        private Slider healthSlider;
-        private Slider redPartSlider;
-        private float redSliderDelay = 0f;
-        private float redSliderAmount = 0f;
+        float _currentHealth = 0f;
+        float _currentGunCooldown = 0f;
 
-        private float maxHealth = 100f;
-        private float currentHealth = 0f;
-        private float gunCooldown = 0f;
-        private float gunCoolTime = 0.5f;
+		// Values that will be set by external behaviours
+        float _movePower = 0f;
+        float _targetTankAngle = 0f;
+        float _targetGunAngle = 0f;
+        float _targetSensorAngle = 0f;
 
-        private readonly float rotationSpeed = 45f;
-        private readonly float maxMoveSpeed = 3f;
+        Vector3 _previousPosition;
+        float _calculatedSpeed;
 
-        private float moveSpeed = 0f;
-        private float targetRotation = 0f;
-        private float targetGunRotation = 0f;
-        private float targetSensorRotation = 0f;
+        bool _isDestroyed;
 
-        private Vector3 prevPos;
-        private float calcSpeed;
-
-        private bool isDestroyed;
-
-        public UnityEvent onDestroy = new UnityEvent();
-
-		//Assign all components needed
 		void Awake()
 		{
 			_rigid = GetComponent<Rigidbody>();
 			_audioControl = GetComponent<AudioSource>();
 
-			_data = new TankData();
+			_accessData = new TankData();
 			_tanksInSensor = new List<TankMotor>();
+
+			_currentHealth = _startHealth;
 		}
 
-		//Assign all components needed
 		void Start()
         {
-            prevPos = transform.position;
-            currentHealth = maxHealth;
-
-            if (hasHealthUI)
-            {
-                healthSlider = playerUI.GetChild(1).GetComponent<Slider>();
-                redPartSlider = playerUI.GetChild(0).GetComponent<Slider>();
-                playerNameText = playerUI.GetChild(2).GetComponent<Text>();
-
-                healthSlider.value = redPartSlider.value = redSliderAmount = maxHealth;
-                string UIname = name.Replace("_", " ");
-                playerNameText.text = UIname;
-            }
+            _previousPosition = transform.position;
         }
 
-        //Apply all the changes and update the robot data
         void Update()
         {
-			if (isDestroyed)
+			// Stop computing behaviour when already destroyed
+			if (_isDestroyed)
 				return;
 
-            _tanksInSensor.RemoveAll(RobotData => RobotData == null);
-
-            if (gunCooldown > 0f)
-				gunCooldown -= Time.deltaTime;
+            if (_currentGunCooldown > 0f)
+				_currentGunCooldown -= Time.deltaTime;
 
             ApplyInput();
-
-			_data.Update(this);
-
-            ReduceRedSlider();
         }
 
         //Calculate true velocity
         private void FixedUpdate()
         {
-            Vector3 calcVel = (transform.position - prevPos) / Time.fixedDeltaTime;
-            prevPos = transform.position;
-			calcSpeed = calcVel.magnitude;
+            Vector3 calcVel = (transform.position - _previousPosition) / Time.fixedDeltaTime;
+            _previousPosition = transform.position;
+			_calculatedSpeed = calcVel.magnitude;
+
+			_calculatedSpeed = Vector3.Dot(calcVel, transform.forward);
+
+			// Update accessData, does this still need a seperate variable then?
+			_accessData.MoveSpeed = _calculatedSpeed;
             //calcSpeed = transform.InverseTransformDirection(calcVel).z;
         }
 
@@ -123,97 +103,79 @@ namespace Framework
             //prevent child rotation on the object
             Quaternion prevGunRot = _gunTransform.rotation;
             Quaternion preSensorRot = _sensorTransform.rotation;
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(0f, targetRotation, 0f), Time.deltaTime * rotationSpeed);
-            _gunTransform.rotation = prevGunRot;
-            _sensorTransform.rotation = preSensorRot;
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(0f, _targetTankAngle, 0f), Time.deltaTime * _rotationSpeed);
+			_gunTransform.rotation = prevGunRot;
+			_sensorTransform.rotation = preSensorRot;
 
-            _rigid.velocity = transform.forward * moveSpeed;
-            _gunTransform.rotation = Quaternion.RotateTowards(_gunTransform.rotation, Quaternion.Euler(0f, targetGunRotation, 0f), Time.deltaTime * rotationSpeed);
-            _sensorTransform.rotation = Quaternion.RotateTowards(_sensorTransform.rotation, Quaternion.Euler(0f, targetSensorRotation, 0f), Time.deltaTime * rotationSpeed);
-        }
+            _rigid.velocity = transform.forward * _movePower * _moveSpeed;
+
+			_gunTransform.rotation = Quaternion.RotateTowards(_gunTransform.rotation, Quaternion.Euler(0f, _targetGunAngle, 0f), Time.deltaTime * _rotationSpeed);
+			_sensorTransform.rotation = Quaternion.RotateTowards(_sensorTransform.rotation, Quaternion.Euler(0f, _targetSensorAngle, 0f), Time.deltaTime * _rotationSpeed);
+
+			// Update accessData
+			_accessData.Position = transform.position;
+			_accessData.TankAngle = transform.eulerAngles.y;
+			_accessData.GunAngle = _gunTransform.eulerAngles.y;
+			_accessData.SensorAngle = _sensorTransform.eulerAngles.y;
+		}
 
         //Damage this robot, called when hit by a bullet
-        public void DamageRobot(float amount)
+        public void Damage(float amount)
         {
-            currentHealth -= amount;
+            _currentHealth -= amount;
+			_accessData.Health = _currentHealth;
+
             _audioControl.PlayOneShot(_damagedSound);
 
-            if (currentHealth <= 0f && !invinsible)
+            if (_currentHealth <= 0f)
                 DestroyRobot();
-
-            if (hasHealthUI)
-            {
-                redSliderDelay = 0.8f;
-                healthSlider.value = currentHealth;
-            }
-        }
-
-        //Reduce the red part of the healthbar after a delay
-        private void ReduceRedSlider()
-        {
-            if (hasHealthUI)
-            {
-                if (redSliderDelay > 0)
-                    redSliderDelay -= Time.deltaTime;
-
-                if (redSliderAmount != healthSlider.value && redSliderDelay <= 0)
-                    redSliderAmount = healthSlider.value;
-
-                if (redSliderAmount < redPartSlider.value)
-                    redPartSlider.value -= 20 * Time.deltaTime;
-            }
         }
 
         //Function that is called when health reaches zero. Shows an explosion and sets the UI to 'defeated'
         private void DestroyRobot()
         {
-            isDestroyed = true;
+			if (_isDestroyed)
+				return;
+
+            _isDestroyed = true;
             string[] defeatString = new string[5] { " got destroyed!", " was defeated!", " got annihilated!", " perished!", " was slain!" };
 
-            // make the robot invisible and stop functionality, and animate the explosion
+            // Show a destroy visual
             GetComponent<BoxCollider>().enabled = false;
-            for (int i = 0; i < 3; i++)
-            {
-                transform.GetChild(i).gameObject.SetActive(false);
-            }
-            if (hasHealthUI)
-            {
-                Destroy(healthSlider.gameObject);
-                Destroy(redPartSlider.gameObject);
-                playerNameText.text = name + defeatString[Random.Range(0, defeatString.Length)];
-            }
-            transform.GetChild(3).gameObject.SetActive(true);
+
+			_destroyedVisual.SetActive(true);
+			_tankVisual.SetActive(false);
+
             Destroy(gameObject, 1);
         }
 
         //Functions that are accessable by the robotControl base class
 
         //Set the movement speed
-        public void MoveRobot(float movePower)
+        public void SetMovePower(float power)
         {
-			//set min to -0.5f to make it move slower when backing up
-			movePower = Mathf.Clamp(movePower, -1.0f, 1.0f);
+			//set min to -0.5f to make it move slower when backing up?
+			power = Mathf.Clamp(power, -1.0f, 1.0f);
 
-			//TODO: Do this calculation in movement part?
-            moveSpeed = maxMoveSpeed * movePower;
+			_movePower = power; 
         }
 
         //Set the target robot rotation
-        public void RotateRobot(float targetAngle)
+        public void SetTankAngle(float targetAngle)
         {
-            targetRotation = targetAngle;
+            _targetTankAngle = targetAngle;
         }
 
         //Set the target gun rotation
-        public void RotateGun(float targetAngle)
+        public void SetGunAngle(float targetAngle)
         {
-            targetGunRotation = targetAngle;
+            _targetGunAngle = targetAngle;
         }
 
         //Set the target sensor rotation
-        public void RotateSensor(float targetAngle)
+        public void SetSensorAngle(float targetAngle)
         {
-            targetSensorRotation = targetAngle;
+            _targetSensorAngle = targetAngle;
         }
 
         //Retreives all data from tanks in the sensor, returns an AccesData array
@@ -230,17 +192,21 @@ namespace Framework
             return sensorData;
         }
 
-        //Shoot a bulletType if the gun is not on cooldown
+		public void Shoot()
+		{
+			Shoot(0);
+		}
+
         public void Shoot(int bulletType)
         {
-            if (gunCooldown <= 0f)
+            if (_currentGunCooldown <= 0f)
             {
-                gunCooldown = gunCoolTime;
+                _currentGunCooldown = _gunCooldown;
 
-				//TODO: Make actual bulletpoint in hierarchy?
-                GameObject newBullet = Instantiate(_bulletPrefabs[bulletType], _gunTransform.position + new Vector3(0, 1.5f, 0), _gunTransform.rotation);
+				//TODO: Create bulletparent
+                GameObject newBullet = Instantiate(_bulletPrefabs[bulletType], _gunTransform.position + (_gunTransform.rotation * _bulletSpawnOffset), _gunTransform.rotation);
 
-                newBullet.GetComponent<BulletBehaviour>().SetShooter(transform);
+                newBullet.GetComponent<BulletBehaviour>().SetShooter(this);
 
 				// TODO: Do we want this physics based?
                 newBullet.GetComponent<Rigidbody>().velocity = newBullet.transform.forward * 7f;
@@ -249,18 +215,27 @@ namespace Framework
             }
         }
 
-        //Functions for the sensor, sensor has to be the only trigger on the robot for this to work correctly
+		public void SetBodyColor(Color color)
+		{
+			_bodyCanvas.material.color = color;
+		}
+
+		public void SetTurretColor(Color color)
+		{
+			_turretCanvas.material.color = color;
+		}
+
         private void OnTriggerEnter(Collider col)
         {
             if (col.isTrigger)
                 return;
 
+			_tanksInSensor.RemoveAll(RobotData => RobotData == null);
+
 			TankMotor motor = col.GetComponent<TankMotor>();
 
 			if (motor != null && !_tanksInSensor.Contains(motor))
-			{
 				_tanksInSensor.Add(motor);
-			}
         }
 
         private void OnTriggerExit(Collider col)
@@ -268,66 +243,34 @@ namespace Framework
 			if (col.isTrigger)
 				return;
 
+			_tanksInSensor.RemoveAll(RobotData => RobotData == null);
+
 			TankMotor motor = col.GetComponent<TankMotor>();
 
 			if (motor != null && _tanksInSensor.Contains(motor))
-			{
 				_tanksInSensor.Remove(motor);
-			}
 		}
 
         //Function for collisions, sends messages to RobotControl and all derived classes
         private void OnCollisionEnter(Collision col)
         {
-            if (col.transform.tag == "Wall")
-            {
-                gameObject.SendMessage("OnWallCollision");
-            }
-            else if (col.transform.tag == "Tank")
-            {
-                gameObject.SendMessage("OnTankCollision");
-            }
+			TankMotor tank = col.transform.GetComponent<TankMotor>();
+
+			if (tank != null)
+			{
+				gameObject.SendMessage("OnWallCollision");
+				return;
+			}
+
+			ArenaWall wall = col.transform.GetComponent<ArenaWall>();
+
+			if (wall != null)
+				gameObject.SendMessage("OnTankCollision");
         }
 
 		public TankData GetTankData()
 		{
-			return _data;
+			return _accessData;
 		}
-
-		public float GetHealth()
-		{
-			return currentHealth;
-		}
-
-		public Vector3 GetPosition()
-		{
-			return transform.position;
-		}
-
-		public float GetCalculatedMoveSpeed()
-		{
-			return calcSpeed;
-		}
-
-		public float GetTankAngle()
-		{
-			return transform.eulerAngles.y;
-		}
-
-		public float GetGunAngle()
-		{
-			return _gunTransform.eulerAngles.y;
-		}
-
-		public float GetSensorAngle()
-		{
-			return _sensorTransform.eulerAngles.y;
-		}
-
-        private void OnDestroy()
-        {
-            currentHealth = -1;
-            onDestroy.Invoke();
-        }
     }
 }

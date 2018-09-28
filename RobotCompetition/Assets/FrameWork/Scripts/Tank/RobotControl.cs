@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using Framework;
 
-[RequireComponent(typeof(RobotData))]
 [RequireComponent(typeof(TankMotor))]
 public class RobotControl : MonoBehaviour
 {
@@ -18,25 +17,14 @@ public class RobotControl : MonoBehaviour
         */
 
     //References to required components
-    private TankMotor motor;
-    private RobotData data;
-    private Renderer[] colorParts = new Renderer[4];
+    private TankMotor _motor;
 
-    //Assigns required variables, your AI needs to call this function this way: protected override void Start()
-    protected virtual void Start()
-    {
-        //Reference components
-        motor = GetComponent<TankMotor>();
-        data = GetComponent<RobotData>();
+	void Awake()
+	{
+		_motor = GetComponent<TankMotor>();
+	}
 
-        //Reference colorable parts
-        colorParts[0] = transform.GetChild(0).GetChild(0).GetComponent<Renderer>();
-        colorParts[1] = transform.GetChild(2).GetChild(0).GetComponent<Renderer>();
-        colorParts[2] = transform.GetChild(2).GetChild(1).GetComponent<Renderer>();
-        colorParts[3] = transform.GetChild(2).GetChild(2).GetComponent<Renderer>();
-    }
-
-    //Needs to be referenced like: protected override void OnWalCollision()
+    //Needs to be referenced like: protected override void OnWallCollision()
     //Called when the robot enters a collision with a wall
     protected virtual void OnWallCollision()
     {
@@ -57,79 +45,55 @@ public class RobotControl : MonoBehaviour
 
     }
 
-    //Needs to be referenced like: protected override void OnVictory()
-    //Called when your robot has won
-    protected virtual void OnVictory()
-    {
+    protected void SetBodyColor(Color color)
+	{
+		_motor.SetBodyColor(color);
+	}
 
-    }
-
-    //Changes the colors of seperate parts
-    protected void ChangeColor(Color gunColor, Color bodyColor, Color wheelColor)
-    {
-        ApplyColor(colorParts[0], gunColor);
-        ApplyColor(colorParts[1], bodyColor);
-        ApplyColor(colorParts[2], wheelColor);
-        ApplyColor(colorParts[3], wheelColor);
-    }
-
-    //Changes the color of the whole tank
-    protected void ChangeColor(Color robotColor)
-    {
-        for (int i = 0; i < colorParts.Length; i++)
-        {
-            ApplyColor(colorParts[i], robotColor);
-        }
-    }
-
-    //Applies the color to the individual colorable part
-    private void ApplyColor(Renderer part, Color newColor)
-    {
-        for (int i = 0; i < colorParts.Length; i++)
-        {
-            part.materials[0].color = newColor;
-        }
-    }
+	protected void SetTurretColor(Color color)
+	{
+		_motor.SetTurretColor(color);
+	}
 
     //Changes the move speed input variable in the motor script
-    protected void MoveRobot(float movePower)
+    protected void SetMovePower(float movePower)
     {
-        motor.MoveRobot(movePower);
+        _motor.SetMovePower(movePower);
     }
 
     //Changes the robot target rotation input variable in the motor script
-    protected void RotateRobot(float degree)
+    protected void SetTankAngle(float degree)
     {
-        motor.RotateRobot(degree);
+        _motor.SetTankAngle(degree);
     }
 
     //Changes the gun target rotation input variable in the motor script
-    protected void RotateGun(float degree)
+    protected void SetGunAngle(float degree)
     {
-        motor.RotateGun(degree);
+        _motor.SetGunAngle(degree);
     }
 
     //Changes the sensor target rotation input variable in the motor script
-    protected void RotateSensor(float degree)
+    protected void SetSensorAngle(float degree)
     {
-        motor.RotateSensor(degree);
+        _motor.SetSensorAngle(degree);
     }
 
     //Attempts to shoot a bullet, this has a cooldown
-    protected void Shoot(int index)
+    protected void Shoot()
     {
-        motor.Shoot(index);
+        _motor.Shoot();
     }
 
     //Retreive the data of all the robot's AccesData in the sensor and returns it as an array
-    protected TankData[] FindTanks()
+    protected TankData[] ReadSensor()
     {
-        return motor.ReadSensor();
+        return _motor.ReadSensor();
     }
 
     //Retreive your own robot's data
-    protected AccessData MyData
+    protected TankData GetOwnData()
     {
-        get { return data.GetData(); }
+		return _motor.GetTankData();
     }
 }

@@ -13,16 +13,6 @@ public class TankData
 	[HideInInspector] public float GunAngle = 0f;
 	[HideInInspector] public float SensorAngle = 0f;
 
-	public void Update(Framework.TankMotor motor)
-	{
-		Health = motor.GetHealth();
-		Position = motor.GetPosition();
-		MoveSpeed = motor.GetCalculatedMoveSpeed();
-		TankAngle = motor.GetTankAngle();
-		GunAngle = motor.GetGunAngle();
-		SensorAngle = motor.GetSensorAngle();
-	}
-
 	public TankData CopyTo(TankData data)
 	{
 		if (data == null)
