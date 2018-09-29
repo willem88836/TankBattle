@@ -26,8 +26,8 @@ namespace Framework
 		[Header("Visuals")]
 		[SerializeField] GameObject _destroyedVisual;
 		[SerializeField] GameObject _tankVisual;
-		[SerializeField] MeshRenderer _bodyCanvas;
-		[SerializeField] MeshRenderer _turretCanvas;
+		[SerializeField] TankCanvas _bodyCanvas;
+		[SerializeField] TankCanvas _turretCanvas;
 		
 		[Header("Values")]
 		[SerializeField] float _moveSpeed = 3.0f;
@@ -43,6 +43,7 @@ namespace Framework
 
         float _currentHealth = 0f;
         float _currentGunCooldown = 0f;
+		float _rapidGunValue = 0f;
 
 		// Values that will be set by external behaviours
         float _movePower = 0f;
@@ -77,8 +78,14 @@ namespace Framework
 			if (_isDestroyed)
 				return;
 
-            if (_currentGunCooldown > 0f)
+            if (_currentGunCooldown > 0.0f)
 				_currentGunCooldown -= Time.deltaTime;
+
+			if (_currentGunCooldown <= 0.0f)
+			{
+				_rapidGunValue = _currentGunCooldown;
+				_currentGunCooldown = 0.0f;
+			}
 
             ApplyInput();
         }
@@ -138,7 +145,7 @@ namespace Framework
 				return;
 
             _isDestroyed = true;
-            string[] defeatString = new string[5] { " got destroyed!", " was defeated!", " got annihilated!", " perished!", " was slain!" };
+            //string[] defeatString = new string[5] { " got destroyed!", " was defeated!", " got annihilated!", " perished!", " was slain!" };
 
             // Show a destroy visual
             GetComponent<BoxCollider>().enabled = false;
@@ -201,15 +208,16 @@ namespace Framework
         {
             if (_currentGunCooldown <= 0f)
             {
-                _currentGunCooldown = _gunCooldown;
+                _currentGunCooldown = _gunCooldown + _rapidGunValue;
 
 				//TODO: Create bulletparent
-                GameObject newBullet = Instantiate(_bulletPrefabs[bulletType], _gunTransform.position + (_gunTransform.rotation * _bulletSpawnOffset), _gunTransform.rotation);
+                GameObject newBullet = Instantiate(_bulletPrefabs[bulletType], ParentObjects.Singleton().GetBulletParent());
+				Transform bulletTransform = newBullet.transform;
+				bulletTransform.position = _gunTransform.position + (_gunTransform.rotation * _bulletSpawnOffset);
+				bulletTransform.rotation = _gunTransform.rotation;
 
-                newBullet.GetComponent<BulletBehaviour>().SetShooter(this);
 
-				// TODO: Do we want this physics based?
-                newBullet.GetComponent<Rigidbody>().velocity = newBullet.transform.forward * 7f;
+				newBullet.GetComponent<BulletBehaviour>().SetShooter(this);
 
                 _audioControl.PlayOneShot(_shootSound);
             }
@@ -217,12 +225,14 @@ namespace Framework
 
 		public void SetBodyColor(Color color)
 		{
-			_bodyCanvas.material.color = color;
+			//_bodyCanvas.material.color = color;
+			_bodyCanvas.ChangeColor(color);
 		}
 
 		public void SetTurretColor(Color color)
 		{
-			_turretCanvas.material.color = color;
+			_turretCanvas.ChangeColor(color);
+			//_turretCanvas.material.color = color;
 		}
 
         private void OnTriggerEnter(Collider col)
@@ -258,19 +268,21 @@ namespace Framework
 
 			if (tank != null)
 			{
-				gameObject.SendMessage("OnWallCollision");
+				gameObject.SendMessage("OnTankCollision");
 				return;
 			}
 
 			ArenaWall wall = col.transform.GetComponent<ArenaWall>();
 
 			if (wall != null)
-				gameObject.SendMessage("OnTankCollision");
+			{
+				gameObject.SendMessage("OnWallCollision");
+			}
         }
 
 		public TankData GetTankData()
 		{
-			return _accessData;
+			return _accessData.RetreiveData();
 		}
     }
 }

@@ -11,30 +11,21 @@ public class EmptyAI : RobotControl {
 
 	void Start()
     {
-		//SetBodyColor(Color.white);
-		//SetTurretColor(Color.yellow);
+		// Called once when the tank is spawned
     }
 
 	void Update()
 	{
-		TankData ownData = GetOwnData();
-
-		SetTankAngle(ownData.TankAngle + 90);
-		SetMovePower(0.5f);
+		// Called every frame after the tank is spawned
 	}
 
 	protected override void OnWallCollision()
 	{
-
+		// Called when this tank collides with a wall
 	}
 
 	protected override void OnTankCollision()
 	{
-
-	}
-
-	protected override void OnBulletCollision()
-	{
-
+		// Called when this tank collides with another tank
 	}
 }

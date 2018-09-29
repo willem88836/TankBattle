@@ -38,13 +38,6 @@ public class RobotControl : MonoBehaviour
 
     }
 
-    //Needs to be referenced like: protected override void OnBulletCollision()
-    //Called when the robot is hit by a bullet
-    protected virtual void OnBulletCollision()
-    {
-
-    }
-
     protected void SetBodyColor(Color color)
 	{
 		_motor.SetBodyColor(color);

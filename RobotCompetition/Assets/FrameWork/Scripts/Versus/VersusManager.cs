@@ -10,51 +10,53 @@ using Random = UnityEngine.Random;
 
 namespace Framework
 {
-    public class VersusManager : MonoBehaviour
+    public class VersusManager : BattleManager
     {
 
-        [SerializeField] private GameObject _baseTank;
-        [SerializeField] private GameObject _behaviourButtonPrefab;
-        [SerializeField] private GameObject _sensorCamera;
-		[SerializeField] private Text _victoryText;
+		[Header("Versus")]
+        [SerializeField] GameObject _baseTank;
+        [SerializeField] GameObject _behaviourButtonPrefab;
+        [SerializeField] GameObject _sensorCamera;
+		[SerializeField] Transform _spawnpointParent;
 
-		[SerializeField] private Color _selectedBehaviourColor;
-		[SerializeField] private Color _unselectedBehaviourColor;
+		[Header("UI")]
+        [SerializeField] GameObject matchFalse;
+        [SerializeField] GameObject matchTrue;
+		[SerializeField] Text _victoryText;
 
-		[SerializeField] private Transform _leftBehaviourParent;
-        [SerializeField] private Transform _rightBehaviourParent;
+		[Header("BehaviourList")]
+		[SerializeField] Color _selectedBehaviourColor;
+		[SerializeField] Color _unselectedBehaviourColor;
+		[SerializeField] Transform _leftBehaviourParent;
+        [SerializeField] Transform _rightBehaviourParent;
 
-        //List of scripts that are derived from RobotControl
-        private System.Type[] tankListAI;
+		//List of scripts that are derived from RobotControl
+		System.Type[] tankListAI;
 
-        //List of spawnpoints
-        private SpawnPoint[] spawnPoints;
-        private System.Type[] selectedAI = new System.Type[2];
+		//List of spawnpoints
+		SpawnPoint[] _spawnPoints;
+		System.Type[] _selectedAI = new System.Type[2];
 
-        private List<Button> leftButtons = new List<Button>();
-        private List<Button> rightButtons = new List<Button>();
+		List<Button> leftButtons = new List<Button>();
+		List<Button> rightButtons = new List<Button>();
 
-        private GameObject matchFalse;
-        private GameObject matchTrue;
-        private bool matchInProgress = false;
+		private bool matchInProgress = false;
         private bool showSensors = false;
         private List<GameObject> tanks = new List<GameObject>();
 
-        // Use this for initialization
-        void Start()
-        {
-            matchFalse = transform.GetChild(1).GetChild(0).gameObject;
-            matchTrue = transform.GetChild(1).GetChild(1).gameObject;
+		protected override void Awake()
+		{
+			base.Awake();
 
-            showSensors = false;
-            _sensorCamera.SetActive(false);
-            matchFalse.SetActive(true);
-            matchTrue.SetActive(false);
+			showSensors = false;
+			_sensorCamera.SetActive(false);
+			matchFalse.SetActive(true);
+			matchTrue.SetActive(false);
 
-            FindBehaviours();
-            FindSpawnLocations();
-            FillContainers();
-        }
+			FindBehaviours();
+			FindSpawnLocations();
+			FillContainers();
+		}
 
         // Update is called once per frame
         void Update()
@@ -98,16 +100,16 @@ namespace Framework
         //Start the match
         public void StartMatch()
         {
-            for (int i = 0; i < selectedAI.Length; i++)
+            for (int i = 0; i < _selectedAI.Length; i++)
             {
                 // spawn tank
                 GameObject newTank = Instantiate(_baseTank);
-                newTank.transform.position = spawnPoints[i].position;
-                newTank.transform.eulerAngles = new Vector3(0f, spawnPoints[i].angle, 0f);
-                if (selectedAI[i] != null)
+                newTank.transform.position = _spawnPoints[i].position;
+                newTank.transform.eulerAngles = new Vector3(0f, _spawnPoints[i].angle, 0f);
+                if (_selectedAI[i] != null)
                 {
-                    newTank.AddComponent(selectedAI[i]);
-                    newTank.name = selectedAI[i].Name;
+                    newTank.AddComponent(_selectedAI[i]);
+                    newTank.name = _selectedAI[i].Name;
                 }
                 tanks.Add(newTank);
             }
@@ -156,11 +158,11 @@ namespace Framework
         //Find all the spawn locations
         private void FindSpawnLocations()
         {
-            spawnPoints = new SpawnPoint[transform.GetChild(0).childCount];
-            for (int i = 0; i < spawnPoints.Length; i++)
+            _spawnPoints = new SpawnPoint[_spawnpointParent.childCount];
+            for (int i = 0; i < _spawnPoints.Length; i++)
             {
-                Transform child = transform.GetChild(0).GetChild(i);
-                spawnPoints[i] = new SpawnPoint(child.position, child.eulerAngles.y);
+                Transform child = _spawnpointParent.GetChild(i);
+                _spawnPoints[i] = new SpawnPoint(child.position, child.eulerAngles.y);
             }
         }
 
@@ -202,7 +204,7 @@ namespace Framework
         //A button in the left container was pressed
         public void LeftButtonPress(System.Type AI, Button button)
         {
-            selectedAI[0] = AI;
+            _selectedAI[0] = AI;
             for (int i = 0; i < leftButtons.Count; i++)
             {
                 leftButtons[i].GetComponent<Image>().color = _unselectedBehaviourColor;
@@ -215,7 +217,7 @@ namespace Framework
         //A button in the right container was pressed
         public void RightButtonPress(System.Type AI, Button button)
         {
-            selectedAI[1] = AI;
+            _selectedAI[1] = AI;
             for (int i = 0; i < rightButtons.Count; i++)
             {
                 rightButtons[i].GetComponent<Image>().color = _unselectedBehaviourColor;
