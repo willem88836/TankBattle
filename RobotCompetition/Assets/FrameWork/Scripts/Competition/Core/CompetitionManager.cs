@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using UnityEditor;
+using System.Linq;
+using System.Reflection;
 using UnityEngine;
 
 namespace Framework.Competition
@@ -45,13 +46,9 @@ namespace Framework.Competition
 		/// </summary>
 		protected Type[] LoadBehaviours()
 		{
-			TextAsset[] assets = Resources.LoadAll<TextAsset>(TankBehaviourPath);
-
-			Type[] competitors = new Type[assets.Length];
-			for(int i = 0; i < assets.Length; i++)
-			{
-				competitors[i] = assets[i] .GetClass();
-			}
+			Type baseType = typeof(RobotControl);
+			Assembly assembly = Assembly.GetAssembly(baseType);
+			Type[] competitors = (assembly.GetTypes().Where(t => t != baseType && baseType.IsAssignableFrom(t))).ToArray();
 
 			CompetitorCount = competitors.Length;
 			Debug.LogFormat("{0} competitor behaviours loaded!", competitors.Length);
