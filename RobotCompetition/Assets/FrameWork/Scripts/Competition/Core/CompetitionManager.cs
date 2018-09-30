@@ -11,7 +11,7 @@ namespace Framework.Competition
 	/// </summary>
 	public abstract class CompetitionManager : BattleManager
 	{
-		public int CompetitorCount { get; private set; }
+		public int CompetitorCount { get; protected set; }
 
 		[NonSerialized] public List<Pool> Pools;
 		public Action<Type> OnGameFinish;
