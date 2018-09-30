@@ -13,13 +13,11 @@ namespace Framework.Competition
 	{
 		public int CompetitorCount { get; protected set; }
 
-		[NonSerialized] public List<Pool> Pools;
 		public Action<Type> OnGameFinish;
 		public Action OnIntermission;
 
 
 		[Header("CompetitionManager Settings")]
-		public string TankBehaviourPath = "AIscripts/";
 		public Spawner Spawner;
 
 		protected override void Awake()
@@ -54,5 +52,17 @@ namespace Framework.Competition
 			Debug.LogFormat("{0} competitor behaviours loaded!", competitors.Length);
 			return competitors;
 		}
+
+
+		#if UNITY_EDITOR
+		private void Update()
+		{
+			if (Input.GetKeyDown(KeyCode.F))
+			{
+				Debug.LogWarning("Force-Finishing Match");
+				OnMatchFinish(null);
+			}
+		}
+		#endif
 	}
 }

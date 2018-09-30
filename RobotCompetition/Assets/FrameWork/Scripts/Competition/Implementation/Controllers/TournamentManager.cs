@@ -20,6 +20,8 @@ namespace Framework.Competition
 		public int MatchCount;
 		[Range(1, 10)] public int Entries;
 
+		[NonSerialized] public List<Pool> Pools;
+
 		private Int2 roundRange;
 		public int Round { get; private set; }
 		public int Match { get; private set;}

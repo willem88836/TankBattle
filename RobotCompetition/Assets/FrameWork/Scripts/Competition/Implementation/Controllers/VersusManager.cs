@@ -53,6 +53,11 @@ namespace Framework.Competition
 					};
 
 					selectionButtons[i, j] = button;
+
+					if (j == 0)
+					{
+						button.Select();
+					}
 				}
 			}
 		}
