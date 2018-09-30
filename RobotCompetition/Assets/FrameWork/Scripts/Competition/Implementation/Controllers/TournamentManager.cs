@@ -147,7 +147,6 @@ namespace Framework.Competition
 			int poolCount = Mathf.CeilToInt(competitors.Length / PoolSize);
 
 			Pool[] pools = new Pool[poolCount];
-			Debug.Log(poolCount);
 
 			int playersLeft = competitors.Length - 1;
 
