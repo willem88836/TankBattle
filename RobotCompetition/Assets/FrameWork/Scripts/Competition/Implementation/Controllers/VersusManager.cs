@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 
@@ -14,6 +15,10 @@ namespace Framework.Competition
 
 		[Header("Spawn")]
 		[SerializeField] Spawnpoints _spawnpoints;
+
+		[Header("UI")]
+		[SerializeField] GameObject _behaviourSelectUI;
+		[SerializeField] GameObject _inMatchUI;
 
 		BehaviourButton _selectedLeft;
 		BehaviourButton _selectedRight;
@@ -95,6 +100,9 @@ namespace Framework.Competition
 			leftTank.transform.position = leftSpawn.position;
 			leftTank.transform.rotation = leftSpawn.rotation;
 
+			TankMotor leftMotor = leftTank.GetComponent<TankMotor>();
+			leftMotor.OnTankDestroyed += EndMatch;
+
 			// Right
 			Transform rightSpawn = _spawnpoints.GetNextSpawn();
 
@@ -102,14 +110,36 @@ namespace Framework.Competition
 			rightTank.transform.position = rightSpawn.position;
 			rightTank.transform.rotation = rightSpawn.rotation;
 
+			TankMotor rightMotor = rightTank.GetComponent<TankMotor>();
+			rightMotor.OnTankDestroyed += EndMatch;
+
 			// Add behaviours
 			leftTank.AddComponent(_selectedLeft.GetBehaviour());
 			rightTank.AddComponent(_selectedRight.GetBehaviour());
 
 			// TODO: Disable UI
+			_behaviourSelectUI.SetActive(false);
+			_inMatchUI.SetActive(true);
 		}
 
-		// TODO: Action on tank destruction to end the match
+		public void EndMatch()
+		{
+			ClearBullets();
+			StripTankBehaviours();
+
+			//_behaviourSelectUI.SetActive(false);
+			_inMatchUI.SetActive(false);
+
+			StartCoroutine(EnableBehaviourSelectAfter(2.0f));
+		}
+
+		IEnumerator EnableBehaviourSelectAfter(float delay)
+		{
+			yield return new WaitForSeconds(delay);
+
+			ClearTanks();
+			_behaviourSelectUI.SetActive(true);
+		}
 
 		void ClearBullets()
 		{
@@ -123,6 +153,11 @@ namespace Framework.Competition
 		{
 			foreach (Transform tank in _tankContainer)
 			{
+				TankMotor motor = tank.GetComponent<TankMotor>();
+
+				if (motor != null)
+					motor.StopTank();
+
 				Destroy(tank.GetComponent<RobotControl>());
 			}
 		}

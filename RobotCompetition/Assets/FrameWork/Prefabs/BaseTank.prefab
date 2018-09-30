@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4899121414069002}
   - component: {fileID: 54637066133914574}
   - component: {fileID: 65863292612509516}
-  - component: {fileID: 82855167365860288}
+  - component: {fileID: 82683324719167564}
   - component: {fileID: 114299409096644720}
   m_Layer: 0
   m_Name: BaseTank
@@ -650,7 +650,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.7, y: 1.8, z: 2.2}
   m_Center: {x: 0, y: 0.9, z: 0}
---- !u!82 &82855167365860288
+--- !u!82 &82683324719167564
 AudioSource:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -659,11 +659,11 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 4932ab25b84dd7649b80af68a9660ddc, type: 3}
-  m_PlayOnAwake: 1
-  m_Volume: 0.2
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
   m_Pitch: 1
-  Loop: 1
+  Loop: 0
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -717,7 +717,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 0
+    m_RotationOrder: 4
   reverbZoneMixCustomCurve:
     serializedVersion: 2
     m_Curve:

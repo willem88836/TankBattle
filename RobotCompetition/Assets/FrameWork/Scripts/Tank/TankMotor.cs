@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
-using Framework;
+using System;
 
 namespace Framework
 {
@@ -55,6 +55,8 @@ namespace Framework
         float _calculatedSpeed;
 
         bool _isDestroyed;
+
+		public Action OnTankDestroyed;
 
 		void Awake()
 		{
@@ -144,6 +146,9 @@ namespace Framework
 			if (_isDestroyed)
 				return;
 
+			if (OnTankDestroyed != null)
+				OnTankDestroyed.Invoke();
+
             _isDestroyed = true;
             //string[] defeatString = new string[5] { " got destroyed!", " was defeated!", " got annihilated!", " perished!", " was slain!" };
 
@@ -211,7 +216,7 @@ namespace Framework
                 _currentGunCooldown = _gunCooldown + _rapidGunValue;
 
 				//TODO: Create bulletparent
-                GameObject newBullet = Instantiate(_bulletPrefabs[bulletType], ParentObjects.Singleton().GetBulletParent());
+                GameObject newBullet = Instantiate(_bulletPrefabs[bulletType], BattleManager.Singleton().GetBulletContainer());
 				Transform bulletTransform = newBullet.transform;
 				bulletTransform.position = _gunTransform.position + (_gunTransform.rotation * _bulletSpawnOffset);
 				bulletTransform.rotation = _gunTransform.rotation;
@@ -279,6 +284,14 @@ namespace Framework
 				gameObject.SendMessage("OnWallCollision");
 			}
         }
+
+		public void StopTank()
+		{
+			SetTankAngle(_accessData.TankAngle);
+			SetGunAngle(_accessData.GunAngle);
+			SetSensorAngle(_accessData.SensorAngle);
+			SetMovePower(0.0f);
+		}
 
 		public TankData GetTankData()
 		{

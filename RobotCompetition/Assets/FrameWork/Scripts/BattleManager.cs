@@ -50,6 +50,16 @@ namespace Framework
 			return behaviours;
 		}
 
+		public Transform GetBulletContainer()
+		{
+			return _bulletContainer;
+		}
+
+		public Transform GetTankContainer()
+		{
+			return _tankContainer;
+		}
+
 		public static BattleManager Singleton()
 		{
 			if (_instance == null)
