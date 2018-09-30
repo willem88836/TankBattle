@@ -1,6 +1,5 @@
 ﻿using System;
 using UnityEngine;
-using UnityEditor;
 using Framework.ScriptableObjects.Variables;
 
 namespace Framework.Competition
@@ -8,8 +7,8 @@ namespace Framework.Competition
 	public sealed class DungeonManager : CompetitionManager
 	{
 		[Header("Dungeon Settings")]
-		public MonoScript ChallengerBehaviour;
-		public SharedMonoScriptList Bosses;
+		public Type ChallengerBehaviour;
+		public Type[] Bosses;
 
 		private Type challenger; 
 		private int round;
@@ -18,7 +17,7 @@ namespace Framework.Competition
 		public override void Initialize()
 		{
 			round = 0;
-			challenger = ChallengerBehaviour.GetClass();
+			challenger = ChallengerBehaviour.GetType();
 
 			Debug.Log("DungeonManager successfully Initialized");
 		}
@@ -29,14 +28,14 @@ namespace Framework.Competition
 
 			if (winner != challenger)
 			{
-				Type currentBoss = Bosses[round].GetType();
+				Type currentBoss = Bosses[round];
 				OnGameFinish.SafeInvoke(currentBoss);
 			}
 			else
 			{
 				round++;
 
-				if (round >= Bosses.Value.Count)
+				if (round >= Bosses.Length)
 				{
 					OnGameFinish.SafeInvoke(challenger);
 				}
@@ -52,7 +51,7 @@ namespace Framework.Competition
 		{
 			Spawner.Clear();
 
-			Type currentBoss = Bosses[round].GetClass();
+			Type currentBoss = Bosses[round].GetType();
 			Spawner.Spawn(challenger, currentBoss);
 
 			Debug.LogFormat("Boss Battle started with {0} and {1}", challenger.ToString(), currentBoss.ToString());
