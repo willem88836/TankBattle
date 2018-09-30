@@ -8,7 +8,7 @@ namespace Framework.Competition
 	/// <summary>
 	///		Base class for various competition controllers. 
 	/// </summary>
-	public abstract class CompetitionManager : MonoBehaviour
+	public abstract class CompetitionManager : BattleManager
 	{
 		public int CompetitorCount { get; private set; }
 
@@ -21,6 +21,11 @@ namespace Framework.Competition
 		public string TankBehaviourPath = "AIscripts/";
 		public Spawner Spawner;
 
+		protected override void Awake()
+		{
+			base.Awake();
+			Initialize();
+		}
 
 		public abstract void Initialize();
 

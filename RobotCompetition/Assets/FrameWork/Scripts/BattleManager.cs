@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Framework
 {
-	public class BattleManager : MonoBehaviour {
+	public abstract class BattleManager : MonoBehaviour {
 	
 		static BattleManager _instance;
 	
@@ -18,6 +18,8 @@ namespace Framework
 				Destroy(_instance.gameObject);
 	
 			_instance = this;
+
+			Application.targetFrameRate = _targetFramerate;
 		}
 	
 		public Transform GetBulletParent()
