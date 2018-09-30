@@ -45,12 +45,12 @@ namespace Framework.Competition
 		/// </summary>
 		protected Type[] LoadBehaviours()
 		{
-			MonoScript[] assets = Resources.LoadAll<MonoScript>(TankBehaviourPath);
+			TextAsset[] assets = Resources.LoadAll<TextAsset>(TankBehaviourPath);
 
 			Type[] competitors = new Type[assets.Length];
 			for(int i = 0; i < assets.Length; i++)
 			{
-				competitors[i] = assets[i].GetClass();
+				competitors[i] = assets[i] .GetClass();
 			}
 
 			CompetitorCount = competitors.Length;
