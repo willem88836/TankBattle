@@ -1,93 +1,138 @@
 ﻿using System;
 using UnityEngine;
+using System.Collections.Generic;
+using UnityEngine.UI;
 
 namespace Framework.Competition
 {
-	public sealed class VersusManager : CompetitionManager
+	public sealed class VersusManager : BattleManager
 	{
-		[Header("VersusManager Settings")]
-		[SerializeField] private Transform[] selectionBoxes;
-		[SerializeField] private SelectionButton selectionButtonPrefab;
+		[Header("BehaviourSelect")]
+		[SerializeField] GameObject _behaviourButton;
+		[SerializeField] Transform _leftBehaviourContainer;
+		[SerializeField] Transform _rightBehaviourContainer;
 
-		private SelectionButton[,] selectionButtons;
+		[Header("Spawn")]
+		[SerializeField] Spawnpoints _spawnpoints;
 
-		private Type[] selection;
+		BehaviourButton _selectedLeft;
+		BehaviourButton _selectedRight;
 
+		Dictionary<Type, List<BehaviourButton>> _buttonsPerBehaviour;
 
-		/// <inheritdoc />
-		public override void Initialize()
+		protected override void Awake()
 		{
-			Type[] competitors = LoadBehaviours();
-			InitializeSelectionProcess(competitors);
+			base.Awake();
 
-			Debug.Log("VersusManager successfully Initialized");
+			SpawnBehaviourButtons(_behaviours);
 		}
 
-		/// <summary>
-		///		Spawns all buttons for selection and sets default selection.
-		/// </summary>
-		private void InitializeSelectionProcess(Type[] behaviours)
+		void SpawnBehaviourButtons(Type[] behaviours)
 		{
-			selectionButtons = new SelectionButton[selectionBoxes.Length, behaviours.Length];
-			selection = new Type[selectionBoxes.Length];
+			_buttonsPerBehaviour = new Dictionary<Type, List<BehaviourButton>>();
 
-			for (int i = 0; i < selectionBoxes.Length; i++)
+			for (int i = 0; i < _behaviours.Length; i++)
 			{
-				// default selection is set.
-				selection[i] = behaviours[0] ?? null;
+				Type current = _behaviours[i];
 
-				// Buttons are spawned and initialized.
-				Transform parent = selectionBoxes[i];
-				for(int j = 0; j < behaviours.Length; j++)
-				{
-					Type t = behaviours[j];
+				// Left
+				BehaviourButton leftButton = Instantiate(_behaviourButton, _leftBehaviourContainer).GetComponent<BehaviourButton>();
+				leftButton.SetBehaviour(current);
+				leftButton.GetOnClick().AddListener(delegate { SelectedLeft(leftButton); });
 
-					SelectionButton button = Instantiate(selectionButtonPrefab, parent);
-					button.NameBox.text = t.ToString();
-					button.BoxIndex = i;
-					button.Behaviour = t;
+				// Right
+				BehaviourButton rightButton = Instantiate(_behaviourButton, _rightBehaviourContainer).GetComponent<BehaviourButton>();
+				rightButton.SetBehaviour(current);
+				rightButton.GetOnClick().AddListener(delegate { SelectedRight(rightButton); });
 
-					button.OnClickAction += () => 
-					{
-						SelectBehaviour(button.BoxIndex, button.Behaviour, button);
-					};
+				List<BehaviourButton> buttons = new List<BehaviourButton> { leftButton, rightButton };
 
-					selectionButtons[i, j] = button;
-				}
+				_buttonsPerBehaviour.Add(current, buttons);
+			}
+
+			// Automatically select the first buttons
+			if (_buttonsPerBehaviour.Count <= 0)
+				return;
+
+			List<Type> keyList = new List<Type>(_buttonsPerBehaviour.Keys);
+			List<BehaviourButton> firstButtons = _buttonsPerBehaviour[keyList[0]];
+			for (int i = 0; i < firstButtons.Count; i++)
+			{
+				Button.ButtonClickedEvent onClick = firstButtons[i].GetOnClick();
+
+				if (onClick != null)
+					onClick.Invoke();
 			}
 		}
 
-		/// <summary>
-		///		Updates all buttons according to selected button.
-		///		Stores reference to the selected behaviour;
-		/// </summary>
-		private void SelectBehaviour(int boxIndex, Type behaviour, SelectionButton button)
+		void SelectedLeft(BehaviourButton button)
 		{
-			selection[boxIndex] = behaviour;
+			if (_selectedLeft != null)
+				_selectedLeft.OnDeselected();
 
-			for (int i = 0; i < selectionButtons.GetLength(1); i++)
+			_selectedLeft = button;
+			button.OnSelected();
+		}
+
+		void SelectedRight(BehaviourButton button)
+		{
+			if (_selectedRight != null)
+				_selectedRight.OnDeselected();
+
+			_selectedRight = button;
+			button.OnSelected();
+		}
+
+		public void StartMatch()
+		{
+			if (_selectedLeft == null || _selectedRight == null)
+				return;
+
+			// Left
+			Transform leftSpawn = _spawnpoints.GetNextSpawn();
+
+			GameObject leftTank = Instantiate(_tankPrefab, _tankContainer);
+			leftTank.transform.position = leftSpawn.position;
+			leftTank.transform.rotation = leftSpawn.rotation;
+
+			// Right
+			Transform rightSpawn = _spawnpoints.GetNextSpawn();
+
+			GameObject rightTank = Instantiate(_tankPrefab, _tankContainer);
+			rightTank.transform.position = rightSpawn.position;
+			rightTank.transform.rotation = rightSpawn.rotation;
+
+			// Add behaviours
+			leftTank.AddComponent(_selectedLeft.GetBehaviour());
+			rightTank.AddComponent(_selectedRight.GetBehaviour());
+
+			// TODO: Disable UI
+		}
+
+		// TODO: Action on tank destruction to end the match
+
+		void ClearBullets()
+		{
+			foreach (Transform bullet in _bulletContainer)
 			{
-				SelectionButton current = selectionButtons[boxIndex, i];
-				current.Deselect();
+				Destroy(bullet.gameObject);
 			}
-
-			button.Select();
-
-			Debug.LogFormat("Selection {0} is now of type {1}", boxIndex, behaviour.ToString());
 		}
 
-		/// <inheritdoc />
-		public override void OnMatchFinish(Type winner)
+		void StripTankBehaviours()
 		{
-			Spawner.Clear();
-			OnGameFinish.SafeInvoke(winner);
+			foreach (Transform tank in _tankContainer)
+			{
+				Destroy(tank.GetComponent<RobotControl>());
+			}
 		}
 
-		/// <inheritdoc />
-		public override void OnNewMatchStart()
+		void ClearTanks()
 		{
-			Spawner.Clear();
-			Spawner.Spawn(selection);
+			foreach (Transform tank in _tankContainer)
+			{
+				Destroy(tank.gameObject);
+			}
 		}
 	}
 }
