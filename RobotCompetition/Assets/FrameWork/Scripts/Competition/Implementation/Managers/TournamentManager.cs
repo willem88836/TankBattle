@@ -18,7 +18,9 @@ namespace Framework.Competition
 		[Header("Tournament Settings")]
 		public int PoolSize;
 		public int MatchCount;
+		[Range(1, 10)] public int Entries;
 
+		[NonSerialized] public List<Pool> Pools;
 
 		private Int2 roundRange;
 		public int Round { get; private set; }
@@ -34,7 +36,10 @@ namespace Framework.Competition
 			Match = 0;
 
 			Pools = new List<Pool>();
+
 			Type[] competitors = LoadBehaviours();
+			competitors = AddEntries(competitors, Entries);
+			//competitors = Utilities.Shuffle(competitors);
 
 			EnrollCompetitors(competitors);
 
@@ -117,6 +122,27 @@ namespace Framework.Competition
 
 
 		/// <summary>
+		///		Enters all competitors multiple times.
+		/// </summary>
+		private Type[] AddEntries(Type[] competitors, int entryCount)
+		{
+			Type[] allCompetitors = new Type[competitors.Length * entryCount];
+
+			for (int i = 0; i < entryCount; i++)
+			{
+				for (int j = 0; j < competitors.Length; j++)
+				{
+					int index = i * competitors.Length + j;
+					allCompetitors[index] = competitors[j];
+				}
+			}
+
+			CompetitorCount *= Entries;
+
+			return allCompetitors;
+		}
+
+		/// <summary>
 		///		Enrolls the provided Types to one or more
 		///		new Pools.
 		/// </summary>
@@ -124,21 +150,21 @@ namespace Framework.Competition
 		{
 			int poolCount = Mathf.CeilToInt(competitors.Length / PoolSize);
 
-			for (int i = 0; i < poolCount; i++)
+			Pool[] pools = new Pool[poolCount];
+
+			int playersLeft = competitors.Length - 1;
+
+			while (playersLeft >= 0)
 			{
-				Pool pool = new Pool();
-				for (int j = 0; j < PoolSize; j++)
-				{
-					int k = j + i * poolCount;
-
-					if (k >= competitors.Length)
-						break;
-
-					Type current = competitors[k];
-					pool.Add(current);
-				}
-				Pools.Add(pool);
+				int poolIndex = playersLeft % poolCount;
+				Pool pool = pools[poolIndex] == null
+					? pools[poolIndex] = new Pool()
+					: pools[poolIndex];
+				pool.Add(competitors[playersLeft]);
+				playersLeft--;
 			}
+
+			Pools = new List<Pool>(pools);
 		}
 	}
 }

@@ -1,16 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
-using Framework.ScriptableObjects.Variables;
 
 namespace Framework.Competition
 {
 	public sealed class DungeonManager : CompetitionManager
 	{
 		[Header("Dungeon Settings")]
-		public MonoScript ChallengerBehaviour;
-		public SharedMonoScriptList Bosses;
+		public SelectionPanel ChallengerPanel;
 
+		private Type[] Bosses;
 		private Type challenger; 
 		private int round;
 
@@ -18,7 +17,13 @@ namespace Framework.Competition
 		public override void Initialize()
 		{
 			round = 0;
-			challenger = ChallengerBehaviour.GetClass();
+
+			Type[] competitors = LoadBehaviours();
+			ChallengerPanel.InitializeSelectionProcess(competitors);
+
+			List<Type> bosses = new List<Type>(competitors);
+			bosses = Utilities.Shuffle(bosses);
+			Bosses = bosses.ToArray();
 
 			Debug.Log("DungeonManager successfully Initialized");
 		}
@@ -29,14 +34,15 @@ namespace Framework.Competition
 
 			if (winner != challenger)
 			{
-				Type currentBoss = Bosses[round].GetType();
+				Type currentBoss = Bosses[round];
 				OnGameFinish.SafeInvoke(currentBoss);
+				challenger = null;
 			}
 			else
 			{
 				round++;
 
-				if (round >= Bosses.Value.Count)
+				if (round >= Bosses.Length)
 				{
 					OnGameFinish.SafeInvoke(challenger);
 				}
@@ -50,9 +56,14 @@ namespace Framework.Competition
 		/// <inheritdoc />
 		public override void OnNewMatchStart()
 		{
+			if (challenger == null)
+			{
+				challenger = ChallengerPanel.Selection;
+			}
+
 			Spawner.Clear();
 
-			Type currentBoss = Bosses[round].GetClass();
+			Type currentBoss = Bosses[round];
 			Spawner.Spawn(challenger, currentBoss);
 
 			Debug.LogFormat("Boss Battle started with {0} and {1}", challenger.ToString(), currentBoss.ToString());

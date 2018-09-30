@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Name: DungeonSetup_001
   m_EditorClassIdentifier: 
   _value:
-  - {fileID: 11500000, guid: 0860b9243635bb04a9fdeb5c5d55295d, type: 3}
+  - {fileID: 114193772089935828, guid: 0e0cc44f4883a1a4d8c61930a5ce6ebb, type: 2}

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using UnityEditor;
+using System.Linq;
+using System.Reflection;
 using UnityEngine;
 
 namespace Framework.Competition
@@ -10,15 +11,13 @@ namespace Framework.Competition
 	/// </summary>
 	public abstract class CompetitionManager : BattleManager
 	{
-		public int CompetitorCount { get; private set; }
+		public int CompetitorCount { get; protected set; }
 
-		[NonSerialized] public List<Pool> Pools;
 		public Action<Type> OnGameFinish;
 		public Action OnIntermission;
 
 
 		[Header("CompetitionManager Settings")]
-		public string TankBehaviourPath = "AIscripts/";
 		public Spawner Spawner;
 
 		protected override void Awake()
@@ -45,17 +44,25 @@ namespace Framework.Competition
 		/// </summary>
 		protected Type[] LoadBehaviours()
 		{
-			MonoScript[] assets = Resources.LoadAll<MonoScript>(TankBehaviourPath);
-
-			Type[] competitors = new Type[assets.Length];
-			for(int i = 0; i < assets.Length; i++)
-			{
-				competitors[i] = assets[i].GetClass();
-			}
+			Type baseType = typeof(RobotControl);
+			Assembly assembly = Assembly.GetAssembly(baseType);
+			Type[] competitors = (assembly.GetTypes().Where(t => t != baseType && baseType.IsAssignableFrom(t))).ToArray();
 
 			CompetitorCount = competitors.Length;
 			Debug.LogFormat("{0} competitor behaviours loaded!", competitors.Length);
 			return competitors;
 		}
+
+
+		#if UNITY_EDITOR
+		private void Update()
+		{
+			if (Input.GetKeyDown(KeyCode.F))
+			{
+				Debug.LogWarning("Force-Finishing Match");
+				OnMatchFinish(null);
+			}
+		}
+		#endif
 	}
 }

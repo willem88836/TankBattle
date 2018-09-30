@@ -1,11 +1,39 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Framework
 {
-
 	public static class Utilities
 	{
+
+		#region Shuffle
+
+		/// <summary>
+		///		Returns a shuffled version of the provided list.
+		/// </summary>
+		public static List<T> Shuffle<T>(List<T> list)
+		{
+			List<T> shuffledList = new List<T>();
+			for (int i = list.Count; i > 0; i--)
+			{
+				int index = UnityEngine.Random.Range(0, i);
+				shuffledList.Add(list[index]);
+				list.RemoveAt(index);
+			}
+			return shuffledList;
+		}
+		/// <summary>
+		///		Returns a shuffled version of the provided range.
+		/// </summary>
+		public static T[] Shuffle<T>(T[] range)
+		{
+			List<T> list = new List<T>(range);
+			list = Shuffle(list);
+			return list.ToArray();
+		}
+
+		#endregion	
 
 		#region SafeInvokes
 
@@ -54,7 +82,6 @@ namespace Framework
 		}
 
 		#endregion
-
 
 		#region Foreach
 

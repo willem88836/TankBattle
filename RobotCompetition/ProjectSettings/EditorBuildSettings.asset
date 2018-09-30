@@ -6,17 +6,14 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/MenuScene.unity
+    path: Assets/FrameWork/Scenes/MenuScene.unity
     guid: c7a0d537294711b4a92dbf9b02231d6a
+  - enabled: 1
+    path: Assets/FrameWork/Scenes/TournamentScene.unity
+    guid: ab3b2bcac2c38d546b9b7efc0ffd226f
   - enabled: 1
     path: Assets/FrameWork/Scenes/VersusScene.unity
     guid: 1eaa89726b528624abfe9e3644cd2d23
   - enabled: 1
-    path: Assets/FrameWork/Scenes/ManualScene.unity
-    guid: b36a86312c94f414b8e3d80edae67980
-  - enabled: 1
-    path: Assets/FrameWork/Scenes/CompetitionScene.unity
-    guid: ab3b2bcac2c38d546b9b7efc0ffd226f
-  - enabled: 1
-    path: Assets/FrameWork/Scenes/VictoryScene.unity
-    guid: 81aac0fcf0478424ebba0551cd315b93
+    path: Assets/FrameWork/Scenes/DungeonScene.unity
+    guid: 3e5298eccaebf1a49a6d7b4e057ce233

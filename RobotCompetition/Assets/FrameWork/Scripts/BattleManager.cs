@@ -36,6 +36,7 @@ namespace Framework
 			_behaviours = LoadBehaviours();
 		}
 
+		// TODO: Only works in editor
 		protected Type[] LoadBehaviours()
 		{
 			MonoScript[] assets = Resources.LoadAll<MonoScript>(_behaviourPath);
