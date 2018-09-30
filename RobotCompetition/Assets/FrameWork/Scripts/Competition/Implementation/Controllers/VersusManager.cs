@@ -15,6 +15,7 @@ namespace Framework.Competition
 		private Type[] selection;
 
 
+		/// <inheritdoc />
 		public override void Initialize()
 		{
 			Type[] competitors = LoadBehaviours();
@@ -74,18 +75,18 @@ namespace Framework.Competition
 			Debug.LogFormat("Selection {0} is now of type {1}", boxIndex, behaviour.ToString());
 		}
 
+		/// <inheritdoc />
 		public override void OnMatchFinish(Type winner)
 		{
 			Spawner.Clear();
 			OnGameFinish.SafeInvoke(winner);
 		}
 
+		/// <inheritdoc />
 		public override void OnNewMatchStart()
 		{
 			Spawner.Clear();
 			Spawner.Spawn(selection);
-
-			Debug.Log("STRT");
 		}
 	}
 }
