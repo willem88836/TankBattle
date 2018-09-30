@@ -39,7 +39,7 @@ namespace Framework.Competition
 
 			Type[] competitors = LoadBehaviours();
 			competitors = AddEntries(competitors, Entries);
-			//competitors = Utilities.Shuffle(competitors);
+			competitors = Utilities.Shuffle(competitors);
 
 			EnrollCompetitors(competitors);
 
@@ -152,16 +152,13 @@ namespace Framework.Competition
 
 			Pool[] pools = new Pool[poolCount];
 
-			int playersLeft = competitors.Length - 1;
-
-			while (playersLeft >= 0)
+			for (int i = 0; i < competitors.Length; i++)
 			{
-				int poolIndex = playersLeft % poolCount;
+				int poolIndex = i % poolCount;
 				Pool pool = pools[poolIndex] == null
 					? pools[poolIndex] = new Pool()
 					: pools[poolIndex];
-				pool.Add(competitors[playersLeft]);
-				playersLeft--;
+				pool.Add(competitors[i]);
 			}
 
 			Pools = new List<Pool>(pools);
