@@ -21,9 +21,9 @@ namespace Framework.Competition
 			Type[] competitors = LoadBehaviours();
 			ChallengerPanel.InitializeSelectionProcess(competitors);
 
-
 			List<Type> bosses = new List<Type>(competitors);
 			bosses = Utilities.Shuffle(bosses);
+			Bosses = bosses.ToArray();
 
 			Debug.Log("DungeonManager successfully Initialized");
 		}
@@ -63,7 +63,7 @@ namespace Framework.Competition
 
 			Spawner.Clear();
 
-			Type currentBoss = Bosses[round].GetType();
+			Type currentBoss = Bosses[round];
 			Spawner.Spawn(challenger, currentBoss);
 
 			Debug.LogFormat("Boss Battle started with {0} and {1}", challenger.ToString(), currentBoss.ToString());
