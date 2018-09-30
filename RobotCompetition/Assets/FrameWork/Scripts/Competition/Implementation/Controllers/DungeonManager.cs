@@ -19,6 +19,8 @@ namespace Framework.Competition
 		{
 			round = 0;
 			challenger = ChallengerBehaviour.GetClass();
+
+			Debug.Log("DungeonManager successfully Initialized");
 		}
 
 		public override void OnMatchFinish(Type winner)

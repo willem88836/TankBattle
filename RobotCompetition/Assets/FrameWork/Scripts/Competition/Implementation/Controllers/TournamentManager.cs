@@ -39,6 +39,8 @@ namespace Framework.Competition
 			EnrollCompetitors(competitors);
 
 			roundRange = new Int2(0, Pools.Count);
+
+			Debug.Log("TournamentManager successfully Initialized");
 		}
 
 		/// <inheritdoc />

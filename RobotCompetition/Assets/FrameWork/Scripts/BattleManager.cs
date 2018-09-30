@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace Framework
 {
-	public abstract class BattleManager : MonoBehaviour {
-	
+	public class BattleManager : MonoBehaviour
+	{
 		static BattleManager _instance;
 	
 		[Header("BattleManager")]
@@ -16,7 +16,7 @@ namespace Framework
 		{
 			if (_instance != null && _instance != this)
 				Destroy(_instance.gameObject);
-	
+
 			_instance = this;
 
 			Application.targetFrameRate = _targetFramerate;
