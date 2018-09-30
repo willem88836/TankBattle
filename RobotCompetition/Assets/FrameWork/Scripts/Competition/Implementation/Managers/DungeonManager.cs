@@ -1,15 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
-using Framework.ScriptableObjects.Variables;
 
 namespace Framework.Competition
 {
 	public sealed class DungeonManager : CompetitionManager
 	{
 		[Header("Dungeon Settings")]
-		public Type ChallengerBehaviour;
-		public Type[] Bosses;
+		public SelectionPanel ChallengerPanel;
 
+		private Type[] Bosses;
 		private Type challenger; 
 		private int round;
 
@@ -17,7 +17,13 @@ namespace Framework.Competition
 		public override void Initialize()
 		{
 			round = 0;
-			challenger = ChallengerBehaviour.GetType();
+
+			Type[] competitors = LoadBehaviours();
+			ChallengerPanel.InitializeSelectionProcess(competitors);
+
+
+			List<Type> bosses = new List<Type>(competitors);
+			bosses = Utilities.Shuffle(bosses);
 
 			Debug.Log("DungeonManager successfully Initialized");
 		}
@@ -30,6 +36,7 @@ namespace Framework.Competition
 			{
 				Type currentBoss = Bosses[round];
 				OnGameFinish.SafeInvoke(currentBoss);
+				challenger = null;
 			}
 			else
 			{
@@ -49,6 +56,11 @@ namespace Framework.Competition
 		/// <inheritdoc />
 		public override void OnNewMatchStart()
 		{
+			if (challenger == null)
+			{
+				challenger = ChallengerPanel.Selection;
+			}
+
 			Spawner.Clear();
 
 			Type currentBoss = Bosses[round].GetType();
