@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Framework.Competition
 {
-	public class VersusManager : CompetitionManager
+	public sealed class VersusManager : CompetitionManager
 	{
 		[Header("VersusManager Settings")]
 		[SerializeField] private Transform[] selectionBoxes;
