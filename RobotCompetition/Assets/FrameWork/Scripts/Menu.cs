@@ -3,29 +3,10 @@ using UnityEngine.SceneManagement;
 
 public class Menu : MonoBehaviour
 {
-	private static Menu instance;
-
 	public enum Scene { MenuScene, TournamentScene, VersusScene, DungeonScene};
 
 
-	public static Menu Singleton()
-	{
-		return instance;
-	}
-
-
-	private void Awake()
-	{
-		if (instance != null && instance != this)
-			Destroy(instance.gameObject);
-
-		instance = this;
-
-		DontDestroyOnLoad(gameObject);
-	}
-
-
-	public static void SwitchScene(Scene scene)
+	public void SwitchScene(Scene scene)
 	{
 		SceneManager.LoadScene(scene.ToString());
 	}
@@ -50,5 +31,4 @@ public class Menu : MonoBehaviour
 	{
 		SwitchScene(Scene.VersusScene);
 	}
-
 }
