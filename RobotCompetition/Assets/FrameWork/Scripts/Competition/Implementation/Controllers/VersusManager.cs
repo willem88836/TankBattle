@@ -1,6 +1,5 @@
 ﻿using System;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Framework.Competition
 {
@@ -27,19 +26,21 @@ namespace Framework.Competition
 		/// <summary>
 		///		Spawns all buttons for selection and sets default selection.
 		/// </summary>
-		private void InitializeSelectionProcess(Type[] competitors)
+		private void InitializeSelectionProcess(Type[] behaviours)
 		{
-			selectionButtons = new SelectionButton[selectionBoxes.Length, competitors.Length];
+			selectionButtons = new SelectionButton[selectionBoxes.Length, behaviours.Length];
 			selection = new Type[selectionBoxes.Length];
 
 			for (int i = 0; i < selectionBoxes.Length; i++)
 			{
-				selection[i] = competitors[0] ?? null;
+				// default selection is set.
+				selection[i] = behaviours[0] ?? null;
 
+				// Buttons are spawned and initialized.
 				Transform parent = selectionBoxes[i];
-				for(int j = 0; j < competitors.Length; j++)
+				for(int j = 0; j < behaviours.Length; j++)
 				{
-					Type t = competitors[j];
+					Type t = behaviours[j];
 
 					SelectionButton button = Instantiate(selectionButtonPrefab, parent);
 					button.NameBox.text = t.ToString();
