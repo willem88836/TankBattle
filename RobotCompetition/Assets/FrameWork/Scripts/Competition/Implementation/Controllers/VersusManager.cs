@@ -19,6 +19,9 @@ namespace Framework
 		[Header("UI")]
 		[SerializeField] GameObject _behaviourSelectUI;
 		[SerializeField] GameObject _inMatchUI;
+		[SerializeField] Toggle _sensorToggle;
+
+		[SerializeField] Camera _sensorCamera;
 
 		BehaviourButton _selectedLeft;
 		BehaviourButton _selectedRight;
@@ -30,6 +33,9 @@ namespace Framework
 			base.Awake();
 
 			SpawnBehaviourButtons(_behaviours);
+
+			_sensorToggle.onValueChanged.AddListener(delegate { ToggleSensors(_sensorToggle); });
+			ToggleSensors(_sensorToggle);
 		}
 
 		void SpawnBehaviourButtons(Type[] behaviours)
@@ -86,6 +92,11 @@ namespace Framework
 
 			_selectedRight = button;
 			button.OnSelected();
+		}
+
+		void ToggleSensors(Toggle toggle)
+		{
+			_sensorCamera.enabled = toggle.isOn;
 		}
 
 		public void StartMatch()

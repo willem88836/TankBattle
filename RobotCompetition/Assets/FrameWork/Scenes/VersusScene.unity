@@ -362,6 +362,16 @@ Prefab:
       propertyPath: _inMatchUI
       value: 
       objectReference: {fileID: 2131993722}
+    - target: {fileID: 114250158992800650, guid: 4f0b1808cc27c6743b580ca8d63ecadc,
+        type: 2}
+      propertyPath: _sensorToggle
+      value: 
+      objectReference: {fileID: 408660335}
+    - target: {fileID: 114250158992800650, guid: 4f0b1808cc27c6743b580ca8d63ecadc,
+        type: 2}
+      propertyPath: _sensorCamera
+      value: 
+      objectReference: {fileID: 825571426}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4f0b1808cc27c6743b580ca8d63ecadc, type: 2}
   m_IsPrefabParent: 0
@@ -848,6 +858,11 @@ CanvasRenderer:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 787053231}
+--- !u!20 &825571426 stripped
+Camera:
+  m_PrefabParentObject: {fileID: 20493698049476436, guid: 7657c2ed66cfcb24b89f200b5cad659a,
+    type: 2}
+  m_PrefabInternal: {fileID: 2124837951}
 --- !u!1 &874444872
 GameObject:
   m_ObjectHideFlags: 0
@@ -2073,9 +2088,16 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1495863286710534, guid: 7657c2ed66cfcb24b89f200b5cad659a, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 20493698049476436, guid: 7657c2ed66cfcb24b89f200b5cad659a,
+        type: 2}
+      propertyPath: m_OcclusionCulling
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 92050198513514536, guid: 7657c2ed66cfcb24b89f200b5cad659a, type: 2}
+    - {fileID: 124681522489615852, guid: 7657c2ed66cfcb24b89f200b5cad659a, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 7657c2ed66cfcb24b89f200b5cad659a, type: 2}
   m_IsPrefabParent: 0
 --- !u!1 &2131993722
