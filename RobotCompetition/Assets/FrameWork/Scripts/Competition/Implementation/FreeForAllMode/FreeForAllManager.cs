@@ -1,25 +1,24 @@
 ﻿using System;
+using System.Collections.Generic;
+using UnityEngine;
 
 namespace Framework.Competition
 {
 	public class FreeForAllManager : CompetitionManager
 	{
-		private Type[] competitors;
-
 		public override void Initialize()
 		{
-			competitors = LoadBehaviours();
-			competitors = Utilities.Shuffle(competitors);
+			throw new NotImplementedException();
 		}
 
 		public override void OnMatchFinish(Type winner)
 		{
-			OnGameFinish.SafeInvoke(winner);
+			throw new NotImplementedException();
 		}
 
 		public override void OnNewMatchStart()
 		{
-			Spawner.Spawn(competitors);
+			throw new NotImplementedException();
 		}
 	}
 }
