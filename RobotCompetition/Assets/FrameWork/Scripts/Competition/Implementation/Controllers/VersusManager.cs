@@ -17,8 +17,11 @@ namespace Framework
 		[SerializeField] Spawnpoints _spawnpoints;
 
 		[Header("UI")]
-		[SerializeField] GameObject _behaviourSelectUI;
-		[SerializeField] GameObject _inMatchUI;
+		[SerializeField] CanvasGroup _behaviourSelectUI;
+		[SerializeField] CanvasGroup _inMatchUI;
+		[SerializeField] CanvasGroup _matchResultUI;
+
+		[SerializeField] Text _defeatedTankText;
 		[SerializeField] Toggle _sensorToggle;
 
 		[SerializeField] Camera _sensorCamera;
@@ -36,6 +39,10 @@ namespace Framework
 
 			_sensorToggle.onValueChanged.AddListener(delegate { ToggleSensors(_sensorToggle); });
 			ToggleSensors(_sensorToggle);
+
+			SetInMatchUI(false);
+			SetMatchResultUI(false);
+			SetBehaviourSelectUI(true);
 		}
 
 		void SpawnBehaviourButtons(Type[] behaviours)
@@ -112,7 +119,7 @@ namespace Framework
 			leftTank.transform.rotation = leftSpawn.rotation;
 
 			TankMotor leftMotor = leftTank.GetComponent<TankMotor>();
-			leftMotor.OnTankDestroyed += EndMatch;
+			leftMotor.OnTankDestroyed += TankDestroyed;
 
 			// Right
 			Transform rightSpawn = _spawnpoints.GetNextSpawn();
@@ -122,34 +129,79 @@ namespace Framework
 			rightTank.transform.rotation = rightSpawn.rotation;
 
 			TankMotor rightMotor = rightTank.GetComponent<TankMotor>();
-			rightMotor.OnTankDestroyed += EndMatch;
+			rightMotor.OnTankDestroyed += TankDestroyed;
 
 			// Add behaviours
-			leftTank.AddComponent(_selectedLeft.GetBehaviour());
-			rightTank.AddComponent(_selectedRight.GetBehaviour());
+			leftMotor.SetBehaviour(_selectedLeft.GetBehaviour());
+			rightMotor.SetBehaviour(_selectedRight.GetBehaviour());
 
 			// TODO: Disable UI
-			_behaviourSelectUI.SetActive(false);
-			_inMatchUI.SetActive(true);
+			SetBehaviourSelectUI(false);
+			SetMatchResultUI(false);
+			SetInMatchUI(true);
 		}
 
-		public void EndMatch()
+		void TankDestroyed(Type behaviour)
+		{
+			_defeatedTankText.text = behaviour.ToString();
+
+			EndMatch();
+		}
+
+		public void ManualStop()
+		{
+			_defeatedTankText.text = "Nobody";
+
+			EndMatch();
+		}
+
+		void EndMatch()
 		{
 			ClearBullets();
 			StripTankBehaviours();
-
-			//_behaviourSelectUI.SetActive(false);
-			_inMatchUI.SetActive(false);
+			_spawnpoints.ResetSpawnIndex();
 
 			StartCoroutine(EnableBehaviourSelectAfter(2.0f));
 		}
 
 		IEnumerator EnableBehaviourSelectAfter(float delay)
 		{
+			SetBehaviourSelectUI(false);
+			SetInMatchUI(false);
+			SetMatchResultUI(true);
+
+			_matchResultUI.alpha = 0.0f;
+
+			float timer = 0.0f;
+			float fadeTime = 0.5f;
+
+			while (timer < fadeTime)
+			{
+				yield return null;
+
+				timer += Time.deltaTime;
+				float percent = timer / fadeTime;
+				_matchResultUI.alpha = percent;
+			}
+
 			yield return new WaitForSeconds(delay);
 
+			timer = 0.0f;
+
+			while (timer < fadeTime)
+			{
+				yield return null;
+
+				timer += Time.deltaTime;
+				float percent = timer / fadeTime;
+				_matchResultUI.alpha = 1.0f - percent;
+			}
+
 			ClearTanks();
-			_behaviourSelectUI.SetActive(true);
+
+			SetInMatchUI(false);
+			SetMatchResultUI(false);
+			SetBehaviourSelectUI(true);
 		}
 
 		void ClearBullets()
@@ -179,6 +231,38 @@ namespace Framework
 			{
 				Destroy(tank.gameObject);
 			}
+		}
+
+		void SetBehaviourSelectUI(bool value)
+		{
+			if (value)
+				_behaviourSelectUI.alpha = 1.0f;
+			else
+				_behaviourSelectUI.alpha = 0f;
+
+			_behaviourSelectUI.blocksRaycasts = value;
+		}
+
+		void SetInMatchUI(bool value)
+		{
+			if (value)
+				_inMatchUI.alpha = 1.0f;
+			else
+				_inMatchUI.alpha = 0f;
+
+			_inMatchUI.interactable = value;
+			_inMatchUI.blocksRaycasts = value;
+		}
+
+		void SetMatchResultUI(bool value)
+		{
+			if (value)
+				_matchResultUI.alpha = 1.0f;
+			else
+				_matchResultUI.alpha = 0f;
+
+			_matchResultUI.interactable = value;
+			_matchResultUI.blocksRaycasts = value;
 		}
 	}
 }

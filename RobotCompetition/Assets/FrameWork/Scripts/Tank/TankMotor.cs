@@ -38,6 +38,7 @@ namespace Framework
         Rigidbody _rigid;
         TankData _accessData;
         AudioSource _audioControl;
+		Type _behaviour;
 
 		List<TankMotor> _tanksInSensor;
 
@@ -56,7 +57,7 @@ namespace Framework
 
         bool _isDestroyed;
 
-		public Action OnTankDestroyed;
+		public Action<Type> OnTankDestroyed;
 
 		void Awake()
 		{
@@ -147,7 +148,7 @@ namespace Framework
 				return;
 
 			if (OnTankDestroyed != null)
-				OnTankDestroyed.Invoke();
+				OnTankDestroyed.Invoke(_behaviour);
 
             _isDestroyed = true;
             //string[] defeatString = new string[5] { " got destroyed!", " was defeated!", " got annihilated!", " perished!", " was slain!" };
@@ -240,7 +241,7 @@ namespace Framework
 			//_turretCanvas.material.color = color;
 		}
 
-        private void OnTriggerEnter(Collider col)
+        void OnTriggerEnter(Collider col)
         {
             if (col.isTrigger)
                 return;
@@ -253,7 +254,7 @@ namespace Framework
 				_tanksInSensor.Add(motor);
         }
 
-        private void OnTriggerExit(Collider col)
+       void OnTriggerExit(Collider col)
         {
 			if (col.isTrigger)
 				return;
@@ -267,7 +268,7 @@ namespace Framework
 		}
 
         //Function for collisions, sends messages to RobotControl and all derived classes
-        private void OnCollisionEnter(Collision col)
+        void OnCollisionEnter(Collision col)
         {
 			TankMotor tank = col.transform.GetComponent<TankMotor>();
 
@@ -291,6 +292,14 @@ namespace Framework
 			SetGunAngle(_accessData.GunAngle);
 			SetSensorAngle(_accessData.SensorAngle);
 			SetMovePower(0.0f);
+		}
+
+		public void SetBehaviour(Type behaviour)
+		{
+			gameObject.AddComponent(behaviour);
+			gameObject.name = behaviour.ToString();
+
+			_behaviour = behaviour;
 		}
 
 		public TankData GetTankData()
