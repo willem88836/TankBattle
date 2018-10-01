@@ -17,6 +17,17 @@ public class Debug_01 : RobotControl {
 	void Update()
 	{
 		// Called every frame after the tank is spawned
+		TankData ownData = GetOwnData();
+
+		float newAngle = ownData.GunAngle + 90.0f;
+
+		SetGunAngle(newAngle);
+		SetSensorAngle(newAngle);
+
+		TankData[] sensorData = ReadSensor();
+
+		if (sensorData.Length > 0)
+			Shoot();
 	}
 
 	protected override void OnWallCollision()

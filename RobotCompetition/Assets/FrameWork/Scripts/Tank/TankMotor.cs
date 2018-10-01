@@ -73,7 +73,9 @@ namespace Framework
 		void Start()
         {
             _previousPosition = transform.position;
-        }
+
+			StopTank();
+		}
 
         void Update()
         {
@@ -288,9 +290,9 @@ namespace Framework
 
 		public void StopTank()
 		{
-			SetTankAngle(_accessData.TankAngle);
-			SetGunAngle(_accessData.GunAngle);
-			SetSensorAngle(_accessData.SensorAngle);
+			SetTankAngle(transform.eulerAngles.y);
+			SetGunAngle(_gunTransform.eulerAngles.y);
+			SetSensorAngle(_sensorTransform.eulerAngles.y);
 			SetMovePower(0.0f);
 		}
 
