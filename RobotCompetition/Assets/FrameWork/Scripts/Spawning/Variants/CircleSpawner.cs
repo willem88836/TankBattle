@@ -8,7 +8,6 @@ namespace Framework
 		public float Radius;
 		private int count;
 
-		private float interval = 0;
 		private int behaviourIndex = 0;
 
 
@@ -38,15 +37,12 @@ namespace Framework
 
 		public override void Spawn(Type behaviour)
 		{
-			float angle = (behaviourIndex / (float)count) * 360f;
-
-			Vector2 position = new Vector2(
-				Mathf.Cos(angle * Mathf.Rad2Deg),
-				-Mathf.Sin(angle * Mathf.Rad2Deg));
+			float angle = Mathf.Deg2Rad * (behaviourIndex / (float)count) * 360f;
+			Vector3 position = new Vector3(Mathf.Cos(angle), 0, -Mathf.Sin(angle));
 
 			position *= Radius;
 
-			SpawnAt(behaviour, position, Quaternion.Euler(-position));
+			SpawnAt(behaviour, position, Quaternion.Euler(0, (Mathf.Rad2Deg * angle) + 270, 0));
 		}
 	}
 }
