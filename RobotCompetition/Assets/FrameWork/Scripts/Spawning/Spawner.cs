@@ -7,21 +7,18 @@ namespace Framework
 	/// <summary>
 	///		Spawns and despawns objects with a desired behaviour.
 	/// </summary>
-	[Serializable]
-	public class Spawner : MonoBehaviour
+	public abstract class Spawner : MonoBehaviour
 	{
 		public GameObject BaseObject;
 		public Transform Parent;
-		public Transform[] SpawnLocations;
 
-		private int currentSpawn = 0;
+		protected List<GameObject> spawnedObjects = new List<GameObject>();
 
-		private List<GameObject> spawnedObjects = new List<GameObject>();
 
 		/// <summary>
 		///		Destroys all spawned objects.
 		/// </summary>
-		public void Clear()
+		public virtual void Clear()
 		{
 			foreach (GameObject obj in spawnedObjects)
 			{
@@ -33,7 +30,10 @@ namespace Framework
 		}
 
 
-		public void Spawn(params Type[] behaviour)
+		/// <summary>
+		///		Spawns all the provided behaviours at multiple spawn locations.
+		/// </summary>
+		public virtual void Spawn(params Type[] behaviour)
 		{
 			for (int i = 0; i < behaviour.Length; i++)
 			{
@@ -46,7 +46,7 @@ namespace Framework
 		///		Spawns multiple objects with the provided behaviour
 		///		at multiple spawn locations.
 		/// </summary>
-		public void Spawn(Type behaviour, int count)
+		public virtual void Spawn(Type behaviour, int count)
 		{
 			for (int i = 0; i < count; i++)
 			{
@@ -54,18 +54,20 @@ namespace Framework
 			}
 		}
 
+
 		/// <summary>
 		///		Spawns one object with the provided behaviour
 		///		at one of the set spawnlocations.
 		/// </summary>
-		public void Spawn(Type behaviour)
+		public abstract void Spawn(Type behaviour);
+
+		protected void SpawnAt(Type behaviour, Vector3 position, Quaternion rotation)
 		{
-			Transform spawnPoint = SpawnLocations[currentSpawn];
 			GameObject spawnedObject = Instantiate(
-				BaseObject,
-				spawnPoint.position,
-				spawnPoint.rotation,
-				Parent);
+				   BaseObject,
+				   position,
+				   rotation,
+				   Parent);
 
 			// TODO: Update this line when Justin is finished with the new Tank Behaviours.
 			spawnedObject.AddComponent(behaviour);
@@ -73,9 +75,6 @@ namespace Framework
 			spawnedObject.name = BaseObject.name + "_" + behaviour.ToString();
 
 			spawnedObjects.Add(spawnedObject);
-
-			currentSpawn++;
-			currentSpawn %= SpawnLocations.Length;
 		}
 	}
 }

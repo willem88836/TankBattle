@@ -1,0 +1,23 @@
+﻿using System;
+using UnityEngine;
+
+namespace Framework.Competition
+{
+	public sealed class StaticSpawner : Spawner
+	{
+		public Transform[] SpawnLocations;
+
+		private int currentSpawn = 0;
+
+
+		public override void Spawn(Type behaviour)
+		{
+			Transform spawnPoint = SpawnLocations[currentSpawn];
+
+			SpawnAt(behaviour, spawnPoint.position, spawnPoint.rotation);
+
+			currentSpawn++;
+			currentSpawn %= SpawnLocations.Length;
+		}
+	}
+}
