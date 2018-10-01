@@ -14,6 +14,8 @@ namespace Framework
 		{
 			tankData = GetOwnData();
 
+			// NO! DO NOT DO THIS IN YOUR ACTUAL ROBOT BEHAVIOUR!
+			// IT'S CHEATING AND THAT SUCKS!
 			rot = transform.rotation.eulerAngles.y;
 
 			SetTankAngle(rot);
