@@ -157,7 +157,8 @@ Prefab:
       propertyPath: m_Name
       value: Spawnpoints
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114134978806883674, guid: 5b99fcd7353414c478e469d50d80e1e1, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 5b99fcd7353414c478e469d50d80e1e1, type: 2}
   m_IsPrefabParent: 0
 --- !u!4 &13687001 stripped
@@ -292,7 +293,7 @@ Prefab:
         type: 2}
       propertyPath: Spawner
       value: 
-      objectReference: {fileID: 761757873}
+      objectReference: {fileID: 0}
     - target: {fileID: 114250158992800650, guid: 4f0b1808cc27c6743b580ca8d63ecadc,
         type: 2}
       propertyPath: selectionBoxes.Array.data[0]
@@ -741,12 +742,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -69.99998}
   m_SizeDelta: {x: 175, y: -259.99994}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &761757873 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 114134978806883674, guid: 5b99fcd7353414c478e469d50d80e1e1,
-    type: 2}
-  m_PrefabInternal: {fileID: 13687000}
-  m_Script: {fileID: 11500000, guid: 9a3cbcc7079c91048bf30741a124845a, type: 3}
 --- !u!1 &787053231
 GameObject:
   m_ObjectHideFlags: 0
