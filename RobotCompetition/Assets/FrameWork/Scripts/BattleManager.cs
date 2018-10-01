@@ -51,6 +51,35 @@ namespace Framework
 			return behaviours;
 		}
 
+		protected void ClearBullets()
+		{
+			foreach (Transform bullet in _bulletContainer)
+			{
+				Destroy(bullet.gameObject);
+			}
+		}
+
+		protected void StripTankBehaviours()
+		{
+			foreach (Transform tank in _tankContainer)
+			{
+				TankMotor motor = tank.GetComponent<TankMotor>();
+
+				if (motor != null)
+					motor.StopTank();
+
+				Destroy(tank.GetComponent<RobotControl>());
+			}
+		}
+
+		protected void ClearTanks()
+		{
+			foreach (Transform tank in _tankContainer)
+			{
+				Destroy(tank.gameObject);
+			}
+		}
+
 		public Transform GetBulletContainer()
 		{
 			return _bulletContainer;

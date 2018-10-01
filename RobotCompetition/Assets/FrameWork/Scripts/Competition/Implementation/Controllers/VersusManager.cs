@@ -204,35 +204,6 @@ namespace Framework
 			SetBehaviourSelectUI(true);
 		}
 
-		void ClearBullets()
-		{
-			foreach (Transform bullet in _bulletContainer)
-			{
-				Destroy(bullet.gameObject);
-			}
-		}
-
-		void StripTankBehaviours()
-		{
-			foreach (Transform tank in _tankContainer)
-			{
-				TankMotor motor = tank.GetComponent<TankMotor>();
-
-				if (motor != null)
-					motor.StopTank();
-
-				Destroy(tank.GetComponent<RobotControl>());
-			}
-		}
-
-		void ClearTanks()
-		{
-			foreach (Transform tank in _tankContainer)
-			{
-				Destroy(tank.gameObject);
-			}
-		}
-
 		void SetBehaviourSelectUI(bool value)
 		{
 			if (value)
