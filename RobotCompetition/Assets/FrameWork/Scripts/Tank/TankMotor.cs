@@ -219,7 +219,7 @@ namespace Framework
 				//TODO: Create bulletparent
                 GameObject newBullet = Instantiate(_bulletPrefabs[bulletType], BattleManager.Singleton().GetBulletContainer());
 				Transform bulletTransform = newBullet.transform;
-				bulletTransform.position = _gunTransform.position + (_gunTransform.rotation * _bulletSpawnOffset);
+				bulletTransform.position = transform.position + (_gunTransform.rotation * _bulletSpawnOffset);
 				bulletTransform.rotation = _gunTransform.rotation;
 
 
