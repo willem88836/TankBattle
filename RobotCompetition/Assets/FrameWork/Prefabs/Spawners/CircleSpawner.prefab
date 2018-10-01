@@ -169,4 +169,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BaseObject: {fileID: 1015122089073302, guid: a1c56d90b116d3644a5ba5b05eaa16b6, type: 2}
   Parent: {fileID: 0}
-  Radius: 20
+  Radius: 15

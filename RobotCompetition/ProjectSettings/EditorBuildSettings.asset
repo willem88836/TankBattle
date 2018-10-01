@@ -17,3 +17,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/FrameWork/Scenes/DungeonScene.unity
     guid: 3e5298eccaebf1a49a6d7b4e057ce233
+  - enabled: 1
+    path: Assets/FrameWork/Scenes/FreeForAllScene.unity
+    guid: 652ebd99cc8e3ec45a8c5a1cc269df63
