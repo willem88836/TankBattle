@@ -6,6 +6,7 @@ using System;
 
 namespace Framework
 {
+	[RequireComponent(typeof(AudioSource))]
 	public class BattleManager : MonoBehaviour
 	{
 		static BattleManager _instance;
@@ -23,6 +24,8 @@ namespace Framework
 
 		[Header("Behaviours")]
 		protected Type[] _behaviours;
+
+		protected AudioSource _audioSource;
 		
 		protected virtual void Awake()
 		{
@@ -32,6 +35,8 @@ namespace Framework
 			_instance = this;
 
 			Application.targetFrameRate = _targetFramerate;
+
+			_audioSource = GetComponent<AudioSource>();
 
 			_behaviours = LoadBehaviours();
 		}
@@ -88,6 +93,11 @@ namespace Framework
 		public Transform GetTankContainer()
 		{
 			return _tankContainer;
+		}
+
+		public void PlaySound(AudioClip clip)
+		{
+			_audioSource.PlayOneShot(clip);
 		}
 
 		public static BattleManager Singleton()

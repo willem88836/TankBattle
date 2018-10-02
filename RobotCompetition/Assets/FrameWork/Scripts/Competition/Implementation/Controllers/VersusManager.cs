@@ -23,6 +23,7 @@ namespace Framework
 
 		[SerializeField] Text _defeatedTankText;
 		[SerializeField] Toggle _sensorToggle;
+		[SerializeField] Toggle _soundToggle;
 
 		[SerializeField] Camera _sensorCamera;
 
@@ -39,6 +40,9 @@ namespace Framework
 
 			_sensorToggle.onValueChanged.AddListener(delegate { ToggleSensors(_sensorToggle); });
 			ToggleSensors(_sensorToggle);
+
+			_soundToggle.onValueChanged.AddListener(delegate { ToggleSound(_soundToggle); });
+			ToggleSound(_soundToggle);
 
 			SetInMatchUI(false);
 			SetMatchResultUI(false);
@@ -104,6 +108,11 @@ namespace Framework
 		void ToggleSensors(Toggle toggle)
 		{
 			_sensorCamera.enabled = toggle.isOn;
+		}
+
+		void ToggleSound(Toggle toggle)
+		{
+			_audioSource.mute = !toggle.isOn;
 		}
 
 		public void StartMatch()

@@ -35,9 +35,9 @@ namespace Framework
 		[SerializeField] float _startHealth = 100.0f;
 		[SerializeField] float _gunCooldown = 0.5f;
 
+		BattleManager _battleManager;
         Rigidbody _rigid;
         TankData _accessData;
-        AudioSource _audioControl;
 		Type _behaviour;
 
 		List<TankMotor> _tanksInSensor;
@@ -62,7 +62,8 @@ namespace Framework
 		void Awake()
 		{
 			_rigid = GetComponent<Rigidbody>();
-			_audioControl = GetComponent<AudioSource>();
+
+			_battleManager = BattleManager.Singleton();
 
 			_accessData = new TankData();
 			_tanksInSensor = new List<TankMotor>();
@@ -137,7 +138,8 @@ namespace Framework
             _currentHealth -= amount;
 			_accessData.Health = _currentHealth;
 
-            _audioControl.PlayOneShot(_damagedSound);
+			//_audioControl.PlayOneShot(_damagedSound);
+			_battleManager.PlaySound(_damagedSound);
 
             if (_currentHealth <= 0f)
                 DestroyRobot();
@@ -227,7 +229,8 @@ namespace Framework
 
 				newBullet.GetComponent<BulletBehaviour>().SetShooter(this);
 
-                _audioControl.PlayOneShot(_shootSound);
+				//_audioControl.PlayOneShot(_shootSound);
+				_battleManager.PlaySound(_shootSound);
             }
         }
 
