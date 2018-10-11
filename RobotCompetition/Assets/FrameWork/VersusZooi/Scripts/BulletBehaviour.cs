@@ -49,7 +49,7 @@ namespace Framework
 			if (tank != null && tank != _shooter)
 			{
 				tank.Damage(_damage);
-				tank.gameObject.SendMessage("OnBulletCollision");
+				tank.gameObject.SendMessage("OnBulletHit");
 
 				Explode();
 				return;

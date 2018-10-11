@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
-using Framework;
+using System;
 
 namespace Framework
 {
@@ -35,9 +35,10 @@ namespace Framework
 		[SerializeField] float _startHealth = 100.0f;
 		[SerializeField] float _gunCooldown = 0.5f;
 
+		BattleManager _battleManager;
         Rigidbody _rigid;
         TankData _accessData;
-        AudioSource _audioControl;
+		Type _behaviour;
 
 		List<TankMotor> _tanksInSensor;
 
@@ -56,10 +57,13 @@ namespace Framework
 
         bool _isDestroyed;
 
+		public Action<Type> OnTankDestroyed;
+
 		void Awake()
 		{
 			_rigid = GetComponent<Rigidbody>();
-			_audioControl = GetComponent<AudioSource>();
+
+			_battleManager = BattleManager.Singleton();
 
 			_accessData = new TankData();
 			_tanksInSensor = new List<TankMotor>();
@@ -70,7 +74,9 @@ namespace Framework
 		void Start()
         {
             _previousPosition = transform.position;
-        }
+
+			StopTank();
+		}
 
         void Update()
         {
@@ -132,7 +138,8 @@ namespace Framework
             _currentHealth -= amount;
 			_accessData.Health = _currentHealth;
 
-            _audioControl.PlayOneShot(_damagedSound);
+			//_audioControl.PlayOneShot(_damagedSound);
+			_battleManager.PlaySound(_damagedSound);
 
             if (_currentHealth <= 0f)
                 DestroyRobot();
@@ -143,6 +150,9 @@ namespace Framework
         {
 			if (_isDestroyed)
 				return;
+
+			if (OnTankDestroyed != null)
+				OnTankDestroyed.Invoke(_behaviour);
 
             _isDestroyed = true;
             //string[] defeatString = new string[5] { " got destroyed!", " was defeated!", " got annihilated!", " perished!", " was slain!" };
@@ -211,15 +221,16 @@ namespace Framework
                 _currentGunCooldown = _gunCooldown + _rapidGunValue;
 
 				//TODO: Create bulletparent
-                GameObject newBullet = Instantiate(_bulletPrefabs[bulletType], ParentObjects.Singleton().GetBulletParent());
+                GameObject newBullet = Instantiate(_bulletPrefabs[bulletType], BattleManager.Singleton().GetBulletContainer());
 				Transform bulletTransform = newBullet.transform;
-				bulletTransform.position = _gunTransform.position + (_gunTransform.rotation * _bulletSpawnOffset);
+				bulletTransform.position = transform.position + (_gunTransform.rotation * _bulletSpawnOffset);
 				bulletTransform.rotation = _gunTransform.rotation;
 
 
 				newBullet.GetComponent<BulletBehaviour>().SetShooter(this);
 
-                _audioControl.PlayOneShot(_shootSound);
+				//_audioControl.PlayOneShot(_shootSound);
+				_battleManager.PlaySound(_shootSound);
             }
         }
 
@@ -235,7 +246,7 @@ namespace Framework
 			//_turretCanvas.material.color = color;
 		}
 
-        private void OnTriggerEnter(Collider col)
+        void OnTriggerEnter(Collider col)
         {
             if (col.isTrigger)
                 return;
@@ -248,7 +259,7 @@ namespace Framework
 				_tanksInSensor.Add(motor);
         }
 
-        private void OnTriggerExit(Collider col)
+       void OnTriggerExit(Collider col)
         {
 			if (col.isTrigger)
 				return;
@@ -262,7 +273,7 @@ namespace Framework
 		}
 
         //Function for collisions, sends messages to RobotControl and all derived classes
-        private void OnCollisionEnter(Collision col)
+        void OnCollisionEnter(Collision col)
         {
 			TankMotor tank = col.transform.GetComponent<TankMotor>();
 
@@ -279,6 +290,22 @@ namespace Framework
 				gameObject.SendMessage("OnWallCollision");
 			}
         }
+
+		public void StopTank()
+		{
+			SetTankAngle(transform.eulerAngles.y);
+			SetGunAngle(_gunTransform.eulerAngles.y);
+			SetSensorAngle(_sensorTransform.eulerAngles.y);
+			SetMovePower(0.0f);
+		}
+
+		public void SetBehaviour(Type behaviour)
+		{
+			gameObject.AddComponent(behaviour);
+			gameObject.name = behaviour.ToString();
+
+			_behaviour = behaviour;
+		}
 
 		public TankData GetTankData()
 		{
