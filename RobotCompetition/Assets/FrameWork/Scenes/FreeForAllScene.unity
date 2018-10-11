@@ -238,7 +238,7 @@ Prefab:
     - target: {fileID: 224902387148575902, guid: fb25fec5610d8ea49931c5f7e5623108,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -467.5
       objectReference: {fileID: 0}
     - target: {fileID: 224902387148575902, guid: fb25fec5610d8ea49931c5f7e5623108,
         type: 2}
@@ -433,6 +433,7 @@ Transform:
   - {fileID: 13687001}
   - {fileID: 149943093}
   - {fileID: 1062935194}
+  - {fileID: 1243035533}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -496,7 +497,7 @@ Prefab:
     - target: {fileID: 224902387148575902, guid: fb25fec5610d8ea49931c5f7e5623108,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -322.5
       objectReference: {fileID: 0}
     - target: {fileID: 224902387148575902, guid: fb25fec5610d8ea49931c5f7e5623108,
         type: 2}
@@ -748,6 +749,34 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 1094204319}
   m_Script: {fileID: 11500000, guid: 7584ad7d1a8c5db448228582b928b226, type: 3}
+--- !u!1 &1243035532
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1243035533}
+  m_Layer: 0
+  m_Name: TankContainer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1243035533
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1243035532}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 663.95245, y: 553.38074, z: -23.704987}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 476130411}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1365487712
 GameObject:
   m_ObjectHideFlags: 0
@@ -1021,14 +1050,19 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 114674691984940526, guid: be850e21dd28db54b932b87da3014076,
         type: 2}
+      propertyPath: _bulletContainer
+      value: 
+      objectReference: {fileID: 1062935194}
+    - target: {fileID: 114674691984940526, guid: be850e21dd28db54b932b87da3014076,
+        type: 2}
+      propertyPath: _tankContainer
+      value: 
+      objectReference: {fileID: 1243035533}
+    - target: {fileID: 114674691984940526, guid: be850e21dd28db54b932b87da3014076,
+        type: 2}
       propertyPath: Spawner
       value: 
       objectReference: {fileID: 418802841}
-    - target: {fileID: 114674691984940526, guid: be850e21dd28db54b932b87da3014076,
-        type: 2}
-      propertyPath: _bulletParent
-      value: 
-      objectReference: {fileID: 1062935194}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: be850e21dd28db54b932b87da3014076, type: 2}
   m_IsPrefabParent: 0

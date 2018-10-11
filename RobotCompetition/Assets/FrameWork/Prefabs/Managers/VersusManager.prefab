@@ -51,12 +51,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3895d5978dc85c746b342932206479d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _bulletParent: {fileID: 0}
   _targetFramerate: 60
-  TankBehaviourPath: AIscripts/
-  Spawner: {fileID: 0}
-  selectionBoxes:
-  - {fileID: 0}
-  - {fileID: 0}
-  selectionButtonPrefab: {fileID: 114254489482168582, guid: 32156f2660e85c248b310968b45e9178,
+  _tankPrefab: {fileID: 1015122089073302, guid: 0e780dfe785996041a065fab8085526d,
     type: 2}
+  _bulletContainer: {fileID: 0}
+  _tankContainer: {fileID: 0}
+  Spawner: {fileID: 0}
+  selectionPanels:
+  - {fileID: 0}
+  - {fileID: 0}

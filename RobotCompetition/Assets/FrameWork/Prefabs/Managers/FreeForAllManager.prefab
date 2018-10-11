@@ -51,6 +51,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2f2f9b27fa0b404590c9a7812ac38e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _bulletParent: {fileID: 0}
   _targetFramerate: 60
+  _tankPrefab: {fileID: 1015122089073302, guid: 0e780dfe785996041a065fab8085526d,
+    type: 2}
+  _bulletContainer: {fileID: 0}
+  _tankContainer: {fileID: 0}
   Spawner: {fileID: 0}

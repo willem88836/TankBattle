@@ -169,7 +169,7 @@ Prefab:
     - target: {fileID: 224902387148575902, guid: fb25fec5610d8ea49931c5f7e5623108,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -395.00003
       objectReference: {fileID: 0}
     - target: {fileID: 224902387148575902, guid: fb25fec5610d8ea49931c5f7e5623108,
         type: 2}
@@ -587,7 +587,7 @@ Prefab:
     - target: {fileID: 224902387148575902, guid: fb25fec5610d8ea49931c5f7e5623108,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -491.66672
       objectReference: {fileID: 0}
     - target: {fileID: 224902387148575902, guid: fb25fec5610d8ea49931c5f7e5623108,
         type: 2}
@@ -861,7 +861,7 @@ Prefab:
     - target: {fileID: 224902387148575902, guid: fb25fec5610d8ea49931c5f7e5623108,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -298.33334
       objectReference: {fileID: 0}
     - target: {fileID: 224902387148575902, guid: fb25fec5610d8ea49931c5f7e5623108,
         type: 2}
@@ -1228,27 +1228,6 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 114990620506671994, guid: 44396bcb42f2f354bbe48a515de52043,
         type: 2}
-      propertyPath: Spawner
-      value: 
-      objectReference: {fileID: 1316399406}
-    - target: {fileID: 114990620506671994, guid: 44396bcb42f2f354bbe48a515de52043,
-        type: 2}
-      propertyPath: _bulletParent
-      value: 
-      objectReference: {fileID: 1062935194}
-    - target: {fileID: 114990620506671994, guid: 44396bcb42f2f354bbe48a515de52043,
-        type: 2}
-      propertyPath: Entries
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 114990620506671994, guid: 44396bcb42f2f354bbe48a515de52043,
-        type: 2}
-      propertyPath: _tankPrefab
-      value: 
-      objectReference: {fileID: 1015122089073302, guid: 0e780dfe785996041a065fab8085526d,
-        type: 2}
-    - target: {fileID: 114990620506671994, guid: 44396bcb42f2f354bbe48a515de52043,
-        type: 2}
       propertyPath: _bulletContainer
       value: 
       objectReference: {fileID: 1062935194}
@@ -1257,6 +1236,11 @@ Prefab:
       propertyPath: _tankContainer
       value: 
       objectReference: {fileID: 364149187}
+    - target: {fileID: 114990620506671994, guid: 44396bcb42f2f354bbe48a515de52043,
+        type: 2}
+      propertyPath: Spawner
+      value: 
+      objectReference: {fileID: 1316399406}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 44396bcb42f2f354bbe48a515de52043, type: 2}
   m_IsPrefabParent: 0

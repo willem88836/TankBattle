@@ -51,9 +51,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cffa40375ee4d434a8b12aaddf40b272, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _bulletParent: {fileID: 0}
   _targetFramerate: 60
-  TankBehaviourPath: AIscripts/
+  _tankPrefab: {fileID: 1015122089073302, guid: 0e780dfe785996041a065fab8085526d,
+    type: 2}
+  _bulletContainer: {fileID: 0}
+  _tankContainer: {fileID: 0}
   Spawner: {fileID: 0}
   PoolSize: 3
   MatchCount: 1
+  Entries: 4
