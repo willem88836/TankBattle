@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
 using UnityEngine;
 
 namespace Framework.Competition
@@ -24,6 +21,7 @@ namespace Framework.Competition
 		{
 			base.Awake();
 			Initialize();
+			Spawner.BaseObject = _tankPrefab;
 		}
 
 		public abstract void Initialize();
@@ -39,22 +37,14 @@ namespace Framework.Competition
 		/// </summary>
 		public abstract void OnMatchFinish(Type winner);
 
-		/// <summary>
-		///		Loads all existing tankbehaviours at the selected path.
-		/// </summary>
-		protected Type[] LoadBehaviours()
+		protected override Type[] LoadBehaviours()
 		{
-			Type baseType = typeof(RobotControl);
-			Assembly assembly = Assembly.GetAssembly(baseType);
-			Type[] competitors = (assembly.GetTypes().Where(t => t != baseType && baseType.IsAssignableFrom(t))).ToArray();
-
+			Type[] competitors = base.LoadBehaviours();
 			CompetitorCount = competitors.Length;
-			Debug.LogFormat("{0} competitor behaviours loaded!", competitors.Length);
 			return competitors;
 		}
 
-
-		#if UNITY_EDITOR
+#if UNITY_EDITOR
 		private void Update()
 		{
 			if (Input.GetKeyDown(KeyCode.F))
@@ -63,6 +53,6 @@ namespace Framework.Competition
 				OnMatchFinish(null);
 			}
 		}
-		#endif
+#endif
 	}
 }

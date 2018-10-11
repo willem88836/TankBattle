@@ -671,6 +671,34 @@ RectTransform:
   m_PrefabParentObject: {fileID: 224902387148575902, guid: fb25fec5610d8ea49931c5f7e5623108,
     type: 2}
   m_PrefabInternal: {fileID: 323470510}
+--- !u!1 &364149186
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 364149187}
+  m_Layer: 0
+  m_Name: TankContainer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &364149187
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 364149186}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 663.95245, y: 553.38074, z: -23.704987}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 476130411}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!224 &414752925 stripped
 RectTransform:
   m_PrefabParentObject: {fileID: 224901330658565618, guid: 8bca960b3da174d4dbc433a21b669b93,
@@ -734,6 +762,7 @@ Transform:
   - {fileID: 1316399405}
   - {fileID: 149943093}
   - {fileID: 1062935194}
+  - {fileID: 364149187}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1212,6 +1241,22 @@ Prefab:
       propertyPath: Entries
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 114990620506671994, guid: 44396bcb42f2f354bbe48a515de52043,
+        type: 2}
+      propertyPath: _tankPrefab
+      value: 
+      objectReference: {fileID: 1015122089073302, guid: 0e780dfe785996041a065fab8085526d,
+        type: 2}
+    - target: {fileID: 114990620506671994, guid: 44396bcb42f2f354bbe48a515de52043,
+        type: 2}
+      propertyPath: _bulletContainer
+      value: 
+      objectReference: {fileID: 1062935194}
+    - target: {fileID: 114990620506671994, guid: 44396bcb42f2f354bbe48a515de52043,
+        type: 2}
+      propertyPath: _tankContainer
+      value: 
+      objectReference: {fileID: 364149187}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 44396bcb42f2f354bbe48a515de52043, type: 2}
   m_IsPrefabParent: 0

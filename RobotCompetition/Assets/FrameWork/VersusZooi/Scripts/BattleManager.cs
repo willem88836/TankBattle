@@ -1,7 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Linq;
+using System.Reflection;
 using UnityEngine;
-using UnityEditor;
 using System;
 
 namespace Framework
@@ -13,7 +12,6 @@ namespace Framework
 	
 		[Header("General")]
 		[SerializeField] int _targetFramerate = 60;
-		[SerializeField] string _behaviourPath;
 
 		[Header("Prefabs")]
 		[SerializeField] protected GameObject _tankPrefab;
@@ -41,19 +39,17 @@ namespace Framework
 			_behaviours = LoadBehaviours();
 		}
 
-		// TODO: Only works in editor
-		protected Type[] LoadBehaviours()
+		/// <summary>
+		///		Loads all existing tankbehaviours at the selected path.
+		/// </summary>
+		protected virtual Type[] LoadBehaviours()
 		{
-			MonoScript[] assets = Resources.LoadAll<MonoScript>(_behaviourPath);
+			Type baseType = typeof(RobotControl);
+			Assembly assembly = Assembly.GetAssembly(baseType);
+			Type[] competitors = (assembly.GetTypes().Where(t => t != baseType && baseType.IsAssignableFrom(t))).ToArray();
 
-			Type[] behaviours = new Type[assets.Length];
-			for (int i = 0; i < assets.Length; i++)
-			{
-				behaviours[i] = assets[i].GetClass();
-			}
-
-			Debug.LogFormat("{0} Behaviours found", behaviours.Length);
-			return behaviours;
+			Debug.LogFormat("{0} competitor behaviours loaded!", competitors.Length);
+			return competitors;
 		}
 
 		protected void ClearBullets()
