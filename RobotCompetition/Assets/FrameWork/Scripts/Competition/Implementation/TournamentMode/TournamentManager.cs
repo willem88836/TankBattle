@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Framework.Core;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -39,7 +40,7 @@ namespace Framework.Competition
 
 			Type[] competitors = LoadBehaviours();
 			competitors = AddEntries(competitors, Entries);
-			competitors = Utilities.Shuffle(competitors);
+			competitors = Core.Utilities.Shuffle(competitors);
 
 			EnrollCompetitors(competitors);
 

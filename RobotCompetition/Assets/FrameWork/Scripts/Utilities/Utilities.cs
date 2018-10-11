@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Framework
+namespace Framework.Core
 {
 	public static class Utilities
 	{

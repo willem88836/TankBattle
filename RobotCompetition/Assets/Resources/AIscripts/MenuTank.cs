@@ -6,14 +6,11 @@ namespace Framework
 	{
 		const float gunSpeed = 25;
 
-		TankData tankData;
 		float rot;
 		float time = 0;
 
 		private void Start()
 		{
-			tankData = GetOwnData();
-
 			// NO! DO NOT DO THIS IN YOUR ACTUAL ROBOT BEHAVIOUR!
 			// IT'S CHEATING AND THAT SUCKS!
 			rot = transform.rotation.eulerAngles.y;

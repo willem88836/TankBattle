@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Framework.Core;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Framework.Competition
