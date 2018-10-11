@@ -30,6 +30,8 @@ public class Debug_01 : RobotControl {
             //Zero robots are in the sensor
             if (foundRobot)
             {
+				// comment test test.
+
                 //Toggle foundRobot if not already done
                 foundRobot = false;
                 //Switch sensor rotation if a robot has left the sensor
