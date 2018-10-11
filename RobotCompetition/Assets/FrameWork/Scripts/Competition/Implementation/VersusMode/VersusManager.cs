@@ -16,8 +16,6 @@ namespace Framework.Competition
 			{
 				panel.InitializeSelectionProcess(_behaviours);
 			}
-
-			Debug.Log("VersusManager successfully Initialized");
 		}
 
 		/// <inheritdoc />
