@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class JustinGeschiere : RobotControl {
+public class JustinGeschiere : TankController {
 
 	//[SerializeField] GameObject _bulletVisual;
 

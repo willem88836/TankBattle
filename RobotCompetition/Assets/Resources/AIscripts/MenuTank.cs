@@ -2,7 +2,7 @@
 
 namespace Framework
 {
-	public class MenuTank : RobotControl
+	public class MenuTank : TankController
 	{
 		const float gunSpeed = 25;
 

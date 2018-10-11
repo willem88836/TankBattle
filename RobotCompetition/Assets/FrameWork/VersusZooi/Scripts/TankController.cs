@@ -1,10 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using Framework;
 
 [RequireComponent(typeof(TankMotor))]
-public abstract class RobotControl : MonoBehaviour
+public abstract class TankController : MonoBehaviour
 {
 
     /* RULES:

@@ -44,7 +44,7 @@ namespace Framework
 		/// </summary>
 		protected virtual Type[] LoadBehaviours()
 		{
-			Type baseType = typeof(RobotControl);
+			Type baseType = typeof(TankController);
 			Assembly assembly = Assembly.GetAssembly(baseType);
 			Type[] competitors = (assembly.GetTypes().Where(t => t != baseType && baseType.IsAssignableFrom(t))).ToArray();
 
@@ -69,7 +69,7 @@ namespace Framework
 				if (motor != null)
 					motor.StopTank();
 
-				Destroy(tank.GetComponent<RobotControl>());
+				Destroy(tank.GetComponent<TankController>());
 			}
 		}
 

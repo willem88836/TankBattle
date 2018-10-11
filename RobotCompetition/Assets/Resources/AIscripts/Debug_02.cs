@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Debug_02 : RobotControl {
+public class Debug_02 : TankController {
 
 	//Only change color to white
 	//Mainly for testing purposes of your AI against this AI

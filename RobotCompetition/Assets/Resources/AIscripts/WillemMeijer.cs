@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WillemMeijer : RobotControl
+public class WillemMeijer : TankController
 {
 	private float movePower = 1;
 
