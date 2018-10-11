@@ -12,8 +12,8 @@ EditorBuildSettings:
     path: Assets/FrameWork/Scenes/TournamentScene.unity
     guid: ab3b2bcac2c38d546b9b7efc0ffd226f
   - enabled: 1
-    path: Assets/FrameWork/Scenes/VersusScene.unity
-    guid: 1eaa89726b528624abfe9e3644cd2d23
+    path: Assets/FrameWork/VersusZooi/VersusScene_Primitive.unity
+    guid: eb6f9c63649997b41ab2b1d8a9a101dd
   - enabled: 1
     path: Assets/FrameWork/Scenes/DungeonScene.unity
     guid: 3e5298eccaebf1a49a6d7b4e057ce233

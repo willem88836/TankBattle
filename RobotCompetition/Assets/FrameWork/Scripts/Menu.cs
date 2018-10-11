@@ -3,7 +3,7 @@ using UnityEngine.SceneManagement;
 
 public class Menu : MonoBehaviour
 {
-	public enum Scene { MenuScene, TournamentScene, VersusScene, DungeonScene, FreeForAllScene};
+	public enum Scene { MenuScene, TournamentScene, VersusScene_Primitive, DungeonScene, FreeForAllScene};
 
 
 	public void SwitchScene(Scene scene)
@@ -34,6 +34,6 @@ public class Menu : MonoBehaviour
 
 	public void SwitchToVersus()
 	{
-		SwitchScene(Scene.VersusScene);
+		SwitchScene(Scene.VersusScene_Primitive);
 	}
 }
