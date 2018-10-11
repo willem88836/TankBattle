@@ -1924,8 +1924,9 @@ GameObject:
   - component: {fileID: 787152144}
   - component: {fileID: 787152143}
   - component: {fileID: 787152142}
+  - component: {fileID: 787152145}
   m_Layer: 0
-  m_Name: Cliff (1)
+  m_Name: ArenaWall1
   m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1938,13 +1939,13 @@ Transform:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 787152140}
-  m_LocalRotation: {x: 0, y: -0.70710665, z: 0, w: 0.70710695}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: -0, w: -0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 661084358}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 270, z: 0}
 --- !u!65 &787152142
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1999,6 +2000,17 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 787152140}
   m_Mesh: {fileID: 4300000, guid: 12783825d19a606449c1d81b822fb4a2, type: 3}
+--- !u!114 &787152145
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 787152140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e821949739231749a350054d8ecd786, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!20 &825571426 stripped
 Camera:
   m_PrefabParentObject: {fileID: 20493698049476436, guid: 7657c2ed66cfcb24b89f200b5cad659a,
@@ -3335,8 +3347,9 @@ GameObject:
   - component: {fileID: 1309760362}
   - component: {fileID: 1309760361}
   - component: {fileID: 1309760360}
+  - component: {fileID: 1309760363}
   m_Layer: 0
-  m_Name: Cliff
+  m_Name: ArenaWall0
   m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3410,6 +3423,17 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1309760358}
   m_Mesh: {fileID: 4300000, guid: 12783825d19a606449c1d81b822fb4a2, type: 3}
+--- !u!114 &1309760363
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1309760358}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e821949739231749a350054d8ecd786, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1323831851
 GameObject:
   m_ObjectHideFlags: 0
@@ -4770,8 +4794,9 @@ GameObject:
   - component: {fileID: 1747990008}
   - component: {fileID: 1747990007}
   - component: {fileID: 1747990006}
+  - component: {fileID: 1747990009}
   m_Layer: 0
-  m_Name: Cliff (3)
+  m_Name: ArenaWall3
   m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4784,13 +4809,13 @@ Transform:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1747990004}
-  m_LocalRotation: {x: 0, y: -0.7071073, z: 0, w: -0.70710635}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 661084358}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!65 &1747990006
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4845,6 +4870,17 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1747990004}
   m_Mesh: {fileID: 4300000, guid: 12783825d19a606449c1d81b822fb4a2, type: 3}
+--- !u!114 &1747990009
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1747990004}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e821949739231749a350054d8ecd786, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1788464058
 GameObject:
   m_ObjectHideFlags: 0
@@ -5194,8 +5230,9 @@ GameObject:
   - component: {fileID: 1979645725}
   - component: {fileID: 1979645724}
   - component: {fileID: 1979645723}
+  - component: {fileID: 1979645726}
   m_Layer: 0
-  m_Name: Cliff (2)
+  m_Name: ArenaWall2
   m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5269,6 +5306,17 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1979645721}
   m_Mesh: {fileID: 4300000, guid: 12783825d19a606449c1d81b822fb4a2, type: 3}
+--- !u!114 &1979645726
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1979645721}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e821949739231749a350054d8ecd786, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1989143865
 GameObject:
   m_ObjectHideFlags: 0
