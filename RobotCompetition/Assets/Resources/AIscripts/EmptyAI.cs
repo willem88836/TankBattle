@@ -28,4 +28,9 @@ public class EmptyAI : RobotControl {
 	{
 		// Called when this tank collides with another tank
 	}
+
+	protected override void OnBulletHit()
+	{
+		// Called when this tank is hit by a bullet
+	}
 }
