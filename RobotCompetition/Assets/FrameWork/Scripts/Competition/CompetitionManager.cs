@@ -20,9 +20,23 @@ namespace Framework.Competition
 		protected override void Awake()
 		{
 			base.Awake();
-			Initialize();
+
 			Spawner.BaseObject = _tankPrefab;
 			Spawner.Parent = _tankContainer;
+
+			Spawner.OnSpawn += (GameObject tank) =>
+			{
+				TankMotor motor = tank.GetComponent<TankMotor>();
+				motor.OnTankDestroyed += (Type type) =>
+				{
+					//todo: continue here.
+					Debug.Log(type.ToString());
+					OnTankDestroyed(type);
+				};
+			};
+
+
+			Initialize();
 		}
 
 		public abstract void Initialize();
@@ -44,6 +58,8 @@ namespace Framework.Competition
 			CompetitorCount = competitors.Length;
 			return competitors;
 		}
+
+		protected virtual void OnTankDestroyed(Type destoyed) { }
 
 #if UNITY_EDITOR
 		private void Update()

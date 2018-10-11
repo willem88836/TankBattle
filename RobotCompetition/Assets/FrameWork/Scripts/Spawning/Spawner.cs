@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Framework.Core;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,7 +13,9 @@ namespace Framework
 		public GameObject BaseObject;
 		public Transform Parent;
 
-		protected List<GameObject> spawnedObjects = new List<GameObject>();
+		public Action<GameObject> OnSpawn;
+
+		protected List<GameObject> SpawnedObjects = new List<GameObject>();
 
 
 		/// <summary>
@@ -20,13 +23,13 @@ namespace Framework
 		/// </summary>
 		public virtual void Clear()
 		{
-			foreach (GameObject obj in spawnedObjects)
+			foreach (GameObject obj in SpawnedObjects)
 			{
 				if (obj != null)
 					Destroy(obj);
 			}
 
-			spawnedObjects.Clear();
+			SpawnedObjects.Clear();
 		}
 
 
@@ -54,7 +57,6 @@ namespace Framework
 			}
 		}
 
-
 		/// <summary>
 		///		Spawns one object with the provided behaviour
 		///		at one of the set spawnlocations.
@@ -63,18 +65,12 @@ namespace Framework
 
 		protected void SpawnAt(Type behaviour, Vector3 position, Quaternion rotation)
 		{
-			GameObject spawnedObject = Instantiate(
-				   BaseObject,
-				   position,
-				   rotation,
-				   Parent);
-
-			// TODO: Update this line when Justin is finished with the new Tank Behaviours.
+			GameObject spawnedObject = Instantiate(BaseObject, position, rotation, Parent);
 			spawnedObject.AddComponent(behaviour);
-
 			spawnedObject.name = BaseObject.name + "_" + behaviour.ToString();
 
-			spawnedObjects.Add(spawnedObject);
+			SpawnedObjects.Add(spawnedObject);
+			OnSpawn.SafeInvoke(spawnedObject);
 		}
 	}
 }
