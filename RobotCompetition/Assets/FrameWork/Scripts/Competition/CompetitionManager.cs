@@ -22,6 +22,7 @@ namespace Framework.Competition
 			base.Awake();
 			Initialize();
 			Spawner.BaseObject = _tankPrefab;
+			Spawner.Parent = _tankContainer;
 		}
 
 		public abstract void Initialize();
