@@ -738,23 +738,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 1015122089073302}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 77d0d0e4b0b3a564b9440d36402bf838, type: 3}
+  m_Script: {fileID: 11500000, guid: b0d864af2f58a1f4cb24acdad33d630c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _gunTransform: {fileID: 4132846460992464}
   _sensorTransform: {fileID: 4018495153742912}
   _bulletPrefabs:
   - {fileID: 1000634628414718, guid: 25180fe677eb5c1479c786466c4b0bb2, type: 2}
-  _bulletSpawnOffset: {x: 0, y: 0.00025, z: -0.0155}
+  _bulletSpawnOffset: {x: 0, y: 1.46, z: 1.05}
   _shootSound: {fileID: 8300000, guid: 75a0ec221a5c8224bb2e2646969ced64, type: 3}
   _damagedSound: {fileID: 8300000, guid: 63249823b63cd034b82abade73953fa0, type: 3}
   _destroyedVisual: {fileID: 1129879397537170}
   _tankVisual: {fileID: 1498757852267428}
   _bodyCanvas:
-    _renderer: {fileID: 23649464992222750}
+    _renderer: {fileID: 23688087082865828}
     _materialIndexes: 00000000
   _turretCanvas:
-    _renderer: {fileID: 23688087082865828}
+    _renderer: {fileID: 23649464992222750}
     _materialIndexes: 00000000
   _moveSpeed: 3
   _rotationSpeed: 45
