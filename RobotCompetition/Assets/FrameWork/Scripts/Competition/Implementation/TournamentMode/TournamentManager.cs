@@ -38,9 +38,9 @@ namespace Framework.Competition
 
 			Pools = new List<Pool>();
 
-			Type[] competitors = LoadBehaviours();
+			Type[] competitors = _behaviours;
 			competitors = AddEntries(competitors, Entries);
-			competitors = Core.Utilities.Shuffle(competitors);
+			competitors = Utilities.Shuffle(competitors);
 
 			EnrollCompetitors(competitors);
 

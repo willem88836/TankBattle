@@ -19,10 +19,9 @@ namespace Framework.Competition
 		{
 			round = 0;
 
-			Type[] competitors = LoadBehaviours();
-			ChallengerPanel.InitializeSelectionProcess(competitors);
+			ChallengerPanel.InitializeSelectionProcess(_behaviours);
 
-			List<Type> bosses = new List<Type>(competitors);
+			List<Type> bosses = new List<Type>(_behaviours);
 			bosses = Utilities.Shuffle(bosses);
 			Bosses = bosses.ToArray();
 

@@ -12,11 +12,9 @@ namespace Framework.Competition
 		/// <inheritdoc />
 		public override void Initialize()
 		{
-			Type[] competitors = LoadBehaviours();
-
 			foreach (SelectionPanel panel in selectionPanels)
 			{
-				panel.InitializeSelectionProcess(competitors);
+				panel.InitializeSelectionProcess(_behaviours);
 			}
 
 			Debug.Log("VersusManager successfully Initialized");

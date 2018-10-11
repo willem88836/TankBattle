@@ -9,8 +9,7 @@ namespace Framework.Competition
 
 		public override void Initialize()
 		{
-			competitors = LoadBehaviours();
-			competitors = Utilities.Shuffle(competitors);
+			competitors = Utilities.Shuffle(_behaviours);
 		}
 
 		public override void OnMatchFinish(Type winner)
