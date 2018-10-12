@@ -68,5 +68,11 @@ namespace Framework.Competition
 
 			Debug.LogFormat("Boss Battle started with {0} and {1}", challenger.ToString(), currentBoss.ToString());
 		}
+
+		protected override void OnTankDestroyed(Type destroyed)
+		{
+			Type winner = destroyed == challenger ? challenger : Bosses[round];
+			OnMatchFinish(winner);
+		}
 	}
 }

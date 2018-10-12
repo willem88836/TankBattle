@@ -1,5 +1,6 @@
 ﻿using Framework.Core;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Framework.Competition
@@ -7,7 +8,10 @@ namespace Framework.Competition
 	public sealed class VersusManager : CompetitionManager
 	{
 		[Header("VersusManager Settings")]
-		[SerializeField] private SelectionPanel[] selectionPanels;
+		public SelectionPanel[] selectionPanels;
+
+		private List<Type> competitors = new List<Type>();
+
 
 		/// <inheritdoc />
 		public override void Initialize()
@@ -30,18 +34,30 @@ namespace Framework.Competition
 		{
 			Spawner.Clear();
 
-			Type[] selection = FetchSelection();
-			Spawner.Spawn(selection);
+			competitors = FetchSelection();
+			Spawner.Spawn(competitors);
 		}
 
-		private Type[] FetchSelection()
+		/// <inheritdoc />
+		protected override void OnTankDestroyed(Type destroyed)
 		{
-			Type[] selection = new Type[selectionPanels.Length];
+			competitors.Remove(destroyed);
+
+			if (competitors.Count > 1)
+				return;
+
+			OnMatchFinish(competitors[0]);
+		}
+
+
+		private List<Type> FetchSelection()
+		{
+			List<Type> selection = new List<Type>();
 
 			for(int i = 0; i < selectionPanels.Length; i++)
 			{
 				SelectionPanel current = selectionPanels[i];
-				selection[i] = current.Selection;
+				selection.Add(current.Selection);
 			}
 
 			return selection;

@@ -1,5 +1,4 @@
-﻿using Framework.Core;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -44,6 +43,18 @@ namespace Framework
 		}
 
 		/// <summary>
+		///		Spawns all behaviours provided inside the list.
+		/// </summary>
+		public virtual void Spawn(List<Type> behaviour)
+		{
+			for (int i = 0; i < behaviour.Count; i++)
+			{
+				Type current = behaviour[i];
+				Spawn(current);
+			}
+		}
+
+		/// <summary>
 		///		Spawns multiple objects with the provided behaviour
 		///		at multiple spawn locations.
 		/// </summary>
@@ -55,11 +66,13 @@ namespace Framework
 			}
 		}
 
+
 		/// <summary>
 		///		Spawns one object with the provided behaviour
 		///		at one of the set spawnlocations.
 		/// </summary>
 		public abstract void Spawn(Type behaviour);
+
 
 		protected void SpawnAt(Type behaviour, Vector3 position, Quaternion rotation)
 		{

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Framework.Core
 {
@@ -28,9 +29,33 @@ namespace Framework.Core
 		/// </summary>
 		public static T[] Shuffle<T>(T[] range)
 		{
+			// TODO: Make this less tacky.
 			List<T> list = new List<T>(range);
 			list = Shuffle(list);
 			return list.ToArray();
+		}
+		/// <summary>
+		///		Returns a list containing a shuffled version of the range.
+		/// </summary>
+		public static List<T> ShuffleToList<T>(T[] range)
+		{
+			List<T> list = new List<T>();
+			for (int i = 0; i < range.Length; i++)
+			{
+				T item = range[i];
+				int index = Random.Range(0, list.Count);
+				list.Insert(index, item);
+			}
+			return list;
+		}
+		/// <summary>
+		///		Returns an array containing a shuffled version of the list.
+		/// </summary>
+		public static T[] ShuffleToArray<T>(List<T> list)
+		{
+			// TODO: Make this less tacky.
+			List<T> shuffledList = Shuffle(list);
+			return shuffledList.ToArray();
 		}
 
 		#endregion	

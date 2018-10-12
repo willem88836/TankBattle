@@ -65,7 +65,7 @@ namespace Framework.Competition
 		/// <summary>
 		///		Is called every time a tank is destroyed.
 		/// </summary>
-		protected abstract void OnTankDestroyed(Type destoyed);
+		protected abstract void OnTankDestroyed(Type destroyed);
 
 #if UNITY_EDITOR
 		private void Update()

@@ -1,15 +1,16 @@
 ﻿using Framework.Core;
 using System;
+using System.Collections.Generic;
 
 namespace Framework.Competition
 {
 	public class FreeForAllManager : CompetitionManager
 	{
-		private Type[] competitors;
+		private List<Type> competitors = new List<Type>();
 
 		public override void Initialize()
 		{
-			competitors = Utilities.Shuffle(_behaviours);
+			competitors = Utilities.ShuffleToList(_behaviours);
 		}
 
 		public override void OnMatchFinish(Type winner)
@@ -20,6 +21,16 @@ namespace Framework.Competition
 		public override void OnNewMatchStart()
 		{
 			Spawner.Spawn(competitors);
+		}
+
+		protected override void OnTankDestroyed(Type destroyed)
+		{
+			competitors.Remove(destroyed);
+
+			if (competitors.Count > 1)
+				return;
+
+			OnMatchFinish(competitors[0]);
 		}
 	}
 }
