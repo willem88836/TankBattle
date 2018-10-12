@@ -42,7 +42,7 @@ namespace Framework
 		/// <summary>
 		///		Loads all existing tankbehaviours at the selected path.
 		/// </summary>
-		protected virtual Type[] LoadBehaviours()
+		protected Type[] LoadBehaviours()
 		{
 			Type baseType = typeof(TankController);
 			Assembly assembly = Assembly.GetAssembly(baseType);

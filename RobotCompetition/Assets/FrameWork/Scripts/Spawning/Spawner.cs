@@ -13,9 +13,7 @@ namespace Framework
 		public GameObject BaseObject;
 		public Transform Parent;
 
-		public Action<GameObject> OnSpawn;
-
-		protected List<GameObject> SpawnedObjects = new List<GameObject>();
+		public List<GameObject> SpawnedObjects = new List<GameObject>();
 
 
 		/// <summary>
@@ -70,7 +68,6 @@ namespace Framework
 			spawnedObject.name = BaseObject.name + "_" + behaviour.ToString();
 
 			SpawnedObjects.Add(spawnedObject);
-			OnSpawn.SafeInvoke(spawnedObject);
 		}
 	}
 }

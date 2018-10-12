@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Framework.Competition
@@ -8,7 +9,7 @@ namespace Framework.Competition
 	/// </summary>
 	public abstract class CompetitionManager : BattleManager
 	{
-		public int CompetitorCount { get; protected set; }
+		public int CompetitorCount { get { return _behaviours != null ? _behaviours.Length : 0; } }
 
 		public Action<Type> OnGameFinish;
 		public Action OnIntermission;
@@ -24,22 +25,31 @@ namespace Framework.Competition
 			Spawner.BaseObject = _tankPrefab;
 			Spawner.Parent = _tankContainer;
 
-			Spawner.OnSpawn += (GameObject tank) =>
-			{
-				TankMotor motor = tank.GetComponent<TankMotor>();
-				motor.OnTankDestroyed += (Type type) =>
-				{
-					//todo: continue here.
-					Debug.Log(type.ToString());
-					OnTankDestroyed(type);
-				};
-			};
-
-
 			Initialize();
+			ApplyOnDestroy();
 		}
 
 		public abstract void Initialize();
+
+		/// <summary>
+		///		Adds delegate OnTankDestroyed(Type) to each TankMotor.
+		/// </summary>
+		protected void ApplyOnDestroy()
+		{
+			List<GameObject> tanks = Spawner.SpawnedObjects;
+
+			if (tanks == null)
+				return;
+
+			foreach (GameObject tank in tanks)
+			{
+				TankMotor motor = tank.GetComponent<TankMotor>();
+				Action<Type> onDestroyed = (Type t) => { OnTankDestroyed(t); };
+				motor.OnTankDestroyed -= onDestroyed;
+				motor.OnTankDestroyed += onDestroyed;
+			}
+		}
+
 
 		/// <summary>
 		///		Is called when a new match is supposed to start. 
@@ -52,14 +62,10 @@ namespace Framework.Competition
 		/// </summary>
 		public abstract void OnMatchFinish(Type winner);
 
-		protected override Type[] LoadBehaviours()
-		{
-			Type[] competitors = base.LoadBehaviours();
-			CompetitorCount = competitors.Length;
-			return competitors;
-		}
-
-		protected virtual void OnTankDestroyed(Type destoyed) { }
+		/// <summary>
+		///		Is called every time a tank is destroyed.
+		/// </summary>
+		protected abstract void OnTankDestroyed(Type destoyed);
 
 #if UNITY_EDITOR
 		private void Update()
