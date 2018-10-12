@@ -12,6 +12,7 @@ namespace Framework
 	
 		[Header("General")]
 		[SerializeField] int _targetFramerate = 60;
+		[SerializeField, Range(1, 20)] int _behaviourEntries = 1;
 
 		[Header("Prefabs")]
 		[SerializeField] protected GameObject _tankPrefab;
@@ -48,8 +49,15 @@ namespace Framework
 			Assembly assembly = Assembly.GetAssembly(baseType);
 			Type[] competitors = (assembly.GetTypes().Where(t => t != baseType && baseType.IsAssignableFrom(t))).ToArray();
 
-			Debug.LogFormat("{0} competitor behaviours loaded!", competitors.Length);
-			return competitors;
+			// This is for debugging purposes.
+			Type[] multipliedCompetitors = new Type[competitors.Length * _behaviourEntries];
+			for (int i = 0; i < multipliedCompetitors.Length; i++)
+			{
+				multipliedCompetitors[i] = competitors[i % competitors.Length];
+			}
+
+			Debug.LogFormat("{0} competitor behaviours loaded!", multipliedCompetitors.Length);
+			return multipliedCompetitors;
 		}
 
 		protected void ClearBullets()

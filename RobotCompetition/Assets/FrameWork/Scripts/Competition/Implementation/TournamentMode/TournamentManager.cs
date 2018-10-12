@@ -19,7 +19,6 @@ namespace Framework.Competition
 		[Header("Tournament Settings")]
 		public int PoolSize;
 		public int MatchCount;
-		[Range(1, 10)] public int Entries;
 
 		[NonSerialized] public List<Pool> Pools;
 
@@ -39,7 +38,6 @@ namespace Framework.Competition
 			Pools = new List<Pool>();
 
 			Type[] competitors = _behaviours;
-			competitors = AddEntries(competitors, Entries);
 			competitors = Utilities.Shuffle(competitors);
 
 			EnrollCompetitors(competitors);
@@ -119,28 +117,6 @@ namespace Framework.Competition
 				roundRange.X = roundRange.Y;
 				roundRange.Y = Pools.Count;
 			}
-		}
-
-
-		/// <summary>
-		///		Enters all competitors multiple times.
-		/// </summary>
-		private Type[] AddEntries(Type[] competitors, int entryCount)
-		{
-			Type[] allCompetitors = new Type[competitors.Length * entryCount];
-
-			for (int i = 0; i < entryCount; i++)
-			{
-				for (int j = 0; j < competitors.Length; j++)
-				{
-					int index = i * competitors.Length + j;
-					allCompetitors[index] = competitors[j];
-				}
-			}
-
-			CompetitorCount *= Entries;
-
-			return allCompetitors;
 		}
 
 		/// <summary>
