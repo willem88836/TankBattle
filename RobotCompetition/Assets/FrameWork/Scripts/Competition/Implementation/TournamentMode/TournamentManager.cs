@@ -26,7 +26,6 @@ namespace Framework.Competition
 		public int Round { get; private set; }
 		public int Match { get; private set;}
 
-
 		/// <summary>
 		///		Creates a new Tournament.
 		/// </summary>
@@ -81,6 +80,8 @@ namespace Framework.Competition
 				Type tankBehaviour = pool.Competitors[i];
 				Spawner.Spawn(tankBehaviour);
 			}
+
+
 		}
 
 		/// <inheritdoc />
@@ -139,6 +140,11 @@ namespace Framework.Competition
 			}
 
 			Pools = new List<Pool>(pools);
+		}
+
+		protected override void OnTankDestroyed(Type destroyed)
+		{
+			// TODO: Continue here with gameloop
 		}
 	}
 }

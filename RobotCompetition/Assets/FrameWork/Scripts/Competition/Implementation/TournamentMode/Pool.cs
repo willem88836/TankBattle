@@ -10,19 +10,41 @@ namespace Framework.Competition
 	[Serializable]
 	public class Pool
 	{
-		public List<Type> Competitors;
-		public List<int> Score;
+		private class Competitor
+		{
+			public Type Type;
+			public int Score;
+			public bool IsDefeated;
+		}
+
+		private List<Competitor> Competitors = new List<Competitor>();
+
+		public Type TypeAt(int index)
+		{
+			return Competitors[index].Type;
+		}
+		public int ScoreAt(int index)
+		{
+			return Competitors[index].Score;
+		}
+		public bool IsDefeatedAt(int index)
+		{
+			return Competitors[index].IsDefeated;
+		}
+
 
 		public Pool()
 		{
-			Competitors = new List<Type>();
-			Score = new List<int>();
+			Competitors = new List<Competitor>();
 		}
 
 		public Pool(List<Type> competitors)
 		{
-			Competitors = competitors;
-			Score = new List<int>(competitors.Count);
+			Competitors.Clear();
+			foreach(Type t in competitors)
+			{
+				this.Competitors.Add(new Competitor() { Type = t });
+			}
 		}
 
 		/// <summary>
@@ -30,8 +52,7 @@ namespace Framework.Competition
 		/// </summary>
 		public void Add(Type competitor)
 		{
-			Competitors.Add(competitor);
-			Score.Add(0);
+			Competitors.Add(new Competitor() { Type = competitor });
 		}
 
 		/// <summary>
@@ -39,9 +60,9 @@ namespace Framework.Competition
 		/// </summary>
 		public void Remove(Type competitor)
 		{
-			int index = Competitors.IndexOf(competitor);
-			Competitors.RemoveAt(index);
-			Score.RemoveAt(index);
+			Competitors.Remove(
+				Competitors.Find(
+					(Competitor c) => { return c.Type == competitor; }));
 		}
 
 		/// <summary>
@@ -50,6 +71,7 @@ namespace Framework.Competition
 		/// </summary>
 		public bool IsTied()
 		{
+			// TODO: Continue here with Pool Update.
 			Type winner = FetchWinner();
 			int index = Competitors.IndexOf(winner);
 
