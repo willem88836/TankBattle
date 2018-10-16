@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
-using UnityEditor;
 
 namespace Framework.Core
 {
 #if UNITY_EDITOR
+	using UnityEditor;
+
 	[CustomPropertyDrawer(typeof(Int2RangeAttribute))]
 	public sealed class Int2Drawer : PropertyDrawer
 	{
