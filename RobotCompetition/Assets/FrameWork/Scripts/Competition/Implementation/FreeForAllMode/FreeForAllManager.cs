@@ -8,10 +8,7 @@ namespace Framework.Competition
 	{
 		private List<Type> competitors = new List<Type>();
 
-		public override void Initialize()
-		{
-			competitors = Utilities.ShuffleToList(_behaviours);
-		}
+		public override void Initialize() { }
 
 		public override void OnMatchFinish(Type winner)
 		{
@@ -20,7 +17,10 @@ namespace Framework.Competition
 
 		public override void OnNewMatchStart()
 		{
+			competitors = Utilities.ShuffleToList(_behaviours);
+			Spawner.Clear();
 			Spawner.Spawn(competitors);
+			ApplyOnDestroy();
 		}
 
 		protected override void OnTankDestroyed(Type destroyed)

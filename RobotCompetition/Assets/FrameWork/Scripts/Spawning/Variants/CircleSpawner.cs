@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Framework
@@ -14,7 +15,7 @@ namespace Framework
 		public override void Spawn(params Type[] behaviour)
 		{
 			behaviourIndex = 0;
-			count = behaviour.Length;
+			this.count = behaviour.Length;
 
 			for (int i = 0; i < count; i++)
 			{
@@ -35,6 +36,19 @@ namespace Framework
 			}
 		}
 
+		public override void Spawn(List<Type> behaviour)
+		{
+			behaviourIndex = 0;
+			this.count = behaviour.Count;
+
+			for (int i = 0; i < count; i++)
+			{
+				Spawn(behaviour[i]);
+				behaviourIndex++;
+			}
+		}
+
+
 		public override void Spawn(Type behaviour)
 		{
 			float angle = Mathf.Deg2Rad * (behaviourIndex / (float)count) * 360f;
@@ -42,7 +56,9 @@ namespace Framework
 
 			position *= Radius;
 
-			SpawnAt(behaviour, position, Quaternion.Euler(0, (Mathf.Rad2Deg * angle) + 270, 0));
+			float yRot = (Mathf.Rad2Deg * angle) + 270;
+			Quaternion rotation = Quaternion.Euler(0, yRot, 0);
+			SpawnAt(behaviour, position, rotation);
 		}
 	}
 }
