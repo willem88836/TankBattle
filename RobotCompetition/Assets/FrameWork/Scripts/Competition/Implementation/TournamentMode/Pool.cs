@@ -77,7 +77,7 @@ namespace Framework.Competition
 		/// </summary>
 		public void SortToScore()
 		{
-			Competitors.Sort((c1, c2) => c1.Score.CompareTo(c2.Score));
+			Competitors.Sort((c1, c2) => c2.Score.CompareTo(c1.Score));
 		}
 	}
 }

@@ -383,6 +383,27 @@ MonoBehaviour:
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
   m_ChildControlHeight: 0
+--- !u!1 &183813669 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1062606035508762, guid: 44396bcb42f2f354bbe48a515de52043,
+    type: 2}
+  m_PrefabInternal: {fileID: 1221230731}
+--- !u!114 &183813670
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 183813669}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b33abfe4361ed8b4998bb2af78866659, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  menuScreen: {fileID: 171299678}
+  intermissionScreen: {fileID: 0}
+  Manager: {fileID: 140290919}
+  WinnerText: 'Winner: {0}!'
+  WinnerTextField: {fileID: 1367693010}
 --- !u!1 &230122601
 GameObject:
   m_ObjectHideFlags: 0
@@ -1567,6 +1588,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   menuScreen: {fileID: 171299678}
+  intermissionScreen: {fileID: 0}
   Manager: {fileID: 140290919}
   WinnerText: 'Winner: {0}'
   WinnerTextField: {fileID: 1367693010}

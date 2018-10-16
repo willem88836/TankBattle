@@ -6,6 +6,7 @@ namespace Framework.Competition
 	public class CompetitionInterface : MonoBehaviour
 	{
 		public GameObject menuScreen;
+		public GameObject intermissionScreen;
 		public CompetitionManager Manager;
 		public string WinnerText;
 		public Text WinnerTextField;
@@ -14,6 +15,7 @@ namespace Framework.Competition
 		private void Awake()
 		{
 			Manager.OnGameFinish += (System.Type winner) => { GameFinished(winner); };
+			Manager.OnIntermission += IntermissionStarted;
 			WinnerTextField.gameObject.SetActive(false);
 		}
 
@@ -22,6 +24,11 @@ namespace Framework.Competition
 			menuScreen.SetActive(true);
 			WinnerTextField.text = string.Format(WinnerText, winner.ToString());
 			WinnerTextField.gameObject.SetActive(true);
+		}
+
+		private void IntermissionStarted()
+		{
+			intermissionScreen.SetActive(true);
 		}
 	}
 }

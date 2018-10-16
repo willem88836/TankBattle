@@ -47,6 +47,9 @@ namespace Framework.Competition
 
 
 			EnrollNewCompetitors(competitors);
+
+			roundRange.X = 0;
+			roundRange.Y = Pools.Count;
 		}
 
 		/// <inheritdoc />
@@ -55,7 +58,7 @@ namespace Framework.Competition
 			Pool current = Pools[Round];
 			current.CompetitorAs(winner).Score++;
 			Spawner.Clear();
-			OnIntermission.SafeInvoke();
+			OnGameFinish.SafeInvoke(winner);
 		}
 
 		/// <inheritdoc />
@@ -109,7 +112,9 @@ namespace Framework.Competition
 
 			for (int i = 0; i < pool.Count; i++)
 			{
-				Spawner.Spawn(pool.CompetitorAt(i).Type);
+				Competitor current = pool.CompetitorAt(i);
+				current.IsDefeated = false;
+				Spawner.Spawn(current.Type);
 			}
 
 			ApplyOnDestroy();
@@ -126,7 +131,7 @@ namespace Framework.Competition
 			{
 				Pool current = Pools[i];
 				current.SortToScore();
-				winners[i] = current.CompetitorAt(0).Type;
+				winners[i - roundRange.X] = current.CompetitorAt(0).Type;
 			}
 
 			// If this is the last match.
