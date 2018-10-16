@@ -12,7 +12,7 @@ namespace Framework.Competition
 		public int CompetitorCount { get { return _behaviours != null ? _behaviours.Length : 0; } }
 
 		public Action<Type> OnGameFinish;
-		public Action OnIntermission;
+		public Action<Type> OnIntermission;
 
 
 		[Header("CompetitionManager Settings")]

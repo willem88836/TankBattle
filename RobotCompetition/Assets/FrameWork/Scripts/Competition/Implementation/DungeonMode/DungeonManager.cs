@@ -48,7 +48,7 @@ namespace Framework.Competition
 				}
 				else
 				{
-					OnIntermission.SafeInvoke();
+					OnIntermission.SafeInvoke(winner);
 				}
 			}
 		}

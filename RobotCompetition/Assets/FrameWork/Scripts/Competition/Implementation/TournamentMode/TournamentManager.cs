@@ -58,13 +58,6 @@ namespace Framework.Competition
 			Pool current = Pools[Round];
 			current.CompetitorAs(winner).Score++;
 			Spawner.Clear();
-			OnGameFinish.SafeInvoke(winner);
-		}
-
-		/// <inheritdoc />
-		public override void OnNewMatchStart()
-		{
-			Pool current = Pools[Round];
 
 			// When round is finished.
 			if (Match >= MatchCount && !current.IsTied())
@@ -75,9 +68,16 @@ namespace Framework.Competition
 				if (Round >= roundRange.Y)
 				{
 					OnStageFinished();
+					return;
 				}
 			}
 
+			OnIntermission.SafeInvoke(winner);
+		}
+
+		/// <inheritdoc />
+		public override void OnNewMatchStart()
+		{
 			StartNewRound();
 			Match++;
 		}
@@ -104,6 +104,10 @@ namespace Framework.Competition
 		}
 
 
+		/// <summary>
+		///		Spawns a new round of tanks 
+		///		and prepares them for battle.
+		/// </summary>
 		private void StartNewRound()
 		{
 			Spawner.Clear();
@@ -144,6 +148,7 @@ namespace Framework.Competition
 				EnrollNewCompetitors(winners);
 				roundRange.X = roundRange.Y;
 				roundRange.Y = Pools.Count;
+				OnIntermission.SafeInvoke(winners[winners.Length - 1]);
 			}
 		}
 
