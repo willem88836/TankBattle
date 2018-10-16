@@ -66,6 +66,8 @@ namespace Framework.Competition
 			Type currentBoss = Bosses[round];
 			Spawner.Spawn(challenger, currentBoss);
 
+			ApplyOnDestroy();
+
 			Debug.LogFormat("Boss Battle started with {0} and {1}", challenger.ToString(), currentBoss.ToString());
 		}
 

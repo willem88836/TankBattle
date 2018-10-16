@@ -55,7 +55,7 @@ namespace Framework
         Vector3 _previousPosition;
         float _calculatedSpeed;
 
-        bool _isDestroyed;
+        public bool _isDestroyed;
 
 		public Action<Type> OnTankDestroyed;
 

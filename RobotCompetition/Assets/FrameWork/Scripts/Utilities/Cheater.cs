@@ -50,6 +50,11 @@ namespace Framework.Core
 						if (tank != null)
 						{
 							TankMotor motor = tank.GetComponent<TankMotor>();
+
+							if (motor._isDestroyed)
+								continue;
+
+							Debug.Log(motor.name);
 							motor.Damage(float.MaxValue);
 							break;
 						}
