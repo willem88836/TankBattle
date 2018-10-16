@@ -21,9 +21,10 @@ namespace Framework.Competition
 			{
 				Pool pool = Manager.Pools[i];
 				GraphTile tile = Tiles[i].GetComponent<GraphTile>();
-				for (int j = 0; j < pool.Competitors.Count; j++)
+				for (int j = 0; j < pool.Count; j++)
 				{
-					tile.Add(pool.Competitors[j].ToString(), pool.Score[j]);
+					Competitor competitor = pool.CompetitorAt(j);
+					tile.Add(competitor.Type.ToString(), competitor.Score);
 				}
 			}
 		}

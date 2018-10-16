@@ -17,48 +17,61 @@ namespace Framework.Competition
 	public sealed class TournamentManager : CompetitionManager
 	{
 		[Header("Tournament Settings")]
-		public int PoolSize;
-		public int MatchCount;
+		[Range(1, 20)] public int PoolSize;
+		[Range(1, 30)] public int MatchCount;
 
-		[NonSerialized] public List<Pool> Pools;
+		[NonSerialized] public List<Pool> Pools = new List<Pool>();
 
-		private Int2 roundRange;
 		public int Round { get; private set; }
 		public int Match { get; private set;}
 
-		/// <summary>
-		///		Creates a new Tournament.
-		/// </summary>
+		// Marks what pools are within this round. 
+		private Int2 roundRange;
+
+
+		/// <inheritdoc />
 		public override void Initialize()
 		{
+			if (Pools == null)
+				Pools = new List<Pool>();
+			else
+				Pools.Clear();
+
+
 			Round = 0;
 			Match = 0;
 
-			Pools = new List<Pool>();
 
 			Type[] competitors = _behaviours;
 			competitors = Utilities.Shuffle(competitors);
 
-			EnrollCompetitors(competitors);
 
-			roundRange = new Int2(0, Pools.Count);
+			EnrollNewCompetitors(competitors);
+		}
 
-			Debug.Log("TournamentManager successfully Initialized");
+		/// <inheritdoc />
+		public override void OnMatchFinish(Type winner)
+		{
+			Pool current = Pools[Round];
+			current.CompetitorAs(winner).Score++;
+			Spawner.Clear();
+			OnIntermission.SafeInvoke();
 		}
 
 		/// <inheritdoc />
 		public override void OnNewMatchStart()
 		{
-			Pool pool = Pools[Round];
+			Pool current = Pools[Round];
 
-			if (Match >= MatchCount && !pool.IsTied())
+			// When round is finished.
+			if (Match >= MatchCount && !current.IsTied())
 			{
 				Round++;
 				Match = 0;
 
 				if (Round >= roundRange.Y)
 				{
-					OnStageFinish();
+					OnStageFinished();
 				}
 			}
 
@@ -66,55 +79,62 @@ namespace Framework.Competition
 			Match++;
 		}
 
-		/// <summary>
-		///		Is called once a new round is started. 
-		/// </summary>
-		private void StartNewRound()
+		/// <inheritdoc />
+		protected override void OnTankDestroyed(Type destroyed)
 		{
-			Pool pool = Pools[Round];
-				
-			Spawner.Clear();
+			Pool current = Pools[Round];
+			current.CompetitorAs(destroyed).IsDefeated = true;
 
-			for (int i = 0; i < pool.Competitors.Count; i++)
+			int destroyedCount = 0;
+			for (int i = 0; i < current.Count; i++)
 			{
-				Type tankBehaviour = pool.Competitors[i];
-				Spawner.Spawn(tankBehaviour);
+				if (current.CompetitorAt(i).IsDefeated)
+					destroyedCount++;
 			}
 
-
+			if (destroyedCount >= current.Count - 1)
+			{
+				current.SortToScore();
+				Type winner = current.CompetitorAt(0).Type;
+				OnMatchFinish(winner);
+			}
 		}
 
-		/// <inheritdoc />
-		public override void OnMatchFinish(Type winner)
-		{
-			Pool pool = Pools[Round];
-			int i = pool.Competitors.IndexOf(winner);
-			pool.Score[i]++;
-			Spawner.Clear();
-			OnIntermission.SafeInvoke();
 
-			Debug.LogFormat("Matches finished: {0} won!", winner.ToString());
+		private void StartNewRound()
+		{
+			Spawner.Clear();
+
+			Pool pool = Pools[Round];
+
+			for (int i = 0; i < pool.Count; i++)
+			{
+				Spawner.Spawn(pool.CompetitorAt(i).Type);
+			}
 		}
 
 		/// <summary>
-		///		Is called once a stage is finished.
+		///		Makes sure all winners of the current stage
+		///		are added to the next stage.
 		/// </summary>
-		private void OnStageFinish()
+		private void OnStageFinished()
 		{
-			// Adds the winners of the previous pools to new ones.
 			Type[] winners = new Type[roundRange.Y - roundRange.X];
 			for (int i = roundRange.X; i < roundRange.Y; i++)
 			{
-				Type winner = Pools[i].FetchWinner();
-				winners[roundRange.Y - i - 1] = winner;
+				Pool current = Pools[i];
+				current.SortToScore();
+				winners[i] = current.CompetitorAt(0).Type;
 			}
+
+			// If this is the last match.
 			if (winners.Length == 1)
 			{
 				OnGameFinish.SafeInvoke(winners[0]);
 			}
 			else
 			{
-				EnrollCompetitors(winners);
+				EnrollNewCompetitors(winners);
 				roundRange.X = roundRange.Y;
 				roundRange.Y = Pools.Count;
 			}
@@ -124,27 +144,25 @@ namespace Framework.Competition
 		///		Enrolls the provided Types to one or more
 		///		new Pools.
 		/// </summary>
-		private void EnrollCompetitors(Type[] competitors)
+		private void EnrollNewCompetitors(Type[] newCompetitors)
 		{
-			int poolCount = Mathf.CeilToInt(competitors.Length / PoolSize);
+			int newPoolCount = Mathf.CeilToInt(newCompetitors.Length / PoolSize);
+			int oldPoolCount = Pools.Count;
 
-			Pool[] pools = new Pool[poolCount];
-
-			for (int i = 0; i < competitors.Length; i++)
+			for (int i = 0; i < newCompetitors.Length; i++)
 			{
-				int poolIndex = i % poolCount;
-				Pool pool = pools[poolIndex] == null
-					? pools[poolIndex] = new Pool()
-					: pools[poolIndex];
-				pool.Add(competitors[i]);
+				Pool currentPool;
+				Type currentCompetitor = newCompetitors[i];
+
+				int index = i % newPoolCount + oldPoolCount;
+				if (Pools.Count <= index)
+				{
+					Pools.Add(new Pool());
+				}
+				currentPool = Pools[index];
+
+				currentPool.Add(currentCompetitor);
 			}
-
-			Pools = new List<Pool>(pools);
-		}
-
-		protected override void OnTankDestroyed(Type destroyed)
-		{
-			// TODO: Continue here with gameloop
 		}
 	}
 }

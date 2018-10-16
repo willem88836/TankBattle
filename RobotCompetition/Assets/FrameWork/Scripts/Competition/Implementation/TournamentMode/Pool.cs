@@ -1,26 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace Framework.Competition
 {
 	/// <summary>
 	///		Contains all information used inside one competitor pool.
 	/// </summary>
-	[Serializable]
 	public class Pool
 	{
-		/// <summary>
-		///		Contains one Competitor's info.
-		/// </summary>
-		private class Competitor
-		{
-			public Type Type = null;
-			public int Score = 0;
-			public bool IsDefeated = false;
-		}
 
 		private List<Competitor> Competitors = new List<Competitor>();
+
+		public int Count { get { return Competitors == null ? 0 : Competitors.Count; } }
 
 
 		public Pool()
@@ -44,17 +35,13 @@ namespace Framework.Competition
 		}
 
 
-		public Type TypeAt(int index)
+		public Competitor CompetitorAt(int index)
 		{
-			return Competitors[index].Type;
+			return Competitors[index];
 		}
-		public int ScoreAt(int index)
+		public Competitor CompetitorAs(Type type)
 		{
-			return Competitors[index].Score;
-		}
-		public bool IsDefeatedAt(int index)
-		{
-			return Competitors[index].IsDefeated;
+			return Competitors.Find((Competitor c) => c.Type == type);
 		}
 
 

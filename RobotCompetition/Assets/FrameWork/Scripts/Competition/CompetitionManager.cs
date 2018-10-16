@@ -66,16 +66,5 @@ namespace Framework.Competition
 		///		Is called every time a tank is destroyed.
 		/// </summary>
 		protected abstract void OnTankDestroyed(Type destroyed);
-
-#if UNITY_EDITOR
-		private void Update()
-		{
-			if (Input.GetKeyDown(KeyCode.F))
-			{
-				Debug.LogWarning("Force-Finishing Match");
-				OnMatchFinish(null);
-			}
-		}
-#endif
 	}
 }
