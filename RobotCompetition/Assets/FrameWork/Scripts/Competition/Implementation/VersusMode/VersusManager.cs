@@ -36,6 +36,7 @@ namespace Framework.Competition
 
 			competitors = FetchSelection();
 			Spawner.Spawn(competitors);
+			ApplyOnDestroy();
 		}
 
 		/// <inheritdoc />
