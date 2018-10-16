@@ -111,6 +111,8 @@ namespace Framework.Competition
 			{
 				Spawner.Spawn(pool.CompetitorAt(i).Type);
 			}
+
+			ApplyOnDestroy();
 		}
 
 		/// <summary>

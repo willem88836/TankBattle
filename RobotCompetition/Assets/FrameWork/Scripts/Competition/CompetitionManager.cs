@@ -16,7 +16,7 @@ namespace Framework.Competition
 
 
 		[Header("CompetitionManager Settings")]
-		public Spawner Spawner;
+		public TankSpawner Spawner;
 
 		protected override void Awake()
 		{

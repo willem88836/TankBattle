@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Framework.Competition
 {
-	public sealed class StaticSpawner : Spawner
+	public sealed class StaticSpawner : TankSpawner
 	{
 		public Transform[] SpawnLocations;
 

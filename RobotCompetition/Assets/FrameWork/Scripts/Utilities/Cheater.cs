@@ -9,7 +9,7 @@ namespace Framework.Core
 		public static bool OneKeysEnabled { get; private set; }
 
 		// Cheat variables
-		public Spawner spawner;
+		public TankSpawner spawner;
 
 		// Cheats
 		public Cheat[] Cheats =

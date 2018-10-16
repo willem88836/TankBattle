@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Framework
 {
-	public sealed class CircleSpawner : Spawner
+	public sealed class CircleSpawner : TankSpawner
 	{
 		public float Radius;
 		private int count;

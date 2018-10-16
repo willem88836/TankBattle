@@ -7,7 +7,7 @@ namespace Framework
 	/// <summary>
 	///		Spawns and despawns objects with a desired behaviour.
 	/// </summary>
-	public abstract class Spawner : MonoBehaviour
+	public abstract class TankSpawner : MonoBehaviour
 	{
 		public GameObject BaseObject;
 		public Transform Parent;
@@ -77,9 +77,8 @@ namespace Framework
 		protected void SpawnAt(Type behaviour, Vector3 position, Quaternion rotation)
 		{
 			GameObject spawnedObject = Instantiate(BaseObject, position, rotation, Parent);
-			spawnedObject.AddComponent(behaviour);
+			spawnedObject.GetComponent<TankMotor>().SetBehaviour(behaviour);
 			spawnedObject.name = BaseObject.name + "_" + behaviour.ToString();
-
 			SpawnedObjects.Add(spawnedObject);
 		}
 	}
