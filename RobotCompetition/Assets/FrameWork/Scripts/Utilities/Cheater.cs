@@ -66,12 +66,18 @@ namespace Framework.Core
 
 		private void Awake()
 		{
+			DontDestroyOnLoad(gameObject);
+
 #if UNITY_EDITOR
 			CheatsEnabled = true;
 #else
-		CheatsEnabled = false;
+			CheatsEnabled = false;
 #endif
-			OneKeysEnabled = false;
+			if (instance == null)
+				OneKeysEnabled = false;
+			else
+				Destroy(instance.gameObject);
+
 			instance = this;
 		}
 
