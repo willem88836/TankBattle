@@ -1,2 +1,0 @@
-You cannot access your real rotation
-	-> MyData.""Rotation returns the rotation value you move towards, not the actual value.
