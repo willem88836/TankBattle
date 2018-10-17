@@ -421,7 +421,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 50bb36b2fb892f9478d1d6e09bcd7109, type: 2}
+  - {fileID: 2100000, guid: 4b93fc0c506c6ff4d9b2062d999188f1, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -760,6 +760,7 @@ MonoBehaviour:
   _rotationSpeed: 45
   _startHealth: 100
   _gunCooldown: 0.5
+  _isDestroyed: 0
 --- !u!198 &198102667257709892
 ParticleSystem:
   m_ObjectHideFlags: 1
