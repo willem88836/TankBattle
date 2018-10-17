@@ -2,62 +2,120 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WillemMeijer : TankController
+public sealed class WillemMeijer : TankController
 {
-	private float movePower = 1;
-
-
-	private void Start()
+	private class Memory
 	{
-		SetBodyColor(Color.blue);
-		SetTurretColor(Color.blue);
+		private const int MAXDATA = 200;
+
+		public string Name = "";
+		public float LastUpdateInterval = 0;
+		public float LastUpdatedAt = 0;
+		public Queue<TankData> Data = new Queue<TankData>();
+
+		public void Add(TankData data)
+		{
+			Data.Enqueue(data);
+
+			if (Data.Count > MAXDATA)
+			{
+				Data.Dequeue();
+			}
+		}
 	}
+
+	private readonly float[] WEIGHTS = new float[] { 1, 1, 1, 1 };
+
+
+	private Dictionary<string, Memory> memories = new Dictionary<string, Memory>();
+
 
 	private void Update()
 	{
+		TankData[] currentData = ReadSensor();
 		TankData ownData = GetOwnData();
-		List<TankData> sensorData = new List<TankData>(ReadSensor());
 
-		SetSensorAngle(ownData.SensorAngle + 1);
-		SetGunAngle(ownData.SensorAngle + 1);
+		MemorizeAll(currentData, ownData);
 
-		if (sensorData.Count == 0)
-		{
-		}
-		else
-		{
-			float minDistance = float.MaxValue;
-			TankData target = null;
-			
-			foreach (TankData tank in sensorData)
-			{
-				float distance = (tank.Position - ownData.Position).sqrMagnitude;
-				if (distance < minDistance)
-				{
-					minDistance = distance;
-					target = tank;
-				}
-			}
+		TankData target = ChooseTarget(currentData, ownData);
 
-			Vector2 normal = target.Position - ownData.Position;
-			float targetAngle = Vector3.Angle(target.Position, ownData.Position);
 
-			//SetGunAngle(targetAngle);
-			//SetSensorAngle(targetAngle); // TODO: Change this to somehting that makes sense. 
-			Shoot();
-		}
-		SetTankAngle(ownData.TankAngle + Mathf.Sin(Time.deltaTime) * 20);
-		SetMovePower(movePower);
-		
-	}
+		float angle = GetAnticipatedAngle(target);
 
-	protected override void OnWallCollision()
-	{
-		movePower *= -1;
-	}
-	protected override void OnTankCollision()
-	{
+		SetGunAngle(angle);
+		SetSensorAngle(angle);
 		Shoot();
-		movePower *= -1;
+	}
+
+
+	/// <summary>
+	///		Adds all data to the memories.
+	/// </summary>
+	private void MemorizeAll(TankData[] currentData, TankData ownData)
+	{
+		foreach (TankData data in currentData)
+		{
+			Memorize(data);
+		}
+		Memorize(ownData);
+	}
+	/// <summary>
+	///		Adds one piece of data to memories.
+	/// </summary>
+	private void Memorize(TankData data)
+	{
+		string name = data.TankName;
+
+		if (!memories.ContainsKey(name))
+		{
+			Memory newMemory = new Memory()
+			{
+				Name = name,
+			};
+			memories.Add(name, newMemory);
+		}
+
+		Memory memory = memories[name];
+		memory.LastUpdateInterval = Time.time - memory.LastUpdatedAt;
+		memory.LastUpdatedAt = Time.time;
+		memory.Add(data);
+	}
+
+	/// <summary>
+	///		Determines what tank is the next target.
+	/// </summary>
+	private TankData ChooseTarget(TankData[] currentData, TankData self)
+	{
+		float weight = 0;
+		int index = 0;
+
+		for(int i = 0; i < currentData.Length; i++)
+		{
+			TankData other = currentData[i];
+
+			float distance = WEIGHTS[0] * (other.Position - self.Position).magnitude;
+			float health = WEIGHTS[1] * other.Health;
+			float sensorAngle = WEIGHTS[2] * other.SensorAngle;
+			float gunAngle = WEIGHTS[3] * other.GunAngle;
+
+			float currentWeight = distance + health + sensorAngle + gunAngle;
+
+			if (currentWeight > weight)
+			{
+				index = i;
+				weight = currentWeight;
+			}
+		}
+
+		return currentData[index];
+	}
+
+
+
+
+
+	private float GetAnticipatedAngle(TankData target)
+	{
+		throw new NotImplementedException();
 	}
 }
