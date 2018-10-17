@@ -10,10 +10,12 @@ namespace Framework
     [RequireComponent(typeof(Rigidbody))]
     public class TankMotor : MonoBehaviour
     {
+		const string TANKTAG = "Tank";
 
 		[Header("TankParts")]
 		[SerializeField] Transform _gunTransform;
 		[SerializeField] Transform _sensorTransform;
+		[SerializeField] Transform _raycastTransform;
 
 		[Header("Bullets")]
 		[SerializeField] GameObject[] _bulletPrefabs = new GameObject[0];
@@ -198,15 +200,35 @@ namespace Framework
         //Retreives all data from tanks in the sensor, returns an AccesData array
         public TankData[] ReadSensor()
         {
-            _tanksInSensor.RemoveAll(Tank => Tank == null);
+			List<TankData> sensorData = new List<TankData>();
 
-			TankData[] sensorData = new TankData[_tanksInSensor.Count];
-			for (int i = 0; i < _tanksInSensor.Count; i++)
+			for (int i = _tanksInSensor.Count - 1; i >= 0; i--)
 			{
-				sensorData[i] = _tanksInSensor[i].GetTankData();
+				TankMotor motor = _tanksInSensor[i];
+
+				// Sorts the tanks in sensor. 
+				if (motor == null)
+				{
+					_tanksInSensor.RemoveAt(i);
+					continue;
+				}
+
+				// Checks if there is no obstruction 
+				// between this and the other tank.
+				Ray ray = new Ray(
+					_raycastTransform.position, 
+					motor.transform.position - _raycastTransform.position);
+
+				RaycastHit hitInfo;
+				if (Physics.Raycast(ray, out hitInfo)
+					&& hitInfo.transform.tag == TANKTAG)
+				{
+					TankData data = motor.GetTankData();
+					sensorData.Add(data);
+				}
 			}
 
-            return sensorData;
+            return sensorData.ToArray();
         }
 
 		public void Shoot()
