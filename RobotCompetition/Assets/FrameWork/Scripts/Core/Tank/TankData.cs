@@ -13,24 +13,23 @@ public class TankData
 	[HideInInspector] public float GunAngle = 0f;
 	[HideInInspector] public float SensorAngle = 0f;
 
-	public TankData CopyTo(TankData data)
+	public void CopyTo(out TankData data)
 	{
-		if (data == null)
-			data = new TankData();
-
-		data.Health = this.Health;
-		data.Position = this.Position;
-		data.MoveSpeed = this.MoveSpeed;
-		data.TankAngle = this.TankAngle;
-		data.GunAngle = this.GunAngle;
-		data.SensorAngle = this.SensorAngle;
-
-		return data;
+		data = new TankData()
+		{
+			Health = this.Health,
+			Position = this.Position,
+			MoveSpeed = this.MoveSpeed,
+			TankAngle = this.TankAngle,
+			GunAngle = this.GunAngle,
+			SensorAngle = this.SensorAngle
+		};
 	}
 
 	public TankData RetreiveData()
 	{
-		TankData newData = new TankData();
-		return this.CopyTo(newData);
+		TankData newData;
+		this.CopyTo(out newData);
+		return newData;
 	}
 }

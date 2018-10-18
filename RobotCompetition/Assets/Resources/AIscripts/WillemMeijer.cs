@@ -12,6 +12,7 @@ public sealed class WillemMeijer : TankController
 		public float LastUpdateInterval = 0;
 		public float LastUpdatedAt = 0;
 		public Queue<TankData> Data = new Queue<TankData>();
+		public TankData NewestData = null;
 
 		public void Add(TankData data)
 		{
@@ -21,29 +22,44 @@ public sealed class WillemMeijer : TankController
 			{
 				Data.Dequeue();
 			}
+
+			NewestData = data;
 		}
+
+		public int Count { get { return Data.Count; } }
 	}
 
-	private readonly float[] WEIGHTS = new float[] { 1, 1, 1, 1 };
-
+	private readonly float[] WEIGHTS = new float[] { 1f, 1f, 1f, 1f };
+	private const int MEMORYINTERVAL = 3;
+	private int memoryIndex;
 
 	private Dictionary<string, Memory> memories = new Dictionary<string, Memory>();
 
-
+	private void Start()
+	{
+		GetOwnData();
+	}
 	private void Update()
 	{
 		TankData[] currentData = ReadSensor();
 		TankData ownData = GetOwnData();
 
-		MemorizeAll(currentData, ownData);
+		if (memoryIndex % MEMORYINTERVAL == 0)
+		{
+			MemorizeAll(currentData, ownData);
+			memoryIndex = 1;
+		}
+		memoryIndex++;
 
 		TankData target = ChooseTarget(currentData, ownData);
 
 
-		float angle = GetAnticipatedAngle(target);
+		TankData prediction = PredictTargetBehaviour(target);
 
-		SetGunAngle(angle);
-		SetSensorAngle(angle);
+
+
+		//SetGunAngle(angle);
+		//SetSensorAngle(angle);
 		Shoot();
 	}
 
@@ -110,12 +126,47 @@ public sealed class WillemMeijer : TankController
 		return currentData[index];
 	}
 
-
-
-
-
-	private float GetAnticipatedAngle(TankData target)
+	/// <summary>
+	///		Predicts in what manner the tank is going to update next. 
+	///		Returns the expected Update.
+	/// </summary>
+	private TankData PredictTargetBehaviour(TankData target)
 	{
-		throw new NotImplementedException();
+		/// TODO: This does not accurately predict the target's position. Predict where it is in X seconds based on the current info.
+		Memory memory = memories[target.TankName];
+		TankData prediction;
+		TankData newest = memory.NewestData;
+
+		if (newest == null)
+			return new TankData();
+
+		
+		newest.CopyTo(out prediction);
+
+		TankData prev = new TankData();
+		foreach(TankData current in memory.Data)
+		{
+			if (current == memory.Data.Peek())
+			{
+				prev = current;
+				continue;
+			}
+
+			prediction.MoveSpeed += current.MoveSpeed - prev.MoveSpeed;
+			prediction.TankAngle += current.TankAngle - prev.TankAngle;
+			prediction.GunAngle += current.GunAngle - prev.GunAngle;
+			prediction.SensorAngle += current.SensorAngle - prev.SensorAngle;
+
+			prev = current;
+		}
+
+		prediction.MoveSpeed /= memory.Count;
+		prediction.TankAngle /= memory.Count;
+		prediction.GunAngle /= memory.Count;
+		prediction.SensorAngle /= memory.Count;
+
+		return prediction;
 	}
+
+
 }
