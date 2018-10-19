@@ -32,8 +32,10 @@ public sealed class WillemMeijer : TankController
 	private readonly float[] WEIGHTS = new float[] { 1f, 1f, 1f, 1f };
 	private const int MEMORYINTERVAL = 3;
 	private const float BULLETSPEED = 10f;
+	private const int DEFAULTROTATERANGE = 120;
 
 	private int defaultRotateDirection = 1;
+	private int defaultMoveDirection = 1;
 
 	private int memoryIndex;
 
@@ -68,9 +70,21 @@ public sealed class WillemMeijer : TankController
 			float angle = self.SensorAngle + defaultRotateDirection;
 			SetSensorAngle(angle);
 			SetGunAngle(angle);
+
+			SetMovePower(Mathf.Sin(Time.time) * defaultMoveDirection);
+			SetTankAngle(Mathf.Sin(Time.time) * DEFAULTROTATERANGE * defaultMoveDirection);
 		}
 
 		Shoot();
+	}
+
+	protected override void OnWallCollision()
+	{
+		defaultMoveDirection *= -1;
+	}
+	protected override void OnTankCollision()
+	{
+		defaultMoveDirection *= -1;
 	}
 
 
