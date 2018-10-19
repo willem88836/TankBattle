@@ -6,21 +6,21 @@ public sealed class WillemMeijer : TankController
 {
 	private class Memory
 	{
-		private const int MAXDATA = 200;
+		public const int MAXDATA = 200;
 
 		public string Name = "";
 		public float LastUpdateInterval = 0;
 		public float LastUpdatedAt = 0;
-		public Queue<TankData> Data = new Queue<TankData>();
+		public List<TankData> Data = new List<TankData>();
 		public TankData NewestData = null;
 
 		public void Add(TankData data)
 		{
-			Data.Enqueue(data);
+			Data.Add(data);
 
 			if (Data.Count > MAXDATA)
 			{
-				Data.Dequeue();
+				Data.RemoveAt(0);
 			}
 
 			NewestData = data;
@@ -31,35 +31,45 @@ public sealed class WillemMeijer : TankController
 
 	private readonly float[] WEIGHTS = new float[] { 1f, 1f, 1f, 1f };
 	private const int MEMORYINTERVAL = 3;
+	private const float BULLETSPEED = 10f;
+
+	private int defaultRotateDirection = 1;
+
 	private int memoryIndex;
 
 	private Dictionary<string, Memory> memories = new Dictionary<string, Memory>();
 
-	private void Start()
-	{
-		GetOwnData();
-	}
+
 	private void Update()
 	{
-		TankData[] currentData = ReadSensor();
-		TankData ownData = GetOwnData();
+		TankData[] sensorData = ReadSensor();
+		TankData self = GetOwnData();
 
 		if (memoryIndex % MEMORYINTERVAL == 0)
 		{
-			MemorizeAll(currentData, ownData);
+			MemorizeAll(sensorData, self);
 			memoryIndex = 1;
 		}
 		memoryIndex++;
 
-		TankData target = ChooseTarget(currentData, ownData);
+		if (sensorData.Length > 0)
+		{
+			TankData target = ChooseTarget(sensorData, self);
 
+			Intercept(self, target);
 
-		TankData prediction = PredictTargetBehaviour(target);
+			float sensorAngle = AngleBetween(self, target);
+			SetSensorAngle(sensorAngle);
 
+			defaultRotateDirection = (sensorAngle + 360) % 360 > self.SensorAngle % 360 ? 1 : -1;
+		}
+		else
+		{
+			float angle = self.SensorAngle + defaultRotateDirection;
+			SetSensorAngle(angle);
+			SetGunAngle(angle);
+		}
 
-
-		//SetGunAngle(angle);
-		//SetSensorAngle(angle);
 		Shoot();
 	}
 
@@ -67,13 +77,14 @@ public sealed class WillemMeijer : TankController
 	/// <summary>
 	///		Adds all data to the memories.
 	/// </summary>
-	private void MemorizeAll(TankData[] currentData, TankData ownData)
+	private void MemorizeAll(TankData[] allData, TankData self)
 	{
-		foreach (TankData data in currentData)
+		foreach (TankData data in allData)
 		{
 			Memorize(data);
 		}
-		Memorize(ownData);
+		// Memorising yourself can be usefull. But I'm not sure how to use it yet. 
+		//Memorize(self);
 	}
 	/// <summary>
 	///		Adds one piece of data to memories.
@@ -100,14 +111,14 @@ public sealed class WillemMeijer : TankController
 	/// <summary>
 	///		Determines what tank is the next target.
 	/// </summary>
-	private TankData ChooseTarget(TankData[] currentData, TankData self)
+	private TankData ChooseTarget(TankData[] allData, TankData self)
 	{
 		float weight = 0;
 		int index = 0;
 
-		for(int i = 0; i < currentData.Length; i++)
+		for(int i = 0; i < allData.Length; i++)
 		{
-			TankData other = currentData[i];
+			TankData other = allData[i];
 
 			float distance = WEIGHTS[0] * (other.Position - self.Position).magnitude;
 			float health = WEIGHTS[1] * other.Health;
@@ -123,50 +134,84 @@ public sealed class WillemMeijer : TankController
 			}
 		}
 
-		return currentData[index];
+		return allData[index];
 	}
 
 	/// <summary>
-	///		Predicts in what manner the tank is going to update next. 
+	///		Predicts in what manner the tank is going change in the next X time. 
 	///		Returns the expected Update.
 	/// </summary>
-	private TankData PredictTargetBehaviour(TankData target)
+	private TankData PredictTargetBehaviour(TankData target, int memoryIndex)
 	{
-		/// TODO: This does not accurately predict the target's position. Predict where it is in X seconds based on the current info.
+		// Selects the data required to do predictions.
 		Memory memory = memories[target.TankName];
-		TankData prediction;
-		TankData newest = memory.NewestData;
 
-		if (newest == null)
-			return new TankData();
+		//int memoryIndex = Memory.MAXDATA - Mathf.RoundToInt(time / (Time.deltaTime * MEMORYINTERVAL));
 
-		
-		newest.CopyTo(out prediction);
+		TankData past = memory.Data[memoryIndex];
+		TankData current = memory.Data[memory.Data.Count - 1];
 
-		TankData prev = new TankData();
-		foreach(TankData current in memory.Data)
+
+		// Adds delta to current information.
+		TankData prediction = new TankData()
 		{
-			if (current == memory.Data.Peek())
-			{
-				prev = current;
-				continue;
-			}
-
-			prediction.MoveSpeed += current.MoveSpeed - prev.MoveSpeed;
-			prediction.TankAngle += current.TankAngle - prev.TankAngle;
-			prediction.GunAngle += current.GunAngle - prev.GunAngle;
-			prediction.SensorAngle += current.SensorAngle - prev.SensorAngle;
-
-			prev = current;
-		}
-
-		prediction.MoveSpeed /= memory.Count;
-		prediction.TankAngle /= memory.Count;
-		prediction.GunAngle /= memory.Count;
-		prediction.SensorAngle /= memory.Count;
+			Position = current.Position + (current.Position - past.Position),
+			MoveSpeed = current.MoveSpeed + (current.MoveSpeed - past.MoveSpeed),
+			TankAngle = current.TankAngle + (current.TankAngle - past.TankAngle),
+			GunAngle = current.GunAngle + (current.GunAngle - past.GunAngle),
+			SensorAngle = current.SensorAngle + (current.SensorAngle - past.SensorAngle),
+		};
 
 		return prediction;
 	}
 
+	/// <summary>
+	///		Returns the angle in degrees between self and target.
+	/// </summary>
+	private float AngleBetween(TankData origin, TankData target)
+	{
+		Vector2 delta = new Vector2(
+			target.Position.x - origin.Position.x, 
+			target.Position.z - origin.Position.z);
 
+		return (float)Math.Atan2(delta.x, delta.y) * Mathf.Rad2Deg;
+	}
+
+	/// <summary>
+	///		Determines what the optimal gun rotation is to shoot at. 
+	/// </summary>
+	private void Intercept(TankData self, TankData target)
+	{
+		float lowestDeviation = float.MaxValue;
+		TankData lowestDeviationPrediction = null;
+
+		if (!memories.ContainsKey(target.TankName))
+			return;
+
+		Memory memory = memories[target.TankName];
+		for (int i = 0; i < memory.Count; i++)
+		{
+			TankData prediction = PredictTargetBehaviour(target, i);
+
+			float bulletSpeed = BULLETSPEED * Time.deltaTime;
+			float distance = (prediction.Position - self.Position).sqrMagnitude;
+			float bulletTravelTime = distance / bulletSpeed;
+
+			float tankTravelTime = i * Time.deltaTime;
+
+			float travelDeviation = Mathf.Abs(bulletTravelTime - tankTravelTime);
+
+			if (lowestDeviationPrediction == null 
+				|| travelDeviation < lowestDeviation)
+			{
+				lowestDeviationPrediction = prediction;
+				lowestDeviation = travelDeviation;
+			}
+		}
+
+		float gunAngle = AngleBetween(self, lowestDeviationPrediction);
+		SetGunAngle(gunAngle);
+
+		//Debug.DrawLine(self.Position, lowestDeviationPrediction.Position, Color.red);
+	}
 }
