@@ -1,13 +1,10 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.Events;
-using System;
 
-namespace Framework
+namespace Framework.Core
 {
-    [RequireComponent(typeof(Rigidbody))]
+	[RequireComponent(typeof(Rigidbody))]
     public class TankMotor : MonoBehaviour
     {
 		const string TANKTAG = "Tank";

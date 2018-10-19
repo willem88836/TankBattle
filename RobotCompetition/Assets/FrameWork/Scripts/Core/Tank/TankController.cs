@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using Framework;
+﻿using Framework.Core;
+using UnityEngine;
 
 [RequireComponent(typeof(TankMotor))]
 public abstract class TankController : MonoBehaviour

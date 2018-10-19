@@ -3,7 +3,7 @@ using System.Reflection;
 using UnityEngine;
 using System;
 
-namespace Framework
+namespace Framework.Core
 {
 	[RequireComponent(typeof(AudioSource))]
 	public class BattleManager : MonoBehaviour

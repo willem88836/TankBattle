@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Framework.Core;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Framework
+namespace Framework.Spawning
 {
 	/// <summary>
 	///		Spawns and despawns objects with a desired behaviour.

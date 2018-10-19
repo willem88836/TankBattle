@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 
-namespace Framework
+namespace Framework.Core
 {
 	public sealed class VersusManager : BattleManager
 	{

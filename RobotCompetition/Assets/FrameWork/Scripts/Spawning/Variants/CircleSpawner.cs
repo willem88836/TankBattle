@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Framework
+namespace Framework.Spawning
 {
 	public sealed class CircleSpawner : TankSpawner
 	{

@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Framework.Competition
+namespace Framework.Spawning
 {
 	public sealed class StaticSpawner : TankSpawner
 	{

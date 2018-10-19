@@ -1,11 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using Framework;
+﻿using UnityEngine;
 
-namespace Framework
+namespace Framework.Core
 {
-    [RequireComponent(typeof(Rigidbody))]
+	[RequireComponent(typeof(Rigidbody))]
     public class BulletBehaviour : MonoBehaviour
     {
 		[SerializeField] float _damage = 10f;
