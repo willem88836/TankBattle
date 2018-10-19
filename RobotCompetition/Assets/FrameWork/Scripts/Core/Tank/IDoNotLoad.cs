@@ -1,4 +1,7 @@
-﻿public interface IDoNotLoad
+﻿namespace Framework.Core
 {
+	public interface IDoNotLoad
+	{
 
+	}
 }

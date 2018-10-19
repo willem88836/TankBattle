@@ -1,9 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using Framework.Core;
 
-public class Debug_03 : TankController, IDoNotLoad {
-
+public class Debug_03 : TankController, IDoNotLoad
+{
     //Only change color to white
     //Mainly for testing purposes of your AI against this AI
 
