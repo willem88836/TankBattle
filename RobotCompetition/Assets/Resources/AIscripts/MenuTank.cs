@@ -2,7 +2,7 @@
 
 namespace Framework
 {
-	public class MenuTank : TankController
+	public class MenuTank : TankController, IDoNotLoad
 	{
 		const float gunSpeed = 25;
 

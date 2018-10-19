@@ -47,7 +47,10 @@ namespace Framework
 		{
 			Type baseType = typeof(TankController);
 			Assembly assembly = Assembly.GetAssembly(baseType);
-			Type[] competitors = (assembly.GetTypes().Where(t => t != baseType && baseType.IsAssignableFrom(t))).ToArray();
+			Type[] competitors = (assembly.GetTypes().Where(t =>
+			t != baseType
+			&& baseType.IsAssignableFrom(t)
+			&& !typeof(IDoNotLoad).IsAssignableFrom(t))).ToArray();
 
 			// This is for debugging purposes.
 			Type[] multipliedCompetitors = new Type[competitors.Length * _behaviourEntries];
