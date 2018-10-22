@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TomKattouw : TankController {
-
-	//Only change color to white
+public class TomKattouw : TankController
+{
 	//Mainly for testing purposes of your AI against this AI
 
 	// Cannot call Awake
@@ -29,7 +28,7 @@ public class TomKattouw : TankController {
 	void Update()
 	{
 		_ownTankData = GetOwnData();
-		TankData[] _enemyData = ReadSensor();
+		_enemyData = ReadSensor();
 
 		if (_enemyData.Length > 0)
 			_tankFound = true;
