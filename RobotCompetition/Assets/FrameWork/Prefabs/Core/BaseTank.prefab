@@ -429,7 +429,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1015122089073302}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 19.1, y: 0, z: 0}
+  m_LocalPosition: {x: -9.554267, y: 12.11838, z: -35.627113}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4103324045049944}
@@ -790,6 +790,8 @@ MonoBehaviour:
   _rotationSpeed: 45
   _startHealth: 100
   _gunCooldown: 0.5
+  _healthbarPrefab: {fileID: 1673485919514468, guid: 23bd9c5a5176073448ded310a0fb662e,
+    type: 2}
   _isDestroyed: 0
 --- !u!198 &198102667257709892
 ParticleSystem:
@@ -10692,7 +10694,7 @@ ParticleSystemRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: c4c5f95d06932564c8672b4bafeb1b28, type: 2}
+  - {fileID: 0}
   - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0

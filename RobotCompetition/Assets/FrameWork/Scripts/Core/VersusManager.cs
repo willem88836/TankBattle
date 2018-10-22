@@ -20,6 +20,7 @@ namespace Framework.Core
 		[SerializeField] CanvasGroup _behaviourSelectUI;
 		[SerializeField] CanvasGroup _inMatchUI;
 		[SerializeField] CanvasGroup _matchResultUI;
+		[SerializeField] Transform _worldSpaceCanvas;
 
 		[SerializeField] Text _defeatedTankText;
 		[SerializeField] Toggle _sensorToggle;
@@ -128,6 +129,7 @@ namespace Framework.Core
 			leftTank.transform.rotation = leftSpawn.rotation;
 
 			TankMotor leftMotor = leftTank.GetComponent<TankMotor>();
+			leftMotor.InitHealthUI(_worldSpaceCanvas);
 			leftMotor.OnTankDestroyed += TankDestroyed;
 
 			// Right
@@ -138,6 +140,7 @@ namespace Framework.Core
 			rightTank.transform.rotation = rightSpawn.rotation;
 
 			TankMotor rightMotor = rightTank.GetComponent<TankMotor>();
+			rightMotor.InitHealthUI(_worldSpaceCanvas);
 			rightMotor.OnTankDestroyed += TankDestroyed;
 
 			// Add behaviours

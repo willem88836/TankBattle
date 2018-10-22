@@ -34,6 +34,11 @@ namespace Framework.Core
 		[SerializeField] float _startHealth = 100.0f;
 		[SerializeField] float _gunCooldown = 0.5f;
 
+		[Header("UI")]
+		[SerializeField] GameObject _healthbarPrefab;
+
+		TankHealth_UI _healthUI;
+
 		BattleManager _battleManager;
         Rigidbody _rigid;
         TankData _accessData;
@@ -109,6 +114,21 @@ namespace Framework.Core
             //calcSpeed = transform.InverseTransformDirection(calcVel).z;
         }
 
+		// Init the health UI
+		public void InitHealthUI(Transform worldSpaceCanvas)
+		{
+			GameObject healthBar = Instantiate(_healthbarPrefab, worldSpaceCanvas);
+			Debug.Log(healthBar);
+			_healthUI = healthBar.GetComponent<TankHealth_UI>();
+
+			if (_healthUI == null)
+				Debug.Log("fail");
+			else
+				Debug.Log("succes");
+			
+			_healthUI.tank = transform;
+		}
+
         //Apply changes to the robot based on the input
         private void ApplyInput()
         {
@@ -136,6 +156,8 @@ namespace Framework.Core
         {
             _currentHealth -= amount;
 			_accessData.Health = _currentHealth;
+
+			_healthUI.Damage(amount);
 
 			//_audioControl.PlayOneShot(_damagedSound);
 			_battleManager.PlaySound(_damagedSound);
