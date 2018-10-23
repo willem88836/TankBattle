@@ -50,7 +50,7 @@ namespace Framework.Core
 			}
 			else
 			{
-				float fixedAmount = _halfHealth * _colorMultiplier;
+				float fixedAmount = amount * _colorMultiplier;
 				_healthBar.color = Color.Lerp(_healthColors[0], _healthColors[1], fixedAmount);
 			}
 		}

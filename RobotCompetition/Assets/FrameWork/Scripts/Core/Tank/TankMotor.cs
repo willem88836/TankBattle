@@ -27,7 +27,8 @@ namespace Framework.Core
 		[SerializeField] GameObject _tankVisual;
 		[SerializeField] TankCanvas _bodyCanvas;
 		[SerializeField] TankCanvas _turretCanvas;
-		
+		[SerializeField] TankCanvas _sensorCanvas;
+
 		[Header("Values")]
 		[SerializeField] float _moveSpeed = 3.0f;
 		[SerializeField] float _rotationSpeed = 45f;
@@ -284,6 +285,7 @@ namespace Framework.Core
 		public void SetTurretColor(Color color)
 		{
 			_turretCanvas.ChangeColor(color);
+			_sensorCanvas.ChangeColor(color);
 			//_turretCanvas.material.color = color;
 		}
 
