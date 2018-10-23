@@ -151,6 +151,12 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 38500b33999035b44873a7e6bc2d3d09, type: 2}
   m_IsPrefabParent: 0
+--- !u!114 &2086710 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114188405939156724, guid: 38500b33999035b44873a7e6bc2d3d09,
+    type: 2}
+  m_PrefabInternal: {fileID: 2086709}
+  m_Script: {fileID: 11500000, guid: 7584ad7d1a8c5db448228582b928b226, type: 3}
 --- !u!1 &211810290
 GameObject:
   m_ObjectHideFlags: 0
@@ -494,11 +500,11 @@ Prefab:
         type: 2}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1228710447}
+      objectReference: {fileID: 2086710}
     - target: {fileID: 114617069773168040, guid: 1962e2f74df9db049a1f6858a55e9294,
         type: 2}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: ForceEndMatch
+      value: SwitchToMenu
       objectReference: {fileID: 0}
     - target: {fileID: 224456759051498438, guid: 1962e2f74df9db049a1f6858a55e9294,
         type: 2}
@@ -785,7 +791,7 @@ Prefab:
     - target: {fileID: 224993580613666204, guid: 09619a48efff9354cb0a0be497749be5,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: -270
       objectReference: {fileID: 0}
     - target: {fileID: 1214791306640044, guid: 09619a48efff9354cb0a0be497749be5, type: 2}
       propertyPath: m_Name
@@ -1271,7 +1277,7 @@ Prefab:
     - target: {fileID: 224993580613666204, guid: 09619a48efff9354cb0a0be497749be5,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: -270
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 09619a48efff9354cb0a0be497749be5, type: 2}
