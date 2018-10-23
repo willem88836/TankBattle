@@ -352,5 +352,10 @@ namespace Framework.Core
 		{
 			return _accessData.RetreiveData();
 		}
-    }
+
+		void OnDestroy()
+		{
+			_healthUI.DestroyUI();
+		}
+	}
 }

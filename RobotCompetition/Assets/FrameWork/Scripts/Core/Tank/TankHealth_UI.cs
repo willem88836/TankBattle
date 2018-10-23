@@ -54,6 +54,11 @@ namespace Framework.Core
 				_healthBar.color = Color.Lerp(_healthColors[0], _healthColors[1], fixedAmount);
 			}
 		}
+
+		public void DestroyUI()
+		{
+			Destroy(gameObject);
+		}
 	}
 }
 
