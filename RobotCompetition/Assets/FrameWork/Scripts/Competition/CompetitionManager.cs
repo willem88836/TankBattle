@@ -68,5 +68,14 @@ namespace Framework.Competition
 		///		Is called every time a tank is destroyed.
 		/// </summary>
 		protected abstract void OnTankDestroyed(Type destroyed);
+
+		/// <summary>
+		///		Forcefully Ends the match.
+		/// </summary>
+		public void ForceEndMatch()
+		{
+			Spawner.Clear();
+			OnGameFinish.SafeInvoke(null);
+		}
 	}
 }
