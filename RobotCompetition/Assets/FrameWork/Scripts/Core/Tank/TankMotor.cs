@@ -357,7 +357,8 @@ namespace Framework.Core
 
 		void OnDestroy()
 		{
-			_healthUI.DestroyUI();
+			if (_healthUI)
+				_healthUI.DestroyUI();
 		}
 	}
 }
