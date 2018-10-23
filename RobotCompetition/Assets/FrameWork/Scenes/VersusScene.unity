@@ -303,6 +303,11 @@ Prefab:
       propertyPath: Parent
       value: 
       objectReference: {fileID: 1062935194}
+    - target: {fileID: 114390438779659472, guid: e7c9f4f34a359cd49b6ab09a537ea6de,
+        type: 2}
+      propertyPath: _worldspaceCanvas
+      value: 
+      objectReference: {fileID: 861191147}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e7c9f4f34a359cd49b6ab09a537ea6de, type: 2}
   m_IsPrefabParent: 0
@@ -349,6 +354,7 @@ Transform:
   m_Children:
   - {fileID: 1365487716}
   - {fileID: 909487374}
+  - {fileID: 861191147}
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -524,7 +530,7 @@ Prefab:
     - target: {fileID: 224456759051498438, guid: 1962e2f74df9db049a1f6858a55e9294,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -46.875
       objectReference: {fileID: 0}
     - target: {fileID: 224222822782315508, guid: 1962e2f74df9db049a1f6858a55e9294,
         type: 2}
@@ -544,7 +550,7 @@ Prefab:
     - target: {fileID: 224222822782315508, guid: 1962e2f74df9db049a1f6858a55e9294,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -100.625
       objectReference: {fileID: 0}
     - target: {fileID: 224468917512342880, guid: 1962e2f74df9db049a1f6858a55e9294,
         type: 2}
@@ -564,7 +570,7 @@ Prefab:
     - target: {fileID: 224468917512342880, guid: 1962e2f74df9db049a1f6858a55e9294,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -208.125
       objectReference: {fileID: 0}
     - target: {fileID: 224340157617473498, guid: 1962e2f74df9db049a1f6858a55e9294,
         type: 2}
@@ -584,7 +590,7 @@ Prefab:
     - target: {fileID: 224340157617473498, guid: 1962e2f74df9db049a1f6858a55e9294,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -154.375
       objectReference: {fileID: 0}
     - target: {fileID: 114919729059143596, guid: 1962e2f74df9db049a1f6858a55e9294,
         type: 2}
@@ -659,6 +665,99 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 1484764487}
   m_Script: {fileID: 11500000, guid: a38259a4d52adf3469b3cb028c83b326, type: 3}
+--- !u!1 &861191146
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 861191147}
+  - component: {fileID: 861191150}
+  - component: {fileID: 861191149}
+  - component: {fileID: 861191148}
+  m_Layer: 0
+  m_Name: Canvas Worldspace
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &861191147
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 861191146}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -1.4549866}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 441333184}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 957.3367, y: 544.4547}
+  m_SizeDelta: {x: 1920, y: 1080}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &861191148
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 861191146}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1301386320, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+--- !u!114 &861191149
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 861191146}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1980459831, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_UiScaleMode: 0
+  m_ReferencePixelsPerUnit: 100
+  m_ScaleFactor: 1
+  m_ReferenceResolution: {x: 800, y: 600}
+  m_ScreenMatchMode: 0
+  m_MatchWidthOrHeight: 0
+  m_PhysicalUnit: 3
+  m_FallbackScreenDPI: 96
+  m_DefaultSpriteDPI: 96
+  m_DynamicPixelsPerUnit: 1
+--- !u!223 &861191150
+Canvas:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 861191146}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 0
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
 --- !u!1 &909487371
 GameObject:
   m_ObjectHideFlags: 0
@@ -776,7 +875,7 @@ Prefab:
     - target: {fileID: 224816147958688044, guid: 09619a48efff9354cb0a0be497749be5,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -285
       objectReference: {fileID: 0}
     - target: {fileID: 224816147958688044, guid: 09619a48efff9354cb0a0be497749be5,
         type: 2}
@@ -821,7 +920,7 @@ Prefab:
     - target: {fileID: 224993580613666204, guid: 09619a48efff9354cb0a0be497749be5,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: -270
       objectReference: {fileID: 0}
     - target: {fileID: 1214791306640044, guid: 09619a48efff9354cb0a0be497749be5, type: 2}
       propertyPath: m_Name
@@ -908,7 +1007,7 @@ GameObject:
   - component: {fileID: 1365487713}
   - component: {fileID: 1365487717}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: Canvas Screenspace
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1369,7 +1468,7 @@ Prefab:
     - target: {fileID: 224816147958688044, guid: 09619a48efff9354cb0a0be497749be5,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -285
       objectReference: {fileID: 0}
     - target: {fileID: 224816147958688044, guid: 09619a48efff9354cb0a0be497749be5,
         type: 2}
@@ -1418,7 +1517,7 @@ Prefab:
     - target: {fileID: 224993580613666204, guid: 09619a48efff9354cb0a0be497749be5,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: -270
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 09619a48efff9354cb0a0be497749be5, type: 2}
