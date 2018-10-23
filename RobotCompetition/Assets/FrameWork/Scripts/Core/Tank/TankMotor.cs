@@ -119,13 +119,7 @@ namespace Framework.Core
 		public void InitHealthUI(Transform worldSpaceCanvas)
 		{
 			GameObject healthBar = Instantiate(_healthbarPrefab, worldSpaceCanvas);
-			Debug.Log(healthBar);
 			_healthUI = healthBar.GetComponent<TankHealth_UI>();
-
-			if (_healthUI == null)
-				Debug.Log("fail");
-			else
-				Debug.Log("succes");
 			
 			_healthUI.tank = transform;
 		}
