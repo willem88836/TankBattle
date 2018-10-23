@@ -786,6 +786,9 @@ MonoBehaviour:
   _turretCanvas:
     _renderer: {fileID: 23649464992222750}
     _materialIndexes: 00000000
+  _sensorCanvas:
+    _renderer: {fileID: 23557807666348426}
+    _materialIndexes: 00000000
   _moveSpeed: 3
   _rotationSpeed: 45
   _startHealth: 100
