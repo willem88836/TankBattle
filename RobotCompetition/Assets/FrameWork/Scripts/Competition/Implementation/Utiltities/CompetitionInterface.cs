@@ -5,6 +5,8 @@ namespace Framework.Competition
 {
 	public class CompetitionInterface : MonoBehaviour
 	{
+		const string NOWINNERNAME = "Nobody";
+
 		public GameObject MenuScreen;
 		public GameObject IntermissionScreen;
 		public CompetitionManager Manager;
@@ -22,7 +24,8 @@ namespace Framework.Competition
 		private void GameFinished(System.Type winner)
 		{
 			MenuScreen.SetActive(true);
-			WinnerTextField.text = string.Format(WinnerText, winner.ToString());
+			string winnerName = winner == null ? NOWINNERNAME : winner.ToString();
+			WinnerTextField.text = string.Format(WinnerText, winnerName);
 			WinnerTextField.gameObject.SetActive(true);
 		}
 
