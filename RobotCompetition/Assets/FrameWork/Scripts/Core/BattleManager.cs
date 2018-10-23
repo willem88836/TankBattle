@@ -13,6 +13,7 @@ namespace Framework.Core
 		[Header("General")]
 		[SerializeField] int _targetFramerate = 60;
 		[SerializeField, Range(1, 20)] int _behaviourEntries = 1;
+		[SerializeField] bool _infiniteHealth = false;
 
 		[Header("Prefabs")]
 		[SerializeField] protected GameObject _tankPrefab;
@@ -105,6 +106,11 @@ namespace Framework.Core
 		public void PlaySound(AudioClip clip)
 		{
 			_audioSource.PlayOneShot(clip);
+		}
+
+		public bool InfiniteHealth()
+		{
+			return _infiniteHealth;
 		}
 
 		public static BattleManager Singleton()

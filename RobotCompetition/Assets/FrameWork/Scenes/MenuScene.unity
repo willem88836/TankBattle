@@ -6473,6 +6473,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _targetFramerate: 60
   _behaviourEntries: 1
+  _infiniteHealth: 1
   _tankPrefab: {fileID: 1015122089073302, guid: 0e780dfe785996041a065fab8085526d,
     type: 2}
   _bulletContainer: {fileID: 1574556530}
@@ -6491,7 +6492,7 @@ AudioSource:
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
-  Mute: 0
+  Mute: 1
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128
