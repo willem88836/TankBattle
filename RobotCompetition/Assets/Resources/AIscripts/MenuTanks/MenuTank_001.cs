@@ -3,7 +3,10 @@ using Framework.Core;
 
 namespace Framework
 {
-	public class MenuTank : TankController, IDoNotLoad
+	/// <summary>
+	///		This tanks stands still and looks around.
+	/// </summary>
+	public class MenuTank_001 : TankController, IDoNotLoad
 	{
 		const float gunSpeed = 25;
 
