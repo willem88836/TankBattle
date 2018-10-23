@@ -152,12 +152,13 @@ namespace Framework.Core
             _currentHealth -= amount;
 			_accessData.Health = _currentHealth;
 
-			_healthUI.Damage(amount);
+			if (_healthUI)
+				_healthUI.Damage(amount);
 
 			//_audioControl.PlayOneShot(_damagedSound);
 			_battleManager.PlaySound(_damagedSound);
 
-            if (_currentHealth <= 0f)
+            if (_currentHealth <= 0f && !_battleManager.InfiniteHealth())
                 DestroyRobot();
         }
 
