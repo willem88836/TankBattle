@@ -15,6 +15,8 @@ namespace Framework.Spawning
 
 		public List<GameObject> SpawnedObjects = new List<GameObject>();
 
+		[SerializeField] Transform _worldspaceCanvas;
+
 
 		/// <summary>
 		///		Destroys all spawned objects.
@@ -78,7 +80,9 @@ namespace Framework.Spawning
 		protected void SpawnAt(Type behaviour, Vector3 position, Quaternion rotation)
 		{
 			GameObject spawnedObject = Instantiate(BaseObject, position, rotation, Parent);
-			spawnedObject.GetComponent<TankMotor>().SetBehaviour(behaviour);
+			TankMotor motor = spawnedObject.GetComponent<TankMotor>();
+			motor.SetBehaviour(behaviour);
+			motor.InitHealthUI(_worldspaceCanvas);
 			spawnedObject.name = BaseObject.name + "_" + behaviour.ToString();
 			SpawnedObjects.Add(spawnedObject);
 		}
