@@ -771,11 +771,6 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 787053231}
   m_CullTransparentMesh: 0
---- !u!20 &825571426 stripped
-Camera:
-  m_CorrespondingSourceObject: {fileID: 20493698049476436, guid: 7657c2ed66cfcb24b89f200b5cad659a,
-    type: 2}
-  m_PrefabInternal: {fileID: 2124837951}
 --- !u!1 &874444872
 GameObject:
   m_ObjectHideFlags: 0
@@ -2287,6 +2282,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _targetFramerate: 60
   _behaviourEntries: 1
+  _infiniteHealth: 0
   _tankPrefab: {fileID: 1015122089073302, guid: 0e780dfe785996041a065fab8085526d,
     type: 2}
   _bulletContainer: {fileID: 1062935194}
@@ -2303,7 +2299,7 @@ MonoBehaviour:
   _defeatedTankText: {fileID: 2102526456}
   _sensorToggle: {fileID: 408660335}
   _soundToggle: {fileID: 1308439560}
-  _sensorCamera: {fileID: 825571426}
+  _sensorCamera: {fileID: 0}
 --- !u!1 &1503192528
 GameObject:
   m_ObjectHideFlags: 0

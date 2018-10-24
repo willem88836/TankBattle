@@ -4,13 +4,14 @@ namespace Framework.Menu
 {
 	public class CameraToggle : ComponentToggle
 	{
-		public GameObject PrimaryCamera;
-		public GameObject SecondaryCamera;
+		private readonly LayerMask ALL = -1;
+		private readonly LayerMask NOSENSOR = 1;
+
+		public Camera Camera;
 
 		protected override void Switch(bool state)
 		{
-			PrimaryCamera.SetActive(state);
-			SecondaryCamera.SetActive(!state);
+			Camera.cullingMask = (state) ? ALL : NOSENSOR;
 		}
 	}
 }
