@@ -28,17 +28,13 @@ namespace Framework.Core
 		[SerializeField] TankCanvas _bodyCanvas;
 		[SerializeField] TankCanvas _turretCanvas;
 		[SerializeField] TankCanvas _sensorCanvas;
+		[SerializeField] TankHealth_UI _healthUI;
 
 		[Header("Values")]
 		[SerializeField] float _moveSpeed = 3.0f;
 		[SerializeField] float _rotationSpeed = 45f;
 		[SerializeField] float _startHealth = 100.0f;
 		[SerializeField] float _gunCooldown = 0.5f;
-
-		[Header("UI")]
-		[SerializeField] GameObject _healthbarPrefab;
-
-		TankHealth_UI _healthUI;
 
 		BattleManager _battleManager;
         Rigidbody _rigid;
@@ -74,6 +70,7 @@ namespace Framework.Core
 			_tanksInSensor = new List<TankMotor>();
 
 			_currentHealth = _startHealth;
+			_healthUI.tank = transform;
 		}
 
 		void Start()
@@ -114,15 +111,6 @@ namespace Framework.Core
 			_accessData.MoveSpeed = _calculatedSpeed;
             //calcSpeed = transform.InverseTransformDirection(calcVel).z;
         }
-
-		// Init the health UI
-		public void InitHealthUI(Transform worldSpaceCanvas)
-		{
-			GameObject healthBar = Instantiate(_healthbarPrefab, worldSpaceCanvas);
-			_healthUI = healthBar.GetComponent<TankHealth_UI>();
-			
-			_healthUI.tank = transform;
-		}
 
         //Apply changes to the robot based on the input
         private void ApplyInput()

@@ -82,7 +82,6 @@ namespace Framework.Spawning
 			GameObject spawnedObject = Instantiate(BaseObject, position, rotation, Parent);
 			TankMotor motor = spawnedObject.GetComponent<TankMotor>();
 			motor.SetBehaviour(behaviour);
-			motor.InitHealthUI(_worldspaceCanvas);
 			spawnedObject.name = BaseObject.name + "_" + behaviour.ToString();
 			SpawnedObjects.Add(spawnedObject);
 		}

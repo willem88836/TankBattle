@@ -29,7 +29,7 @@ namespace Framework.Core
 			if (tank == null)
 				return;
 
-			transform.position = tank.position + Vector3.up * 0.1f;
+			//transform.position = tank.position + Vector3.up * 0.1f;
 		}
 
 		public void Damage(float amount)
