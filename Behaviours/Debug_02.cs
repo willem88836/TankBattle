@@ -1,81 +1,77 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class Debug_02 : RobotControl {
+public class Debug_02 : TankController
+{
+	//Only change color to white
+	//Mainly for testing purposes of your AI against this AI
 
-    //Variable that holds the current movePower
-    private float movePower = 1f;
-    //Variable that holds the current rotation direction
-    private float currentDir = 90f;
-    //Variable that holds wether or not a robot has been scanned
-    private bool foundRobot = false;
+	// Cannot call Awake
 
-    //Start function, has to call the base.Start to be able to reach the motor script
-    protected override void Start () {
-        //Required for referencing
-        base.Start();
-        //Change the color of seperate parts
-        ChangeColor(Color.red, Color.white, Color.white);
-    }
-	
-    //Called every frame
-    void Update () {
-        //Get all the data from the sensor
-        AccessData[] sensorData = FindTanks();
+	const float GUN_OFFSET = 90;
 
-        //Check how many tanks there are in the sensor
-        if (sensorData.Length <= 0)
-        {
-            //Zero robots are in the sensor
-            if (foundRobot)
-            {
-                //Toggle foundRobot if not already done
-                foundRobot = false;
-                //Switch sensor rotation if a robot has left the sensor
-                currentDir *= -1;
-            }
-        } else
-        {
-            //At least one robot is in the sensor
-            if (!foundRobot)
-            {
-                //Toggle foundRobot if not already done
-                foundRobot = true;
-            }
-            //Shoot in the sensor direction
-            Shoot(0);
-            //Rotate the robot so that it always is at a 90 degree angle compared to an enemies gunrotation
-            RotateRobot(sensorData[0].GunRotation + 90f);
-        }
+	float _movePower = 1;
+	float _gunDirection = 1;
 
-        //Move the robot with the current movePower
-        MoveRobot(movePower);
-        //Rotate the sensor based on the currentDir
-        RotateSensor(currentDir + MyData.SensorRotation);
-        //Let the gun follow the sensor
-        RotateGun(currentDir + MyData.SensorRotation);
-    }
+	bool _hadTankInSensor;
 
-    protected override void OnWallCollision()
+	void Start()
     {
-        //If a wall is hit, reverse the robot's movement
-        movePower *= -1;
+		// Called once when the tank is spawned
+
+		SetTurretColor(Color.cyan);
+		SetBodyColor(Color.cyan);
+
+		SetTankAngle(90);
+		SetMovePower(_movePower);
     }
 
-    protected override void OnVictory()
-    {
-        StartCoroutine(Victorious());
-    }
+	void Update()
+	{
+		// Called every frame after the tank is spawned
+		TankData[] sensorData = ReadSensor();
 
-    private IEnumerator<WaitForSeconds> Victorious()
-    {
-        while (true)
-        {
-            Color newclr = new Color(Random.Range(0, 1f), Random.Range(0, 1f), Random.Range(0, 1f));
-            ChangeColor(newclr);
-            yield return new WaitForSeconds(1);
-        }
-    }
+		bool tankInSensor = sensorData.Length > 0;
 
+		if (!tankInSensor && _hadTankInSensor)
+			SwitchGunDirection();
+
+		_hadTankInSensor = tankInSensor;
+
+		TankData ownData = GetOwnData();
+
+		float targetAngle = ownData.GunAngle + _gunDirection * GUN_OFFSET;
+		SetGunAngle(targetAngle);
+		SetSensorAngle(targetAngle);
+
+		Shoot();
+	}
+
+	void SwitchTankDirection()
+	{
+		_movePower *= -1;
+		SetMovePower(_movePower);
+	}
+
+	void SwitchGunDirection()
+	{
+		_gunDirection *= -1;
+	}
+
+	protected override void OnWallCollision()
+	{
+		// Called when this tank collides with a wall
+		SwitchTankDirection();
+	}
+
+	protected override void OnTankCollision()
+	{
+		// Called when this tank collides with another tank
+		SwitchTankDirection();
+	}
+
+	protected override void OnBulletHit()
+	{
+		// Called when this tank is hit by a bullet
+		SwitchTankDirection();
+	}
 }

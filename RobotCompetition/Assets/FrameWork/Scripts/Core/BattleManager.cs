@@ -46,8 +46,8 @@ namespace Framework.Core
 		/// </summary>
 		protected Type[] LoadBehaviours()
 		{
-			BehaviourLoader.LoadCustomBehaviours("D:/wille/Documents/Projects/TankBattle/Behaviours", _behaviourEntries);
-			return BehaviourLoader.LoadFrameworkBehaviours(_behaviourEntries);
+			string path = "D:/wille/Documents/Projects/TankBattle/Behaviours";
+			return TankBehaviourLoader.LoadAllBehaviours(path, _behaviourEntries);
 		}
 		
 		protected void ClearBullets()
