@@ -21,7 +21,7 @@ namespace Framework.Core
 			parameters = new CompilerParameters()
 			{
 				GenerateInMemory = true,
-				GenerateExecutable = true,
+				GenerateExecutable = false,
 				TreatWarningsAsErrors = false,
 			};
 			parameters.ReferencedAssemblies.AddRange(AppDomain.CurrentDomain.GetAssemblies().Where(a => !a.IsDynamic).Select(a => a.Location).ToArray());
