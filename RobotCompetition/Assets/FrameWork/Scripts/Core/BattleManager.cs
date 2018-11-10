@@ -46,24 +46,10 @@ namespace Framework.Core
 		/// </summary>
 		protected Type[] LoadBehaviours()
 		{
-			Type baseType = typeof(TankController);
-			Assembly assembly = Assembly.GetAssembly(baseType);
-			Type[] competitors = (assembly.GetTypes().Where(t =>
-			t != baseType
-			&& baseType.IsAssignableFrom(t)
-			&& !typeof(IDoNotLoad).IsAssignableFrom(t))).ToArray();
-
-			// This is for debugging purposes.
-			Type[] multipliedCompetitors = new Type[competitors.Length * _behaviourEntries];
-			for (int i = 0; i < multipliedCompetitors.Length; i++)
-			{
-				multipliedCompetitors[i] = competitors[i % competitors.Length];
-			}
-
-			Debug.LogFormat("{0} competitor behaviours loaded!", multipliedCompetitors.Length);
-			return multipliedCompetitors;
+			BehaviourLoader.LoadCustomBehaviours("D:/wille/Documents/Projects/TankBattle/Behaviours", _behaviourEntries);
+			return BehaviourLoader.LoadFrameworkBehaviours(_behaviourEntries);
 		}
-
+		
 		protected void ClearBullets()
 		{
 			foreach (Transform bullet in _bulletContainer)

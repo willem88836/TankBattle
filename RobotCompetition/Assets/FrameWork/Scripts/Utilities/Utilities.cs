@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -60,6 +61,7 @@ namespace Framework.Core
 
 		#endregion	
 
+
 		#region SafeInvokes
 
 		// Ty 8D
@@ -108,7 +110,8 @@ namespace Framework.Core
 
 		#endregion
 
-		#region Foreach
+
+		#region TransformForeach
 
 		/// <summary>
 		///		Iterates through all children.
@@ -124,7 +127,6 @@ namespace Framework.Core
 				Foreach(child, action);
 			}
 		}
-
 		/// <summary>
 		///		Iterates through all children in reversed order.
 		/// </summary>
@@ -137,6 +139,74 @@ namespace Framework.Core
 
 				ReversedForeach(child, action);
 				action(child);
+			}
+		}
+
+		#endregion
+
+
+		#region PathForeach
+
+		/// <summary>
+		///		Executes action at every folder within the provided path.
+		/// </summary>
+		public static void ForeachFolderAt(string path, Action<string> action)
+		{
+			action.Invoke(path);
+
+			string[] folders = Directory.GetDirectories(path);
+
+			for (int i = 0; i < folders.Length; i++)
+			{
+				string current = folders[i];
+				ForeachFolderAt(current, action);
+			}
+		}
+		/// <summary>
+		///		Executes action at every folder within 
+		///		the provided path in reversed order.
+		/// </summary>
+		public static void ReversedForeachFolderAt(string path, Action<string> action)
+		{
+			string[] folders = Directory.GetDirectories(path);
+
+			for (int i = folders.Length - 1; i >= 0; i--)
+			{
+				string current = folders[i];
+				ForeachFolderAt(current, action);
+			}
+
+			action.Invoke(path);
+		}
+
+		/// <summary>
+		///		Executes action for every file within the provided path.
+		/// </summary>
+		public static void ForeachFileAt(string path, Action<FileInfo> action)
+		{
+			string[] fileNames = Directory.GetFiles(path);
+
+			foreach (string n in fileNames)
+			{
+				FileInfo info = new FileInfo(n);
+				action.Invoke(info);
+			}
+		}
+		/// <summary>
+		///		Executes action for every file within 
+		///		the provided path in reversed order.
+		/// </summary>
+		public static void ReversedForeachFileAt(string path, Action<FileInfo> action)
+		{
+			Debug.Log(path);
+
+			string[] fileNames = Directory.GetFiles(path);
+
+			for (int i = fileNames.Length - 1; i >= 0; i--)
+			{
+				string n = fileNames[i];
+				FileInfo info = new FileInfo(n);
+				action.Invoke(info);
 			}
 		}
 
