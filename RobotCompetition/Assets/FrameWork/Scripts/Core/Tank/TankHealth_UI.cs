@@ -37,8 +37,11 @@ namespace Framework.Core
 			// the image goes from 0 to 1, so devide by 100 first
 			float fixedAmount = amount / 100;
 
-			_healthBar.fillAmount -= fixedAmount;
-			SetHealthColor(_healthBar.fillAmount);
+			if (_healthBar)
+			{
+				_healthBar.fillAmount -= fixedAmount;
+				SetHealthColor(_healthBar.fillAmount);
+			}
 		}
 
 		void SetHealthColor(float amount)
