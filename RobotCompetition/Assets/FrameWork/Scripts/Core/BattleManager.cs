@@ -1,7 +1,6 @@
-﻿using System.Linq;
-using System.Reflection;
-using UnityEngine;
+﻿using UnityEngine;
 using System;
+using Framework.ScriptableObjects.Variables;
 
 namespace Framework.Core
 {
@@ -14,6 +13,7 @@ namespace Framework.Core
 		[SerializeField] int _targetFramerate = 60;
 		[SerializeField, Range(1, 20)] int _behaviourEntries = 1;
 		[SerializeField] bool _infiniteHealth = false;
+		[SerializeField] StringReference _behaviourPath;
 
 		[Header("Prefabs")]
 		[SerializeField] protected GameObject _tankPrefab;
@@ -29,8 +29,13 @@ namespace Framework.Core
 		
 		protected virtual void Awake()
 		{
+			DontDestroyOnLoad(this);
+
 			if (_instance != null && _instance != this)
+			{
+				this._behaviours = _instance._behaviours;
 				Destroy(_instance.gameObject);
+			}
 
 			_instance = this;
 
@@ -38,7 +43,8 @@ namespace Framework.Core
 
 			_audioSource = GetComponent<AudioSource>();
 
-			_behaviours = LoadBehaviours();
+			if (_behaviours == null || _behaviours.Length == 0)
+				_behaviours = LoadBehaviours();
 		}
 
 		/// <summary>
@@ -46,24 +52,9 @@ namespace Framework.Core
 		/// </summary>
 		protected Type[] LoadBehaviours()
 		{
-			Type baseType = typeof(TankController);
-			Assembly assembly = Assembly.GetAssembly(baseType);
-			Type[] competitors = (assembly.GetTypes().Where(t =>
-			t != baseType
-			&& baseType.IsAssignableFrom(t)
-			&& !typeof(IDoNotLoad).IsAssignableFrom(t))).ToArray();
-
-			// This is for debugging purposes.
-			Type[] multipliedCompetitors = new Type[competitors.Length * _behaviourEntries];
-			for (int i = 0; i < multipliedCompetitors.Length; i++)
-			{
-				multipliedCompetitors[i] = competitors[i % competitors.Length];
-			}
-
-			Debug.LogFormat("{0} competitor behaviours loaded!", multipliedCompetitors.Length);
-			return multipliedCompetitors;
+			return TankBehaviourLoader.LoadAllBehaviours(_behaviourPath.Value, _behaviourEntries);
 		}
-
+		
 		protected void ClearBullets()
 		{
 			foreach (Transform bullet in _bulletContainer)
