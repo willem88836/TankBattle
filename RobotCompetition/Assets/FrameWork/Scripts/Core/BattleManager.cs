@@ -29,8 +29,13 @@ namespace Framework.Core
 		
 		protected virtual void Awake()
 		{
+			DontDestroyOnLoad(this);
+
 			if (_instance != null && _instance != this)
+			{
+				this._behaviours = _instance._behaviours;
 				Destroy(_instance.gameObject);
+			}
 
 			_instance = this;
 
@@ -38,7 +43,8 @@ namespace Framework.Core
 
 			_audioSource = GetComponent<AudioSource>();
 
-			_behaviours = LoadBehaviours();
+			if (_behaviours == null || _behaviours.Length == 0)
+				_behaviours = LoadBehaviours();
 		}
 
 		/// <summary>
