@@ -2138,6 +2138,7 @@ MonoBehaviour:
   _targetFramerate: 60
   _behaviourEntries: 1
   _infiniteHealth: 1
+  _behaviourPath: {fileID: 11400000, guid: 9119e0102b5fbcf4790f92bf844e2439, type: 2}
   _tankPrefab: {fileID: 1015122089073302, guid: 0e780dfe785996041a065fab8085526d,
     type: 2}
   _bulletContainer: {fileID: 2098869754}
