@@ -1,7 +1,6 @@
-﻿using System.Linq;
-using System.Reflection;
-using UnityEngine;
+﻿using UnityEngine;
 using System;
+using Framework.ScriptableObjects.Variables;
 
 namespace Framework.Core
 {
@@ -14,6 +13,7 @@ namespace Framework.Core
 		[SerializeField] int _targetFramerate = 60;
 		[SerializeField, Range(1, 20)] int _behaviourEntries = 1;
 		[SerializeField] bool _infiniteHealth = false;
+		[SerializeField] StringReference _behaviourPath;
 
 		[Header("Prefabs")]
 		[SerializeField] protected GameObject _tankPrefab;
@@ -46,8 +46,7 @@ namespace Framework.Core
 		/// </summary>
 		protected Type[] LoadBehaviours()
 		{
-			string path = "D:/wille/Documents/Projects/TankBattle/Behaviours";
-			return TankBehaviourLoader.LoadAllBehaviours(path, _behaviourEntries);
+			return TankBehaviourLoader.LoadAllBehaviours(_behaviourPath.Value, _behaviourEntries);
 		}
 		
 		protected void ClearBullets()
