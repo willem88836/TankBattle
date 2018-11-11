@@ -5,11 +5,28 @@ namespace Framework.Menu
 {
 	public class Menu : MonoBehaviour
 	{
+		public static Menu Instance;
+
 		public enum Scene { MenuScene, TournamentScene, VersusScene_Primitive, DungeonScene, FreeForAllScene };
+
+		public Scene Current { get; private set; } = Scene.MenuScene;
+
+		public void Awake()
+		{
+			if (Instance != null)
+			{
+				this.Current = Instance.Current;
+				Destroy(Instance.gameObject);
+			}
+
+			Instance = this;
+			DontDestroyOnLoad(this);
+		}
 
 
 		public void SwitchScene(Scene scene)
 		{
+			Current = scene;
 			SceneManager.LoadScene(scene.ToString());
 		}
 

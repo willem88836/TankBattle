@@ -571,11 +571,6 @@ Prefab:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1094204320}
-    - target: {fileID: 114919729059143596, guid: 1962e2f74df9db049a1f6858a55e9294,
-        type: 2}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1263667319}
     - target: {fileID: 114086690453866810, guid: 1962e2f74df9db049a1f6858a55e9294,
         type: 2}
       propertyPath: AudioSource
@@ -586,11 +581,6 @@ Prefab:
       propertyPath: Camera
       value: 
       objectReference: {fileID: 1834905175}
-    - target: {fileID: 114919729059143596, guid: 1962e2f74df9db049a1f6858a55e9294,
-        type: 2}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: Toggle
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1962e2f74df9db049a1f6858a55e9294, type: 2}
   m_IsPrefabAsset: 0
@@ -879,12 +869,6 @@ Transform:
   m_Father: {fileID: 476130411}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1263667319 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 114342318620528882, guid: 1962e2f74df9db049a1f6858a55e9294,
-    type: 2}
-  m_PrefabInternal: {fileID: 674586371}
-  m_Script: {fileID: 11500000, guid: 898efe39e38fcbe48919ff48e95b71d2, type: 3}
 --- !u!1001 &1289467391
 Prefab:
   m_ObjectHideFlags: 0
