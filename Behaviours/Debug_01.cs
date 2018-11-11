@@ -1,4 +1,6 @@
-﻿public class Debug_01 : TankController
+﻿using UnityEngine;
+
+public class Debug_01 : TankController
 {
     //Only change color to white
     //Mainly for testing purposes of your AI against this AI

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.CodeDom.Compiler;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -15,7 +16,7 @@ namespace Framework.Core
 		private Assembly assembly;
 
 
-		public CSharpCompiler(string code)
+		public CSharpCompiler(string code, string fileName)
 		{
 			provider = new CSharpCodeProvider();
 			parameters = new CompilerParameters()
@@ -23,9 +24,14 @@ namespace Framework.Core
 				GenerateInMemory = true,
 				GenerateExecutable = false,
 				TreatWarningsAsErrors = false,
+				//CompilerOptions = "/target:library",
+				//OutputAssembly = "Temp/" + Path.GetFileNameWithoutExtension(fileName) + ".dll"
 			};
 			parameters.ReferencedAssemblies.AddRange(AppDomain.CurrentDomain.GetAssemblies().Where(a => !a.IsDynamic).Select(a => a.Location).ToArray());
 
+			// TODO: Fix this using: http://www.arcturuscollective.com/archives/22
+			// https://github.com/aeroson/mcs-ICodeCompiler
+			//https://answers.unity.com/questions/364580/scripting-works-in-editor-try-it-but-not-build.html
 
 			CompilerResults results = provider.CompileAssemblyFromSource(parameters, code);
 
