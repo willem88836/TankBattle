@@ -51,6 +51,9 @@ namespace Framework.Core
 		/// <returns></returns>
 		public static Type[] LoadCustomBehaviours(string path, int entries = 1)
 		{
+			if (!Directory.Exists(path))
+				return new Type[0];
+
 			List<Type> types = new List<Type>();
 
 			Utilities.ForeachFileAt(path, (FileInfo info) =>
