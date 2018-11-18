@@ -7,7 +7,7 @@ using Microsoft.CSharp;
 
 namespace Framework.Core
 {
-	public class CSharpCompiler
+	public class CustomCSharpCompiler
 	{
 		private CSharpCodeProvider provider;
 		private CompilerParameters parameters;
@@ -15,7 +15,7 @@ namespace Framework.Core
 		private Assembly assembly;
 
 
-		public CSharpCompiler(string code)
+		public CustomCSharpCompiler(string code, string fileName)
 		{
 			provider = new CSharpCodeProvider();
 			parameters = new CompilerParameters()
@@ -26,8 +26,8 @@ namespace Framework.Core
 			};
 			parameters.ReferencedAssemblies.AddRange(AppDomain.CurrentDomain.GetAssemblies().Where(a => !a.IsDynamic).Select(a => a.Location).ToArray());
 
-
-			CompilerResults results = provider.CompileAssemblyFromSource(parameters, code);
+			CSharpCompiler.CodeCompiler compiler = new CSharpCompiler.CodeCompiler();
+			CompilerResults results = compiler.CompileAssemblyFromSource(parameters, code);
 
 			if (results.Errors.HasErrors)
 			{

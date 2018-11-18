@@ -454,7 +454,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &504099963
+--- !u!224 &504099964 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 224394427839432126, guid: 1962e2f74df9db049a1f6858a55e9294,
+    type: 2}
+  m_PrefabInternal: {fileID: 674586371}
+--- !u!4 &660035421 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4747881818488610, guid: 73c0f7bd29155e541a7accf056ecd039,
+    type: 2}
+  m_PrefabInternal: {fileID: 1289467391}
+--- !u!1001 &674586371
 Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -551,16 +561,6 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 114086690453866810, guid: 1962e2f74df9db049a1f6858a55e9294,
-        type: 2}
-      propertyPath: AudioSource
-      value: 
-      objectReference: {fileID: 1974854387}
-    - target: {fileID: 114224436701517410, guid: 1962e2f74df9db049a1f6858a55e9294,
-        type: 2}
-      propertyPath: Camera
-      value: 
-      objectReference: {fileID: 1834905175}
     - target: {fileID: 114469337621953832, guid: 1962e2f74df9db049a1f6858a55e9294,
         type: 2}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -571,23 +571,19 @@ Prefab:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1094204320}
-    - target: {fileID: 1890291656184798, guid: 1962e2f74df9db049a1f6858a55e9294, type: 2}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
+    - target: {fileID: 114086690453866810, guid: 1962e2f74df9db049a1f6858a55e9294,
+        type: 2}
+      propertyPath: AudioSource
+      value: 
+      objectReference: {fileID: 1974854387}
+    - target: {fileID: 114224436701517410, guid: 1962e2f74df9db049a1f6858a55e9294,
+        type: 2}
+      propertyPath: Camera
+      value: 
+      objectReference: {fileID: 1834905175}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1962e2f74df9db049a1f6858a55e9294, type: 2}
   m_IsPrefabAsset: 0
---- !u!224 &504099964 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 224394427839432126, guid: 1962e2f74df9db049a1f6858a55e9294,
-    type: 2}
-  m_PrefabInternal: {fileID: 504099963}
---- !u!4 &660035421 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4747881818488610, guid: 73c0f7bd29155e541a7accf056ecd039,
-    type: 2}
-  m_PrefabInternal: {fileID: 1289467391}
 --- !u!1001 &849942811
 Prefab:
   m_ObjectHideFlags: 0

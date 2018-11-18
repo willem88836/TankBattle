@@ -1,6 +1,7 @@
 ﻿using Framework.ScriptableObjects.Variables;
 using System.IO;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class PathStorage : MonoBehaviour
@@ -8,6 +9,11 @@ public class PathStorage : MonoBehaviour
 	public StringReference PathReference;
 	public Button SaveButton;
 	public InputField PathText;
+
+	[Space]
+	public UnityEvent OnIncorrectPath;
+	public UnityEvent OnCorrectPath;
+
 
 	private void Awake()
 	{
@@ -25,6 +31,11 @@ public class PathStorage : MonoBehaviour
 		if (Directory.Exists(path))
 		{
 			PathReference.Value = path;
+			OnCorrectPath.Invoke();
+		}
+		else
+		{
+			OnIncorrectPath.Invoke();
 		}
 	}
 }

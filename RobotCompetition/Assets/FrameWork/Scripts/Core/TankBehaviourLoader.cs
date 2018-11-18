@@ -51,6 +51,9 @@ namespace Framework.Core
 		/// <returns></returns>
 		public static Type[] LoadCustomBehaviours(string path, int entries = 1)
 		{
+			if (!Directory.Exists(path))
+				return new Type[0];
+
 			List<Type> types = new List<Type>();
 
 			Utilities.ForeachFileAt(path, (FileInfo info) =>
@@ -61,7 +64,7 @@ namespace Framework.Core
 
 				string code = File.ReadAllText(info.FullName);
 
-				CSharpCompiler compiler = new CSharpCompiler(code);
+				CustomCSharpCompiler compiler = new CustomCSharpCompiler(code, info.Name);
 
 				string name = Path.GetFileNameWithoutExtension(info.FullName);
 				Type type = compiler.GetCompiledType(name);
