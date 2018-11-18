@@ -7,7 +7,7 @@ namespace Framework.Menu
 	{
 		public static Menu Instance;
 
-		public enum Scene { MenuScene, TournamentScene, VersusScene_Primitive, DungeonScene, FreeForAllScene };
+		public enum Scene { MenuScene, TournamentScene, VersusScene, DungeonScene, FreeForAllScene };
 
 		public Scene Current { get; private set; } = Scene.MenuScene;
 
@@ -53,7 +53,7 @@ namespace Framework.Menu
 
 		public void SwitchToVersus()
 		{
-			SwitchScene(Scene.VersusScene_Primitive);
+			SwitchScene(Scene.VersusScene);
 		}
 	}
 }
