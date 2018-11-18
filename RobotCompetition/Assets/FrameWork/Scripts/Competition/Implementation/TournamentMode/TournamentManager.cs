@@ -97,8 +97,7 @@ namespace Framework.Competition
 
 			if (destroyedCount >= current.Count - 1)
 			{
-				current.SortToScore();
-				Type winner = current.CompetitorAt(0).Type;
+				Type winner = current.GetFirstAlive();
 				OnMatchFinish(winner);
 			}
 		}
