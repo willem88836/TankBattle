@@ -1631,7 +1631,7 @@ Prefab:
     - target: {fileID: 114990620506671994, guid: 44396bcb42f2f354bbe48a515de52043,
         type: 2}
       propertyPath: _behaviourEntries
-      value: 20
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 44396bcb42f2f354bbe48a515de52043, type: 2}
