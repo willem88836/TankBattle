@@ -612,7 +612,7 @@ Transform:
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 224901330658565618, guid: 8bca960b3da174d4dbc433a21b669b93,
     type: 2}
-  m_PrefabInternal: {fileID: 1228332560}
+  m_PrefabInternal: {fileID: 1284201818}
 --- !u!1 &441333183
 GameObject:
   m_ObjectHideFlags: 0
@@ -1631,7 +1631,7 @@ Prefab:
     - target: {fileID: 114990620506671994, guid: 44396bcb42f2f354bbe48a515de52043,
         type: 2}
       propertyPath: _behaviourEntries
-      value: 3
+      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 44396bcb42f2f354bbe48a515de52043, type: 2}
@@ -1641,7 +1641,13 @@ AudioSource:
   m_CorrespondingSourceObject: {fileID: 82600132778593694, guid: 44396bcb42f2f354bbe48a515de52043,
     type: 2}
   m_PrefabInternal: {fileID: 1221230731}
---- !u!1001 &1228332560
+--- !u!114 &1228332562 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114061127713369890, guid: 8bca960b3da174d4dbc433a21b669b93,
+    type: 2}
+  m_PrefabInternal: {fileID: 1284201818}
+  m_Script: {fileID: 11500000, guid: 1c96ab84c7c277747a783763ca4bdada, type: 3}
+--- !u!1001 &1284201818
 Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -1738,24 +1744,19 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 1346990625635964, guid: 8bca960b3da174d4dbc433a21b669b93, type: 2}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 114061127713369890, guid: 8bca960b3da174d4dbc433a21b669b93,
         type: 2}
       propertyPath: Manager
       value: 
       objectReference: {fileID: 140290919}
+    - target: {fileID: 114786030792707236, guid: 8bca960b3da174d4dbc433a21b669b93,
+        type: 2}
+      propertyPath: m_Spacing
+      value: 75
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8bca960b3da174d4dbc433a21b669b93, type: 2}
   m_IsPrefabAsset: 0
---- !u!114 &1228332562 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 114061127713369890, guid: 8bca960b3da174d4dbc433a21b669b93,
-    type: 2}
-  m_PrefabInternal: {fileID: 1228332560}
-  m_Script: {fileID: 11500000, guid: 1c96ab84c7c277747a783763ca4bdada, type: 3}
 --- !u!1001 &1316399404
 Prefab:
   m_ObjectHideFlags: 0
