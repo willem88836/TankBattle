@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace Framework.Competition
+namespace Framework.Competition.Graph
 {
 	public class GraphText : MonoBehaviour
 	{

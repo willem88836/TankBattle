@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Framework.Competition
+namespace Framework.Competition.Graph
 {
 	/// <summary>
 	///		Contains all behaviour display Tournament data.

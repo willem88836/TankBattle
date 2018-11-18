@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Framework.Competition
+namespace Framework.Competition.Graph
 {
 	/// <summary>
 	///		Generates a set of tiles, used to display 
