@@ -55,7 +55,6 @@ namespace Framework.Core
 							if (motor._isDestroyed)
 								continue;
 
-							Debug.Log("Destroying: " + motor.name);
 							motor.Damage(float.MaxValue);
 							break;
 						}

@@ -23,6 +23,7 @@ namespace Framework.Competition
 
 		private void GameFinished(System.Type winner)
 		{
+			IntermissionScreen.SetActive(false);
 			MenuScreen.SetActive(true);
 			string winnerName = winner == null ? NOWINNERNAME : winner.ToString();
 			WinnerTextField.text = string.Format(WinnerText, winnerName);
@@ -31,6 +32,7 @@ namespace Framework.Competition
 
 		private void IntermissionStarted(System.Type winner)
 		{
+			MenuScreen.SetActive(false);
 			IntermissionScreen.SetActive(true);
 			WinnerTextField.text = string.Format(WinnerText, winner.ToString());
 			WinnerTextField.gameObject.SetActive(true);

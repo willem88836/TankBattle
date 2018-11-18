@@ -75,6 +75,7 @@ namespace Framework.Competition
 		public void ForceEndMatch()
 		{
 			Spawner.Clear();
+			ClearBullets();
 			OnGameFinish.SafeInvoke(null);
 		}
 	}

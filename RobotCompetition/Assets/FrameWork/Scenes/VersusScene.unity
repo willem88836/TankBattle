@@ -645,11 +645,11 @@ Prefab:
         type: 2}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1228710447}
+      objectReference: {fileID: 1107325492}
     - target: {fileID: 114919729059143596, guid: 1962e2f74df9db049a1f6858a55e9294,
         type: 2}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: ForceEndMatch
+      value: Toggle
       objectReference: {fileID: 0}
     - target: {fileID: 114617069773168040, guid: 1962e2f74df9db049a1f6858a55e9294,
         type: 2}
@@ -660,6 +660,41 @@ Prefab:
         type: 2}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: SwitchToMenu
+      objectReference: {fileID: 0}
+    - target: {fileID: 224049969450576140, guid: 1962e2f74df9db049a1f6858a55e9294,
+        type: 2}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224049969450576140, guid: 1962e2f74df9db049a1f6858a55e9294,
+        type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224049969450576140, guid: 1962e2f74df9db049a1f6858a55e9294,
+        type: 2}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224049969450576140, guid: 1962e2f74df9db049a1f6858a55e9294,
+        type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114919729059143596, guid: 1962e2f74df9db049a1f6858a55e9294,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114469337621953832, guid: 1962e2f74df9db049a1f6858a55e9294,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1228710447}
+    - target: {fileID: 114469337621953832, guid: 1962e2f74df9db049a1f6858a55e9294,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ForceEndMatch
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1962e2f74df9db049a1f6858a55e9294, type: 2}
@@ -993,6 +1028,12 @@ Transform:
   m_Father: {fileID: 476130411}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1107325492 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114342318620528882, guid: 1962e2f74df9db049a1f6858a55e9294,
+    type: 2}
+  m_PrefabInternal: {fileID: 706057896}
+  m_Script: {fileID: 11500000, guid: 898efe39e38fcbe48919ff48e95b71d2, type: 3}
 --- !u!114 &1228710447 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 114250158992800650, guid: 4f0b1808cc27c6743b580ca8d63ecadc,
@@ -1108,7 +1149,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MenuScreen: {fileID: 211810290}
-  IntermissionScreen: {fileID: 0}
+  IntermissionScreen: {fileID: 211810290}
   Manager: {fileID: 1228710447}
   WinnerText: 'Winner: {0}!'
   WinnerTextField: {fileID: 1389496064}
