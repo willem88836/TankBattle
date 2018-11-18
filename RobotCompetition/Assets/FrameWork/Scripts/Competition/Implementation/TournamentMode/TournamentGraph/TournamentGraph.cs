@@ -9,6 +9,8 @@ namespace Framework.Competition.Graph
 	/// </summary>
 	public class TournamentGraph : MonoBehaviour
 	{
+		private const string NONAME = "???";
+
 		public TournamentManager Manager;
 		public List<GameObject> Tiles;
 
@@ -33,7 +35,7 @@ namespace Framework.Competition.Graph
 				GraphTile tile = Tiles[i].GetComponent<GraphTile>();
 				for (int j = 0; j < Manager.PoolSize; j++)
 				{
-					tile.Add("???", 0);
+					tile.Add(NONAME, 0);
 				}
 			}
 		}
