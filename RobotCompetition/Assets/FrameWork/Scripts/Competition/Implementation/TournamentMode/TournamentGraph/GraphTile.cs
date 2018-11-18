@@ -26,7 +26,9 @@ namespace Framework.Competition
 				Rect = GetComponent<RectTransform>();
 
 			GameObject field = Instantiate(BaseTextField, transform);
-			field.GetComponent<GraphText>().TextField.text = string.Format(BaseText, name, score);
+			string text = string.Format(BaseText, name, score);
+			field.GetComponent<GraphText>().TextField.text = text;
+			field.name = "GraphText_" + text;
 			Competitors.Add(field.gameObject);
 		}
 	}

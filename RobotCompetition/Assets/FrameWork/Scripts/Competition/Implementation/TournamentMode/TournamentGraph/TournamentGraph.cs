@@ -27,6 +27,15 @@ namespace Framework.Competition
 					tile.Add(competitor.Type.ToString(), competitor.Score);
 				}
 			}
+
+			for (int i = shownPools; i < Tiles.Count; i++)
+			{
+				GraphTile tile = Tiles[i].GetComponent<GraphTile>();
+				for (int j = 0; j < Manager.PoolSize; j++)
+				{
+					tile.Add("???", 0);
+				}
+			}
 		}
 	}
 }
