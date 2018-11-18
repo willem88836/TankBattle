@@ -79,5 +79,16 @@ namespace Framework.Competition
 		{
 			Competitors.Sort((c1, c2) => c2.Score.CompareTo(c1.Score));
 		}
+		
+		public Type GetFirstAlive()
+		{
+			foreach(Competitor c in Competitors)
+			{
+				if (!c.IsDefeated)
+					return c.Type;
+			}
+
+			return null;
+		}
 	}
 }
