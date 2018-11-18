@@ -11,7 +11,6 @@ namespace Framework.Competition
 	{
 		public GameObject BaseTextField;
 		public string BaseText;
-		public float expandValue = 17.5f;
 
 		public List<GameObject> Competitors = new List<GameObject>();
 
@@ -29,8 +28,6 @@ namespace Framework.Competition
 			GameObject field = Instantiate(BaseTextField, transform);
 			field.GetComponent<GraphText>().TextField.text = string.Format(BaseText, name, score);
 			Competitors.Add(field.gameObject);
-
-			Rect.sizeDelta += new Vector2(0, expandValue);
 		}
 	}
 }

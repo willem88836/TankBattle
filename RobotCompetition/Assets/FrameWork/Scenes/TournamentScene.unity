@@ -979,6 +979,10 @@ Prefab:
       propertyPath: m_Text
       value: Back to Menu
       objectReference: {fileID: 0}
+    - target: {fileID: 1454336095584382, guid: fb25fec5610d8ea49931c5f7e5623108, type: 2}
+      propertyPath: m_Name
+      value: TournamentMenu_Button
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fb25fec5610d8ea49931c5f7e5623108, type: 2}
   m_IsPrefabAsset: 0
