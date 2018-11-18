@@ -64,7 +64,7 @@ namespace Framework.Core
 
 				string code = File.ReadAllText(info.FullName);
 
-				CSharpCompiler compiler = new CSharpCompiler(code, info.Name);
+				CustomCSharpCompiler compiler = new CustomCSharpCompiler(code, info.Name);
 
 				string name = Path.GetFileNameWithoutExtension(info.FullName);
 				Type type = compiler.GetCompiledType(name);
