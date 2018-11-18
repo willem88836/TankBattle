@@ -159,6 +159,7 @@ namespace Framework.Competition
 		private void EnrollNewCompetitors(Type[] newCompetitors)
 		{
 			int newPoolCount = Mathf.CeilToInt(newCompetitors.Length / PoolSize);
+			newPoolCount = Mathf.Clamp(newPoolCount, 1, int.MaxValue);
 			int oldPoolCount = Pools.Count;
 
 			for (int i = 0; i < newCompetitors.Length; i++)
