@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Framework.Competition
+namespace Framework.Competition.Graph
 {
 	/// <summary>
 	///		Generates a set of tiles, used to display 
@@ -34,25 +34,27 @@ namespace Framework.Competition
 			Tiles.Clear();
 			Clear();
 
-			int stageCount = 0;
-			int competitorCount = Manager.CompetitorCount;
+			int playerCount = Manager.CompetitorCount;
+			int brackets = playerCount / Manager.PoolSize;
 
-			while (competitorCount > 1)
+			for (int i = 0; i < brackets && playerCount > 1; i++)
 			{
-				stageCount++;
-				competitorCount /= Manager.PoolSize;
-				if (competitorCount < 1)
-					competitorCount = 1;
-
 				GameObject stageObject = Instantiate(StageObject, Parent);
-				stageObject.name = "StageObject_" + stageCount;
+				stageObject.name = string.Format("Bracket_{0}", i);
 				stages.Add(StageObject);
 
-				for (int i = 0; i < competitorCount; i++)
+				int pools = playerCount / Manager.PoolSize;
+				pools = Mathf.Clamp(pools, 1, int.MaxValue);
+
+				for (int j = 0; j < pools; j++)
 				{
-					GameObject tile = Instantiate(BaseTile, stageObject.transform);
-				 	Tiles.Add(tile);
+					Transform parent = stageObject.transform;
+					GameObject tile = Instantiate(BaseTile, parent);
+					tile.name = string.Format("Pool_{0}_{1}", i, j);
+					Tiles.Add(tile);
 				}
+
+				playerCount = pools;
 			}
 
 			base.Generate();

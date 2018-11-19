@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace Framework.Competition
+namespace Framework.Competition.Graph
 {
 	/// <summary>
 	///		Displays the current tournament data using 
@@ -9,6 +9,8 @@ namespace Framework.Competition
 	/// </summary>
 	public class TournamentGraph : MonoBehaviour
 	{
+		private const string NONAME = "???";
+
 		public TournamentManager Manager;
 		public List<GameObject> Tiles;
 
@@ -25,6 +27,15 @@ namespace Framework.Competition
 				{
 					Competitor competitor = pool.CompetitorAt(j);
 					tile.Add(competitor.Type.ToString(), competitor.Score);
+				}
+			}
+
+			for (int i = shownPools; i < Tiles.Count; i++)
+			{
+				GraphTile tile = Tiles[i].GetComponent<GraphTile>();
+				for (int j = 0; j < Manager.PoolSize; j++)
+				{
+					tile.Add(NONAME, 0);
 				}
 			}
 		}
