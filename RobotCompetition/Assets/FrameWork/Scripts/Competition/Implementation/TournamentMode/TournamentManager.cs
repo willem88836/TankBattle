@@ -58,12 +58,15 @@ namespace Framework.Competition
 			Pool current = Pools[Round];
 			current.CompetitorAs(winner).Score++;
 			Spawner.Clear();
+			ClearBullets();
 
 			// When round is finished.
 			if (Match >= MatchCount && !current.IsTied())
 			{
 				Round++;
 				Match = 0;
+
+
 
 				if (Round >= roundRange.Y)
 				{
@@ -132,9 +135,10 @@ namespace Framework.Competition
 			Type[] winners = new Type[roundRange.Y - roundRange.X];
 			for (int i = roundRange.X; i < roundRange.Y; i++)
 			{
+				int j = i - roundRange.X;
 				Pool current = Pools[i];
 				current.SortToScore();
-				winners[i - roundRange.X] = current.CompetitorAt(0).Type;
+				winners[j] = current.CompetitorAt(0).Type;
 			}
 
 			// If this is the last match.

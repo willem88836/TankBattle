@@ -245,7 +245,6 @@ namespace Framework.Core
             {
                 _currentGunCooldown = _gunCooldown + _rapidGunValue;
 
-				//TODO: Create bulletparent
                 GameObject newBullet = Instantiate(_bulletPrefabs[bulletType], BattleManager.Singleton().GetBulletContainer());
 				Transform bulletTransform = newBullet.transform;
 				bulletTransform.position = transform.position + (_gunTransform.rotation * _bulletSpawnOffset);
