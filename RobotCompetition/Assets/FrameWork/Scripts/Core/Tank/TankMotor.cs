@@ -146,6 +146,8 @@ namespace Framework.Core
 			//_audioControl.PlayOneShot(_damagedSound);
 			_battleManager.PlaySound(_damagedSound);
 
+			gameObject.SendMessage("OnBulletHit");
+
             if (_currentHealth <= 0f && !_battleManager.InfiniteHealth())
                 DestroyRobot();
         }
