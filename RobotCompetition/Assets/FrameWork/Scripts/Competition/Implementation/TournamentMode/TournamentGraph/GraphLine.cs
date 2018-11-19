@@ -43,8 +43,8 @@ namespace Framework.Competition.Graph
 
 			if (flipVer)
 			{
-				Top.position = new Vector3(flipHor ? left : Body.position.x, Top.position.z);
-				Bottom.position = new Vector3(flipHor ? Body.position.x : right, Bottom.position.z);
+				Top.position = new Vector3(flipHor ? Body.position.x : left, Origin.position.y + Top.sizeDelta.y, Top.position.z);
+				Bottom.position = new Vector3(flipHor ? Body.position.x : right , Destination.position.y - Bottom.sizeDelta.y, Bottom.position.z);
 			}
 			else
 			{
