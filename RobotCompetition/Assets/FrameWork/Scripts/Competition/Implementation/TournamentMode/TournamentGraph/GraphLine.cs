@@ -1,9 +1,8 @@
-﻿using Framework.Core;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
 
 namespace Framework.Competition.Graph
 {
+	// IMPROVE: Making something that resembles a 2DLineRenderer is a lot better. 
 	public class GraphLine : MonoBehaviour
 	{
 		public RectTransform Origin;
