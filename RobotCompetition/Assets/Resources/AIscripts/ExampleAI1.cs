@@ -15,7 +15,8 @@ public class ExampleAI1 : TankController {
 	}
 	
     //Called every frame
-	void Update () {
+	void Update ()
+	{
 		//Sets the movement movepower to the current movePower variable
 		SetMovePower(movePower);
 
