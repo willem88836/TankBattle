@@ -2,49 +2,63 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/* Behaviour:
+ * This tank will constantly move in circles.
+ * This tank will constantly move its sensor and gun around and attemt to shoot when it spots another tank.
+ * This will react on being hit by a bullet by then moving in the opposite direction.
+ */
+
 public class ExampleAI2 : TankController
 {
-    // this AI has a simple mechanic. It will keep moving in circles, and shoots whenever another tank is spotted. 
-    // It will switch movement when it is hit by a bullet
+	// The movementspeed, switches between 1 to -1 if this tank is hit
+	int _movePower = 1;
 
-    int moveSpeed = 1; // the movementspeed. Switches between 1 to -1 if this tank is hit
-
-    void Start()
+	// Called once when the tank is spawned
+	void Start()
     {
 		// Change the color of this tank
-		SetBodyColor(Color.grey);
-		SetGunColor(Color.grey);
+		SetTankColor(Color.grey);
     }
 
-    // Update is called once per frame
-    void Update ()
+	// Called every frame after the tank is spawned
+	void Update ()
     {
+		// Call seperate functions that regulate movement and shooting for this tank's behaviour
         Movement();
         ShootAtEnemy();
 	}
 
-    // function that controls the movement of the tank. It will constantly move in circles
+    // Function that controls the movement of the tank, it will constantly move in circles
     void Movement()
     {
-        // move forward with the max forward speed of 1
-        SetMovePower(moveSpeed);
+        // Move forward with the current movePower
+        SetMovePower(_movePower);
 
-        // rotate the robot, gun and scanner clockwise
-        SetTankAngle(GetOwnData().SensorAngle + 90);
-        SetGunAngle(GetOwnData().SensorAngle + 90);
-        SetSensorAngle(GetOwnData().SensorAngle + 90);
+		// Calculate a new targetAngle for this tank
+		float newTargetAngle = GetOwnData().SensorAngle + 90;
+
+		// Apply the new targetAngle to all parts of this tank
+		SetTankAngle(newTargetAngle);
+        SetGunAngle(newTargetAngle);
+        SetSensorAngle(newTargetAngle);
     }
 
-    // shoot once an enemy has been spotted
+    // Shoot once an enemy has been spotted
     void ShootAtEnemy()
     {
-        // get an array with data from tanks that are scanned
+        // Get an array with data from tanks that are in the scanner
         TankData[] otherTanks = ReadSensor();
 
-        // if at least one tank has been scanned, shoot
+        // If at least one tank has been detected, shoot!
         if (otherTanks.Length > 0)
         {
             Shoot();
         }
     }
+
+	// Called when this tank is hit by a bullet
+	protected override void OnBulletHit()
+	{
+		_movePower *= -1;
+	}
 }

@@ -1,13 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Reflection;
+
+/* Behaviour:
+ * This tank's sensor and gun will constantly rotate untill it finds a tank.
+ * If a tank leaves the sensor the turning direction of the sensor and gun will reverse, making the sensor move over the tank again.
+ * This tank will not rotate itself
+ * This will react on certain events like hitting another tank or wall by then moving in the opposite direction.
+ */
 
 public class ExampleAI3 : TankController {
 
     // This tank will periodically move forwards or backwards, switching every 4 seconds
-    // The scanner will turn clockwise, along with the gun. As long as another tank is in the scanner, it will keep shooting
-    // when a tank leaves the scanner area, the scanner will rotate in the oposite direction
+    // If a tank is detected in the scanner, this tank will shoot.
+	// 
+    // when a tank leaves the scanner area, the scanner and gun will rotate in the oposite direction
 
     private float moveTimer= 4f;    // The timer used to move forward and backwards. Also used to set the speed for the tank
     private bool moveForward;       // Checks if the tank is moving forward or backward
