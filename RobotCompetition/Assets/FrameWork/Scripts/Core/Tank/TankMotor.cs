@@ -231,6 +231,10 @@ namespace Framework.Core
 					TankData data = motor.GetTankData();
 					sensorData.Add(data);
 				}
+				else
+				{
+					Debug.Log(hitInfo.collider.name);
+				}
 			}
 
             return sensorData.ToArray();
