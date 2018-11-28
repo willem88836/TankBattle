@@ -10,6 +10,7 @@ namespace Framework.Menu
 		/// </summary>
 		public void HardReset()
 		{
+			Debug.Log("hard reset");
 			BattleManager instance = BattleManager.Singleton();
 			Destroy(instance.gameObject);
 
@@ -22,6 +23,7 @@ namespace Framework.Menu
 		/// </summary>
 		public void SoftReset()
 		{
+			Debug.Log("soft reset reset");
 			Menu menu = Menu.Instance;
 			menu.SwitchScene(menu.Current);
 		}

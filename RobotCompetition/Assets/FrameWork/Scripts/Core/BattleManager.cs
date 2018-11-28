@@ -26,7 +26,7 @@ namespace Framework.Core
 		protected Type[] _behaviours;
 
 		protected AudioSource _audioSource;
-		
+
 		protected virtual void Awake()
 		{
 			DontDestroyOnLoad(this);
@@ -35,14 +35,6 @@ namespace Framework.Core
 			{
 				this._behaviours = _instance._behaviours;
 				Destroy(_instance.gameObject);
-			}
-			else
-			{
-				// Set default path.
-				string path = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(Application.dataPath), "Tank_Behaviours");
-				if (!System.IO.Directory.Exists(path))
-					System.IO.Directory.CreateDirectory(path);
-				_behaviourPath.Value = path;
 			}
 
 			_instance = this;
