@@ -26,7 +26,7 @@ namespace Framework.Core
 		[SerializeField] GameObject _destroyedVisual;
 		[SerializeField] GameObject _tankVisual;
 		[SerializeField] TankCanvas _bodyCanvas;
-		[SerializeField] TankCanvas _turretCanvas;
+		[SerializeField] TankCanvas _gunCanvas;
 		[SerializeField] TankCanvas _sensorCanvas;
 		[SerializeField] TankHealth_UI _healthUI;
 
@@ -266,11 +266,10 @@ namespace Framework.Core
 			_bodyCanvas.ChangeColor(color);
 		}
 
-		public void SetTurretColor(Color color)
+		public void SetGunColor(Color color)
 		{
-			_turretCanvas.ChangeColor(color);
+			_gunCanvas.ChangeColor(color);
 			_sensorCanvas.ChangeColor(color);
-			//_turretCanvas.material.color = color;
 		}
 
         void OnTriggerEnter(Collider col)

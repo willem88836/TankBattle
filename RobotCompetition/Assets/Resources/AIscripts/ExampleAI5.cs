@@ -21,7 +21,7 @@ public class ExampleAI5 : TankController
 	{
 		//Changes the tank color to a random color
 		SetBodyColor(Random.ColorHSV());
-		SetTurretColor(Random.ColorHSV());
+		SetGunColor(Random.ColorHSV());
 	}
 	
 	void Update ()

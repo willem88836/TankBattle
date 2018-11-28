@@ -13,7 +13,7 @@ public class ExampleAI2 : TankController
     {
 		// Change the color of this tank
 		SetBodyColor(Color.grey);
-		SetTurretColor(Color.grey);
+		SetGunColor(Color.grey);
     }
 
     // Update is called once per frame

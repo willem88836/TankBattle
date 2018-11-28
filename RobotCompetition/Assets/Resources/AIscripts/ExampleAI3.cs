@@ -6,7 +6,7 @@ using System.Reflection;
 public class ExampleAI3 : TankController {
 
     // This tank will periodically move forwards or backwards, switching every 4 seconds
-    // The scanner will turn clockwise, along with the turret. As long as another tank is in the scanner, it will keep shooting
+    // The scanner will turn clockwise, along with the gun. As long as another tank is in the scanner, it will keep shooting
     // when a tank leaves the scanner area, the scanner will rotate in the oposite direction
 
     private float moveTimer= 4f;    // The timer used to move forward and backwards. Also used to set the speed for the tank

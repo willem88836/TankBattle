@@ -19,7 +19,7 @@ namespace Framework
 			SetTankAngle(rot);
 
 			SetBodyColor(new Color(1, 0, 1));
-			SetTurretColor(new Color(1, 0, 1));
+			SetGunColor(new Color(1, 0, 1));
 		}
 
 		private void Update()

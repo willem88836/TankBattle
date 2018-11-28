@@ -16,7 +16,7 @@ public class ExampleAI4 : TankController {
 	{
 		//Change the color of seperate parts
 		SetBodyColor(Color.red);
-		SetTurretColor(Color.white);
+		SetGunColor(Color.white);
     }
 	
     //Called every frame

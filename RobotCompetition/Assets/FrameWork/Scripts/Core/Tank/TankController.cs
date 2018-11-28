@@ -41,16 +41,23 @@ public abstract class TankController : MonoBehaviour
 
 	}
 
+	// Set the color of your whole tank, instead of changing body and gun seperately
+	protected void SetTankColor(Color color)
+	{
+		SetBodyColor(color);
+		SetGunColor(color);
+	}
+
 	// Set the body color of your tank
-    protected void SetBodyColor(Color color)
+	protected void SetBodyColor(Color color)
 	{
 		_motor.SetBodyColor(color);
 	}
 
-	// Set the turret color of your rank
-	protected void SetTurretColor(Color color)
+	// Set the gun color of your tank
+	protected void SetGunColor(Color color)
 	{
-		_motor.SetTurretColor(color);
+		_motor.SetGunColor(color);
 	}
 
     // Set the move power of your tank, 1 is full power forward, -1 is full power backwards

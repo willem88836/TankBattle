@@ -29,7 +29,7 @@ public class TankFunctionality : TankController
 		SetBodyColor(Color.red);
 
 		// Set the gun and sensor color of the tank.
-		SetTurretColor(Color.red);
+		SetGunColor(Color.red);
 
 		// Set the movespeed of the tank, between -1 and 1. 
 		// Positive is forwards, negative is backwards.

@@ -18,7 +18,7 @@ public class Circles : TankController
 		StartCoroutine(InitStartAngle());
 
 		SetBodyColor(Color.red);
-		SetTurretColor(Color.yellow);
+		SetGunColor(Color.yellow);
 	}
 
 	void Update ()

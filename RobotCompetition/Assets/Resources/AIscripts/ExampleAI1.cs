@@ -11,7 +11,7 @@ public class ExampleAI1 : TankController {
     {
 		//Changes the robot color
 		SetBodyColor(Color.blue);
-		SetTurretColor(Color.blue);
+		SetGunColor(Color.blue);
 	}
 	
     //Called every frame
