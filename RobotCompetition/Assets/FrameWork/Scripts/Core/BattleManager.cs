@@ -26,7 +26,7 @@ namespace Framework.Core
 		protected Type[] _behaviours;
 
 		protected AudioSource _audioSource;
-		
+
 		protected virtual void Awake()
 		{
 			DontDestroyOnLoad(this);
