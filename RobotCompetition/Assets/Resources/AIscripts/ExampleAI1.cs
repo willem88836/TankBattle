@@ -8,8 +8,8 @@ using UnityEngine;
  * This will react on certain events like hitting another tank or wall by then moving in the opposite direction.
  */
 
-public class ExampleAI1 : TankController {
-
+public class ExampleAI1 : TankController
+{
     // Variable that holds the current movePower
     int _movePower = 1;
 

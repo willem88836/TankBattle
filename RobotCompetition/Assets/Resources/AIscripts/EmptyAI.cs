@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EmptyAI : TankController {
+/* This is an empty behaviour class so you easily can get started.
+ * The only thing you need to do is to rename this class and preferably the file as well, to make it match the new class name.
+ * Enjoy building your own tank behaviour!
+ */
 
-    //Only change color to white
-    //Mainly for testing purposes of your AI against this AI
-
+public class EmptyAI : TankController
+{
 	// Cannot call Awake
 
 	void Start()

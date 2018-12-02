@@ -5,40 +5,43 @@ using UnityEngine;
 /* Behaviour:
  * This tank's sensor and gun will constantly rotate untill it finds a tank.
  * If a tank leaves the sensor the turning direction of the sensor and gun will reverse, making the sensor move over the tank again.
- * This tank will not rotate itself
- * This will react on certain events like hitting another tank or wall by then moving in the opposite direction.
+ * This tank will not rotate itself.
+ * This tank will periodically move forwards or backwards, switching every 4 second.
  */
 
-public class ExampleAI3 : TankController {
+public class ExampleAI3 : TankController
+{
+	// The timer used to move forward and backwards. Also used to set the speed for the tank
+	private float moveTimer= 4f;
 
-    // This tank will periodically move forwards or backwards, switching every 4 seconds
-    // If a tank is detected in the scanner, this tank will shoot.
-	// 
-    // when a tank leaves the scanner area, the scanner and gun will rotate in the oposite direction
+	// Checks if the tank is moving forward or backward
+	private bool moveForward;
 
-    private float moveTimer= 4f;    // The timer used to move forward and backwards. Also used to set the speed for the tank
-    private bool moveForward;       // Checks if the tank is moving forward or backward
+	// This is used to rotate the scanner in a direction. Will be set to negative to turn it counterclockwise
+	private int scanDirection = 90;
 
-    private int scanDirection = 90; // This is used to rotate the scanner in a direction. Will be set to negative to turn it counterclockwise
+	// The amount of other tanks found. This is used to check if a tank leaves the scanner, to make the scanner turn in another direction
+	private int otherTanksStored = 0;
 
-    private int otherTanksStored = 0; // the amount of other tanks found. This is used to check if a tank leaves the scanner, to make the scanner turn in another direction 
-
-    // Use this for initialization
-    void Start()
+	// Called once when the tank is spawned
+	void Start()
     {
         
     }
-	
-	// Update is called once per frame
+
+	// Called every frame after the tank is spawned
 	void Update ()
     {
-        Movement(); // controls the movement
-        Scan(); // controls the scanner and shooting
+		// Controls the movement
+		Movement();
+
+		// Controls the scanner and shooting
+		Scan();
 	}
 
     void Movement()
     {
-        // move forward and backward. Switch every 4 seconds
+        // Move forward and backward, switching every 4 seconds
         moveTimer -= Time.deltaTime;
         if (moveTimer <= 0)
         {
@@ -46,8 +49,8 @@ public class ExampleAI3 : TankController {
             moveForward = !moveForward;
         }
 
-        // the movePower is equal to the moveTimer. Whenever this is > 1, the script will automatically reduce the movePower to the maximum of 1 (or -1)
-        // this also means that the movespeed will be reduced whenver the movePower will reduce when moveTimer goes below 1 
+        // The movePower is equal to the moveTimer. Whenever this is > 1, the script will automatically reduce the movePower to the maximum of 1 (or -1)
+        // This also means that the movespeed will be reduced whenver the movePower will reduce when moveTimer goes below 1 
         if (moveForward) 
 			SetMovePower(moveTimer);
         else
@@ -56,16 +59,16 @@ public class ExampleAI3 : TankController {
 
     void Scan()
     {
-        // scan in circles. If a tank leaves the scanner, turn the scanner in the other direction
+        // Scan in circles, if a tank leaves the scanner, turn the scanner in the other direction
         TankData[] otherTanks = ReadSensor();
 
-        // if a tank is seen, shoot
+        // If a tank is seen, shoot!
         if (otherTanks.Length > 0)
         {
             Shoot();
         }
 
-        // this part checks if a tank has left the scanner area. If thats true, it will scan in the oposite direction
+        // This part checks if a tank has left the scanner area. If thats true, it will scan in the oposite direction
         if (otherTanksStored > otherTanks.Length)
         {
             scanDirection = -scanDirection;
