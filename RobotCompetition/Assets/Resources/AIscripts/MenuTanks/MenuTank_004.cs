@@ -18,8 +18,7 @@ namespace Framework
 			rot = transform.rotation.eulerAngles.y;
 			SetTankAngle(rot);
 
-			SetBodyColor(new Color(1, 0, 1));
-			SetGunColor(new Color(1, 0, 1));
+			SetTankColor(new Color(1, 0, 1));
 		}
 
 		private void Update()

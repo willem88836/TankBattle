@@ -18,8 +18,8 @@ public class Debug_02 : TankController
     {
 		// Called once when the tank is spawned
 
-		SetTurretColor(Color.cyan);
-		SetBodyColor(Color.cyan);
+
+		SetTankColor(Color.cyan);
 
 		SetTankAngle(90);
 		SetMovePower(_movePower);
