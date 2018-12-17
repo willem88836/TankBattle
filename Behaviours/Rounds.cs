@@ -20,8 +20,7 @@ public class Rounds : TankController
 	{
 		StartCoroutine(InitStartAngle());
 
-		SetBodyColor(Color.blue);
-		SetTurretColor(Color.black);
+		SetTankColor(Color.blue);
 	}
 
 	void Update ()

@@ -135,8 +135,7 @@ public class JustinGeschiere : TankController {
             colorPercent -= 1f;
         }
         Color newColor = Color.Lerp(colors[colorIndex0], colors[colorIndex1], colorPercent);
-		SetBodyColor(newColor);
-		SetTurretColor(newColor);
+		SetTankColor(newColor);
 	}
 
     //Behaviour part that regulates shooting and aiming
