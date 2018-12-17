@@ -54,33 +54,41 @@ namespace Framework.Core
 			if (!Directory.Exists(path))
 				return new Type[0];
 
-			List<Type> types = new List<Type>();
-
-			Utilities.ForeachFileAt(path, (FileInfo info) =>
+			try
 			{
-				if (info.Extension != ".cs")
-					return;
+				List<Type> types = new List<Type>();
 
-
-				string code = File.ReadAllText(info.FullName);
-
-				CustomCSharpCompiler compiler = new CustomCSharpCompiler(code, info.Name);
-
-				string name = Path.GetFileNameWithoutExtension(info.FullName);
-				Type type = compiler.GetCompiledType(name);
-
-				if (IsTankBehaviour(type))
+				Utilities.ForeachFileAt(path, (FileInfo info) =>
 				{
-					for (int i = 0; i < entries; i++)
+					if (info.Extension != ".cs")
+						return;
+
+
+					string code = File.ReadAllText(info.FullName);
+
+					CustomCSharpCompiler compiler = new CustomCSharpCompiler(code, info.Name);
+
+					string name = Path.GetFileNameWithoutExtension(info.FullName);
+					Type type = compiler.GetCompiledType(name);
+
+					if (IsTankBehaviour(type))
 					{
-						types.Add(type);
+						for (int i = 0; i < entries; i++)
+						{
+							types.Add(type);
+						}
 					}
-				}
-			});
+				});
 
-			Debug.LogFormat("{0} custom competitor behaviours loaded!", types.Count);
+				Debug.LogFormat("{0} custom competitor behaviours loaded!", types.Count);
 
-			return types.ToArray();
+				return types.ToArray();
+			}
+			catch (Exception ex)
+			{
+				UnityErrorDisplay.ShowError(ex.Message);
+				return new Type[0];
+			}
 		}
 
 		/// <summary>
