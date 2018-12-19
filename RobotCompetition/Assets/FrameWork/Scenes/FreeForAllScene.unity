@@ -1163,7 +1163,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MenuScreen: {fileID: 171299678}
-  IntermissionScreen: {fileID: 0}
+  IntermissionScreen: {fileID: 171299678}
   Manager: {fileID: 2055203572}
   WinnerText: 'Winner: {0}'
   WinnerTextField: {fileID: 1576667381}
