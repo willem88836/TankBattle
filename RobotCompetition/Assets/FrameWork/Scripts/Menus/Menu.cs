@@ -24,6 +24,12 @@ namespace Framework.Menu
 		}
 
 
+		public void ExitGame()
+		{
+			Application.Quit();
+		}
+
+
 		public void SwitchScene(Scene scene)
 		{
 			Current = scene;
