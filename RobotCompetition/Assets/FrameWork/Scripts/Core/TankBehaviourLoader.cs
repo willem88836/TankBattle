@@ -54,12 +54,16 @@ namespace Framework.Core
 			if (!Directory.Exists(path))
 				return new Type[0];
 
+			string lastProcessedFile = "";
+
 			try
 			{
 				List<Type> types = new List<Type>();
 
 				Utilities.ForeachFileAt(path, (FileInfo info) =>
 				{
+					lastProcessedFile = info.Name;
+
 					if (info.Extension != ".cs")
 						return;
 
@@ -86,7 +90,7 @@ namespace Framework.Core
 			}
 			catch (Exception ex)
 			{
-				UnityErrorDisplay.ShowError(ex.Message);
+				UnityErrorDisplay.ShowError(string.Format("Failed compiling ({0}) with message:\n{1}", lastProcessedFile, ex.Message));
 				return new Type[0];
 			}
 		}

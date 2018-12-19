@@ -2,15 +2,15 @@
 
 public class Debug_01 : TankController
 {
-    //Only change color to white
-    //Mainly for testing purposes of your AI against this AI
+	//Only change color to white
+	//Mainly for testing purposes of your AI against this AI
 
 	// Cannot call Awake
 
 	void Start()
-    {
+	{
 		// Called once when the tank is spawned
-    }
+	}
 
 	void Update()
 	{
